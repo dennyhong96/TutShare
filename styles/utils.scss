@@ -7,7 +7,7 @@ $color-light: lighten(#f1fbfc, 2);
 
 $height-navbar: 60px;
 
-//
+// Mixins
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -34,7 +34,6 @@ $height-navbar: 60px;
     display: block;
     padding: 0.5rem 1rem;
     border-radius: 5rem;
-    // border: 1px solid $color-muted;
     border: none;
     background-color: lighten($color-muted, 18);
     font-size: 0.95rem;

@@ -6,6 +6,7 @@
 
   &__paper {
     @include flex-center;
+    align-items: flex-start;
     width: 800px;
     background-color: #fff;
     padding: 1rem;
@@ -35,6 +36,30 @@
 
   &__features {
     flex: 3;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 3rem;
+
+    &__item {
+      margin-bottom: 1rem;
+      display: flex;
+
+      & > i {
+        font-size: 1.5rem;
+        color: $color-primary;
+        margin-right: 1rem;
+      }
+
+      & > div {
+        & > h4 {
+          font-size: 1.2rem;
+          font-weight: 500;
+          margin-bottom: 0.25rem;
+        }
+
+        & > p {
+          font-size: 0.9rem;
+          line-height: 1.3;
+        }
+      }
+    }
   }
 }

@@ -25,7 +25,38 @@ const register = () => {
           </div>
           <button>Register</button>
         </form>
-        <div className={styles["register__features"]}>Features</div>
+        <div className={styles["register__features"]}>
+          <div className={styles["register__features__item"]}>
+            <i class="fas fa-laptop-code"></i>
+            <div>
+              <h4>Developement</h4>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia
+                nam alias ab!
+              </p>
+            </div>
+          </div>
+          <div className={styles["register__features__item"]}>
+            <i class="fas fa-edit"></i>
+            <div>
+              <h4>Updates</h4>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Exercitationem iste quisquam facere voluptas.
+              </p>
+            </div>
+          </div>
+          <div className={styles["register__features__item"]}>
+            <i class="fas fa-gifts"></i>
+            <div>
+              <h4>Features</h4>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Accusantium minima doloribus modi.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
