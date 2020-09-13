@@ -1,4 +1,8 @@
-.next
 node_modules
+
+.next
+next.config.js
+
 *.env
+
 .DS_Store

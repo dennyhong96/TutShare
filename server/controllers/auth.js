@@ -1,5 +1,7 @@
 exports.register = async (req, res, next) => {
   try {
-    res.send("hello");
-  } catch (error) {}
+    const { email, password } = req.body;
+  } catch (error) {
+    console.error(error);
+  }
 };
