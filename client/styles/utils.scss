@@ -30,9 +30,10 @@ $screen-sm: 576px;
 }
 
 @mixin form-control {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 
   label {
+    font-size: 0.85rem;
     display: block;
     margin-bottom: 0.25rem;
   }

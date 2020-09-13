@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 import styles from "../styles/Auth.module.scss";
 
 const INITIAL_STATE = {
+  name: "",
   email: "",
   password: "",
   passwordConfirm: "",
@@ -11,9 +13,47 @@ const INITIAL_STATE = {
   successMsg: "",
 };
 
+const FIELDS = ({ name, email, password, passwordConfirm }) => [
+  {
+    id: "name",
+    value: name,
+    placeholder: "Enter your name",
+    type: "text",
+    label: "Name",
+  },
+  {
+    id: "email",
+    value: email,
+    placeholder: "Enter your email",
+    type: "email",
+    label: "Email",
+  },
+  {
+    id: "password",
+    value: password,
+    placeholder: "Enter a password",
+    type: "password",
+    label: "Password",
+  },
+  {
+    id: "passwordConfirm",
+    value: passwordConfirm,
+    placeholder: "Confirm the password",
+    type: "password",
+    label: "Confirm Password",
+  },
+];
+
 const register = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
-  const { email, password, passwordConfirm } = formData;
+  const {
+    name,
+    email,
+    password,
+    passwordConfirm,
+    errorMsg,
+    successMsg,
+  } = formData;
 
   const handleChange = (evt) => {
     const { id, value } = evt.target;
@@ -21,9 +61,18 @@ const register = () => {
   };
 
   // Submit to endpoint
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(formData);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/auth/register",
+        { name, email, password }
+      );
+      console.log(res.data);
+      setFormData(INITIAL_STATE);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -31,36 +80,23 @@ const register = () => {
       <div className={styles["register__paper"]}>
         {/* Form, Left Side  */}
         <form className={styles["register__form"]} onSubmit={handleSubmit}>
-          <div className={styles["register__form__control"]}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={styles["register__form__control"]}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Password"
-              value={password}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={styles["register__form__control"]}>
-            <label htmlFor="passwordConfirm">Confirm Password</label>
-            <input
-              type="password"
-              id="passwordConfirm"
-              placeholder="Confirm your password"
-              value={passwordConfirm}
-              onChange={handleChange}
-            />
-          </div>
+          {FIELDS(formData).map(
+            ({ id, value, placeholder, type, label }, idx) => (
+              <div
+                key={`${id}-${idx}`}
+                className={styles["register__form__control"]}
+              >
+                <label htmlFor="email">{label}</label>
+                <input
+                  type={type}
+                  id={id}
+                  placeholder={placeholder}
+                  value={value}
+                  onChange={handleChange}
+                />
+              </div>
+            )
+          )}
           <button>Register</button>
           <small>
             Already has an account?{" "}

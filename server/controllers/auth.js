@@ -1,6 +1,7 @@
 exports.register = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
+    console.log(req.body);
   } catch (error) {
     console.error(error);
   }
