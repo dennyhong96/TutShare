@@ -1,0 +1,45 @@
+@import "./utils.scss";
+
+.navbar {
+  background-color: $color-primary;
+
+  &__inner {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $color-light;
+    @include container;
+  }
+
+  &__brand {
+    font-size: 2rem;
+    letter-spacing: 1.5px;
+  }
+
+  &__links {
+    height: 100%;
+    @include flex-center;
+
+    &__item {
+      align-self: stretch;
+      @include flex-center;
+      padding: 0.25rem 1rem;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: lighten($color-primary, 3);
+      }
+
+      & span {
+        font-size: 1rem;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.content {
+  @include container;
+  padding-top: 2rem;
+}
