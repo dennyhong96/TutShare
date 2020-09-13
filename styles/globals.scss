@@ -23,3 +23,9 @@ a {
   font: inherit;
   color: inherit;
 }
+
+// Overwrite nprogress bar styles
+#nprogress .bar {
+  background-color: $color-secondary !important;
+  height: 3px !important;
+}
