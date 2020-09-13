@@ -5,7 +5,7 @@
   box-shadow: 0 3px 10px rgba(#000, 0.3);
 
   &__inner {
-    height: 60px;
+    height: $height-navbar;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -48,5 +48,4 @@
 
 .content {
   @include container;
-  padding-top: 2rem;
 }

@@ -24,6 +24,18 @@ a {
   color: inherit;
 }
 
+input {
+  font: inherit;
+  outline: none;
+}
+
+button {
+  font: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 // Overwrite nprogress bar styles
 #nprogress .bar {
   background-color: $color-secondary !important;
