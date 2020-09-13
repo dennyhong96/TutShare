@@ -1,11 +1,16 @@
 // Theme
 $color-primary: #1e929e;
-$color-secondary: #e1885c;
+$color-secondary: #ff9651;
 $color-muted: #d1cac3;
 $color-dark: #2a2a2a;
 $color-light: lighten(#f1fbfc, 2);
 
 $height-navbar: 60px;
+
+$screen-xl: 1300px;
+$screen-lg: 992px;
+$screen-md: 768px;
+$screen-sm: 576px;
 
 // Mixins
 @mixin flex-center {
@@ -60,8 +65,7 @@ $height-navbar: 60px;
     box-shadow: 0 4px 15px rgba(#000, 0.08);
   }
 
-  &:active,
-  &:focus {
+  &:active {
     transform: translateY(-1px);
     background-color: darken($color-primary, 3);
     box-shadow: 0 2px 5px rgba(#000, 0.15);

@@ -23,7 +23,11 @@ const Layout = ({ children }) => {
     <Fragment>
       <nav className={styles["navbar"]}>
         <div className={styles["navbar__inner"]}>
-          <h4 className={styles["navbar__brand"]}>TutShare</h4>
+          <Link href="/">
+            <a className={styles["navbar__brand"]}>
+              <span>Tut</span>Share
+            </a>
+          </Link>
           <div className={styles["navbar__links"]}>
             {LINK_OPTIONS.map(({ name, link }, idx) => (
               <Link href={link} key={`${name}-${idx}`}>
