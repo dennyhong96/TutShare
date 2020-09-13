@@ -71,7 +71,7 @@ const register = () => {
       console.log(res.data);
       setFormData(INITIAL_STATE);
     } catch (error) {
-      console.error(error);
+      console.error(error.response);
     }
   };
 

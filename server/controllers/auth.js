@@ -4,5 +4,8 @@ exports.register = async (req, res, next) => {
     console.log(req.body);
   } catch (error) {
     console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong." }],
+    });
   }
 };
