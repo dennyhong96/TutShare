@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
-import axios from "axios";
 
-import { loadUser } from "../../../redux/actions/user";
-import { API } from "../../../config";
+import { activateUesr, loadUser } from "../../../redux/actions/user";
 
 const ConfirnRegister = () => {
   const router = useRouter();
@@ -37,16 +35,18 @@ const ConfirnRegister = () => {
         setUsername(decoded.name);
 
         try {
-          // Activate user
-          const res = await axios.post(`${API}/v1/auth/activate`, { token });
-
-          // Store load user token into localstorage
-          localStorage.setItem("TOKEN", res.data.data.token);
+          // Activate user's account
+          await activateUesr(token);
 
           // Load user
           dispatch(loadUser());
+
+          setSuccessMsg("Email confirmed, you are now logged in!");
         } catch (error) {
           console.error(error.response);
+          setErrorMsg(
+            error.response.data.errors.map(({ msg }) => msg).join(" ")
+          );
         }
       }
     })();
@@ -54,7 +54,9 @@ const ConfirnRegister = () => {
 
   return (
     <div className="">
-      <p>Hi {username}, thanks for confirming your email address.</p>
+      <p>Hi {username}, thanks for verifying your email address.</p>
+      {successMsg && <p>{successMsg}</p>}
+      {errorMsg && <p>{errorMsg}</p>}
     </div>
   );
 };

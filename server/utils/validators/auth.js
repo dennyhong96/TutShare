@@ -7,3 +7,8 @@ exports.setRegisterChecks = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters long."),
 ];
+
+exports.setLoginChecks = [
+  body("email").isEmail().withMessage("Email must be valid."),
+  body("password").not().isEmail().withMessage("Password is required."),
+];

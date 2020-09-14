@@ -110,8 +110,8 @@ const register = () => {
   };
 
   return (
-    <div className={styles["register"]}>
-      <div className={styles["register__paper"]}>
+    <div className={styles["auth"]}>
+      <div className={styles["auth__paper"]}>
         {/* Toast */}
         <Toast
           successMsg={successMsg}
@@ -123,14 +123,14 @@ const register = () => {
           }
         />
 
-        <div className={styles["register__lower"]}>
+        <div className={styles["auth__lower"]}>
           {/* Form, Left Side  */}
-          <form className={styles["register__form"]} onSubmit={handleSubmit}>
+          <form className={styles["auth__form"]} onSubmit={handleSubmit}>
             {FIELDS(formData).map(
               ({ id, value, placeholder, type, label }, idx) => (
                 <div
                   key={`${id}-${idx}`}
-                  className={styles["register__form__control"]}
+                  className={styles["auth__form__control"]}
                 >
                   <label htmlFor="email">{label}</label>
                   <input
@@ -153,11 +153,11 @@ const register = () => {
           </form>
 
           {/* Features, right side */}
-          <div className={styles["register__features"]}>
+          <div className={styles["auth__features"]}>
             {FEATURES.map(({ icon, title, text }, idx) => (
               <div
                 key={`${title}-${idx}`}
-                className={styles["register__features__item"]}
+                className={styles["auth__features__item"]}
               >
                 {icon}
                 <div>

@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     // Handle no token
     let token;
     if (!(req.headers && req.headers.authorization)) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
+      return res.status(401).json({ errors: [{ msg: "Invalid credentials" }] });
     }
 
     token = req.headers.authorization.split(" ")[1];
@@ -16,13 +16,13 @@ module.exports = async (req, res, next) => {
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
+      return res.status(401).json({ errors: [{ msg: "Invalid credentials" }] });
     }
 
     // Handle user deleted
     const user = await User.findById(decoded.id);
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: "User not found." }] });
+      return res.status(404).json({ errors: [{ msg: "User not found." }] });
     }
 
     // Attach user to request

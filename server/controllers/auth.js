@@ -90,6 +90,41 @@ exports.activate = async (req, res, next) => {
     // Create new user
     user = await User.create({ ...decoded, username: shortid.generate() });
 
+    // Return jwt token
+    res.status(201).json({
+      data: {
+        token: user.genJwtToken(),
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await user.findOne({ email });
+
+    // Handle user not exists
+    if (!user) {
+      return res.status(404).json({
+        errors: [{ msg: "User not found." }],
+      });
+    }
+
+    // Handle incorrect password
+    if (!(await user.passwordIsCorrect(password))) {
+      return res.status(401).json({
+        errors: [{ msg: "Invalid credentials." }],
+      });
+    }
+
+    // Return jwt token
     res.status(201).json({
       data: {
         token: user.genJwtToken(),

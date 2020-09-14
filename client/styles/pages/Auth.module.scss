@@ -1,6 +1,6 @@
 @import "../utils.scss";
 
-.register {
+.auth {
   @include flex-center;
   min-height: calc(100vh - #{$height-navbar});
 

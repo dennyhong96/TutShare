@@ -15,5 +15,21 @@ export const loadUser = () => async (dispatch) => {
     });
   } catch (error) {
     console.error(error.response);
+    throw error;
+  }
+};
+
+// Non state updating
+
+export const activateUesr = async (token) => {
+  try {
+    // Activate user
+    const res = await axios.post(`${API}/v1/auth/activate`, { token });
+
+    // Store load user token into localstorage
+    localStorage.setItem("TOKEN", res.data.data.token);
+  } catch (error) {
+    console.error(error.response);
+    throw error;
   }
 };
