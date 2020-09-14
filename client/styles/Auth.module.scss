@@ -4,37 +4,13 @@
   @include flex-center;
   min-height: calc(100vh - #{$height-navbar});
 
-  &__alert {
-    text-align: center;
-    color: #fff;
-    padding: 0.5rem 0.5rem;
-    border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(#000, 0.1);
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    left: 1rem;
-    opacity: 0;
-    transition: all 0.1s ease;
-
-    &-success {
-      opacity: 1;
-      background-color: rgba($color-success, 0.85);
-    }
-
-    &-error {
-      opacity: 1;
-      background-color: rgba($color-error, 0.85);
-    }
-  }
-
   &__paper {
     background-color: #fff;
     width: 800px;
     padding: 1rem;
     border-radius: 15px;
     box-shadow: 0 3px 10px rgba(#000, 0.1);
-    position: relative;
+    position: relative; // For Toast to be positioned correctly
   }
 
   &__lower {

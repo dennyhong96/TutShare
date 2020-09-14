@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
-import clsx from "clsx";
+
+import Toast from "../components/Toast";
 
 import styles from "../styles/Auth.module.scss";
 
@@ -77,19 +78,6 @@ const register = () => {
     successMsg,
   } = formData;
 
-  // Make toast auto close
-  useEffect(() => {
-    let timeoutId;
-    if (successMsg || errorMsg) {
-      timeoutId = setTimeout(() => {
-        setFormData((prev) => ({ ...prev, successMsg: "", errorMsg: "" }));
-      }, 7000);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [successMsg, errorMsg]);
-
   const handleChange = (evt) => {
     const { id, value } = evt.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
@@ -110,7 +98,7 @@ const register = () => {
         "http://localhost:5000/api/v1/auth/register",
         { name, email, password }
       );
-      setFormData({ ...INITIAL_STATE, successMsg: res.data.data.message });
+      setFormData({ ...INITIAL_STATE, successMsg: res.data.data.msg });
     } catch (error) {
       console.error(error.response);
       setFormData((prev) => ({
@@ -123,15 +111,16 @@ const register = () => {
   return (
     <div className={styles["register"]}>
       <div className={styles["register__paper"]}>
-        {/* Alert */}
-        <div
-          className={clsx(styles["register__alert"], {
-            [styles["register__alert-success"]]: !!successMsg,
-            [styles["register__alert-error"]]: !!errorMsg,
-          })}
-        >
-          {successMsg || errorMsg}
-        </div>
+        {/* Toast */}
+        <Toast
+          successMsg={successMsg}
+          errorMsg={errorMsg}
+          successDuration={7000}
+          errorDuration={5500}
+          onHide={() =>
+            setFormData((prev) => ({ ...prev, successMsg: "", errorMsg: "" }))
+          }
+        />
 
         <div className={styles["register__lower"]}>
           {/* Form, Left Side  */}
