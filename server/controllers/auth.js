@@ -1,4 +1,7 @@
 const AWS = require("aws-sdk");
+const jwt = require("jsonwebtoken");
+
+const User = require("../models/User");
 
 AWS.config.update({
   region: process.env.AWS_REGION,
@@ -11,7 +14,19 @@ const ses = new AWS.SES();
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    console.log(req.body);
+
+    // Handle duplicate email address
+    const user = await User.findOne({ email });
+    if (user) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "Email is already taken." }] });
+    }
+
+    // Generate confirm register link and send via email
+    const token = jwt.sign({ name, email, password }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES,
+    });
 
     const emailParams = {
       Source: process.env.SES_EMAIL_FROM,
@@ -23,7 +38,12 @@ exports.register = async (req, res, next) => {
         Body: {
           Html: {
             Charset: "UTF-8",
-            Data: `<html><bosy><h1>Hello ${name}</h1></bosy></html>`,
+            Data: `<html><body>
+                   <h1>Verify your email address, ${name}!</h1>
+                   <h4>Please click on the following link to complete your registration.</h4>
+                   <a href="${process.env.CLIENT_URL}/api/v1/auth/activate/${token}">${process.env.CLIENT_URL}/api/v1/auth/activate/${token}</a>
+                   </body></html>
+                  `,
           },
         },
         Subject: {
