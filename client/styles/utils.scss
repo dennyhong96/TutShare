@@ -29,6 +29,11 @@ $screen-sm: 576px;
   margin-right: auto;
   padding-left: 2rem;
   padding-right: 2rem;
+
+  @media (max-width: 576px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @mixin card {

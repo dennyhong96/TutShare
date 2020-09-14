@@ -31,26 +31,31 @@ const Layout = ({ children }) => {
               <span>Tut</span>Share
             </a>
           </Link>
+          {/* Menu button for small screen drawer */}
           <button
             className={styles["navbar__menuBtn"]}
             onClick={() => setDrawerShow((prev) => !prev)}
           >
-            <i class="fas fa-hamburger"></i>
+            <i className="fas fa-hamburger"></i>
           </button>
           <div
             className={clsx(styles["navbar__links"], {
               [styles["navbar__links-drawerShow"]]: drawerShow,
             })}
           >
+            {/* Close button for small screen drawer */}
             <button
               className={styles["navbar__closeBtn"]}
               onClick={() => setDrawerShow((prev) => !prev)}
             >
-              <i class="fas fa-times"></i>
+              <i className="fas fa-times"></i>
             </button>
             {LINK_OPTIONS.map(({ name, link }, idx) => (
               <Link href={link} key={`${name}-${idx}`}>
-                <a className={styles["navbar__links__item"]}>
+                <a
+                  className={styles["navbar__links__item"]}
+                  onClick={() => setDrawerShow(false)}
+                >
                   <span>{name}</span>
                 </a>
               </Link>
