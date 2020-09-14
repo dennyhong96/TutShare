@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import NProgress from "nprogress";
 import Link from "next/link";
 import Router from "next/router";
+import clsx from "clsx";
 
 import styles from "../styles/components/Layout.module.scss";
 
@@ -19,6 +20,8 @@ const LINK_OPTIONS = [
 ];
 
 const Layout = ({ children }) => {
+  const [drawerShow, setDrawerShow] = useState(false);
+
   return (
     <Fragment>
       <nav className={styles["navbar"]}>
@@ -28,7 +31,23 @@ const Layout = ({ children }) => {
               <span>Tut</span>Share
             </a>
           </Link>
-          <div className={styles["navbar__links"]}>
+          <button
+            className={styles["navbar__menuBtn"]}
+            onClick={() => setDrawerShow((prev) => !prev)}
+          >
+            <i class="fas fa-hamburger"></i>
+          </button>
+          <div
+            className={clsx(styles["navbar__links"], {
+              [styles["navbar__links-drawerShow"]]: drawerShow,
+            })}
+          >
+            <button
+              className={styles["navbar__closeBtn"]}
+              onClick={() => setDrawerShow((prev) => !prev)}
+            >
+              <i class="fas fa-times"></i>
+            </button>
             {LINK_OPTIONS.map(({ name, link }, idx) => (
               <Link href={link} key={`${name}-${idx}`}>
                 <a className={styles["navbar__links__item"]}>

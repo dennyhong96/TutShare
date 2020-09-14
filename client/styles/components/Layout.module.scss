@@ -4,6 +4,11 @@
   background-color: $color-primary;
   box-shadow: 0 3px 10px rgba(#000, 0.25);
 
+  &__menuBtn,
+  &__closeBtn {
+    display: none;
+  }
+
   &__inner {
     height: $height-navbar;
     display: flex;
@@ -53,4 +58,80 @@
 
 .content {
   @include container;
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    &__menuBtn {
+      display: initial;
+      background-color: transparent;
+      color: $color-secondary;
+      transition: transform 0.2s ease;
+      padding: 0.5rem;
+      margin-right: -0.5rem;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      i {
+        font-size: 1.5rem;
+      }
+    }
+
+    &__closeBtn {
+      display: initial;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background-color: darken($color-light, 10);
+      width: 2rem;
+      height: 2rem;
+      border-radius: 5rem;
+      @include flex-center;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      i {
+        font-size: 1.2rem;
+        color: $color-secondary;
+        margin-top: -1px;
+      }
+    }
+
+    &__links {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 15rem;
+      background-color: $color-light;
+      z-index: 1;
+      color: $color-dark;
+      box-shadow: 0 3px 10px rgba(#000, 0.25);
+      padding: 5rem 1rem 0;
+      transition: transform 0.3s ease;
+      transform: translateX(15rem);
+
+      &-drawerShow {
+        transform: translateX(0);
+      }
+
+      &__item {
+        margin-bottom: 1rem;
+        padding: 0.75rem 0;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 7px rgba(#000, 0.03);
+
+        &:hover {
+          color: $color-light;
+        }
+      }
+    }
+  }
 }
