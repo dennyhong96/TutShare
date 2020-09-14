@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
+const shortid = require("shortid");
 
 const { registerParams } = require("../services/sesEmail");
 const User = require("../models/User");
@@ -49,6 +50,53 @@ exports.register = async (req, res, next) => {
       });
     }
 
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
+
+exports.activate = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+
+    // Check if jwt is valid
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      return res.state(400).json({
+        errors: [
+          {
+            msg:
+              "Sorry, your link has expired or is invalid. Please try again.",
+          },
+        ],
+      });
+    }
+
+    // Check if email is already in use
+    let user = await User.findOne({ email: decoded.email });
+    if (user) {
+      return res.state(400).json({
+        errors: [
+          {
+            msg: `Sorry, email ${decoded.email} is already in use.`,
+          },
+        ],
+      });
+    }
+
+    // Create new user
+    user = await User.create({ ...decoded, username: shortid.generate() });
+
+    res.status(201).json({
+      data: {
+        token: user.genJwtToken(),
+      },
+    });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
       errors: [{ msg: "Something went wrong, please try again later" }],
     });
