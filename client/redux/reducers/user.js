@@ -2,7 +2,7 @@ import {
   AUTH_ERROR,
   USER_AUTHENTICATED,
   CLEAR_MESSAGE,
-  LOGIN_SUCCESS,
+  SET_SUCCESS_MSG,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -11,13 +11,13 @@ const INITIAL_STATE = {
   successMsg: "",
 };
 
-export default (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
   switch (type) {
     case USER_AUTHENTICATED:
       return { ...state, user: payload };
-    case LOGIN_SUCCESS:
-      return { ...state, successMsg: "Log in success." };
+    case SET_SUCCESS_MSG:
+      return { ...state, successMsg: payload };
     case AUTH_ERROR:
       return { ...INITIAL_STATE, errorMsg: payload };
     case CLEAR_MESSAGE:
@@ -26,3 +26,5 @@ export default (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+export default userReducer;

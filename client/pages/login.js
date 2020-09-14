@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-import { loginUser, clearToastMsg } from "../redux/actions/user";
+import { loginUser } from "../redux/actions/user";
 import Toast from "../components/Toast";
 import styles from "../styles/pages/Auth.module.scss";
 import AuthFeatures from "../components/AuthFeautres";
@@ -31,7 +31,6 @@ const FIELDS = ({ email, password }) => [
 
 const login = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
-  const { email, password } = formData;
   const dispatch = useDispatch();
   const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);
   const successMsg = useSelector(({ user: { successMsg } }) => successMsg);
@@ -58,13 +57,7 @@ const login = () => {
     <div className={styles["auth"]}>
       <div className={styles["auth__paper"]}>
         {/* Toast */}
-        <Toast
-          successMsg={successMsg}
-          errorMsg={errorMsg}
-          successDuration={3000}
-          errorDuration={5500}
-          onHide={() => dispatch(clearToastMsg())}
-        />
+        <Toast successMsg={successMsg} errorMsg={errorMsg} />
 
         <div className={styles["auth__lower"]}>
           {/* Form, Left Side  */}

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
+import { setError, setSuccess } from "../redux/actions/user";
 import { API } from "../config";
 import Toast from "../components/Toast";
 import styles from "../styles/pages/Auth.module.scss";
@@ -12,8 +14,6 @@ const INITIAL_STATE = {
   email: "",
   password: "",
   passwordConfirm: "",
-  errorMsg: "",
-  successMsg: "",
 };
 
 const FIELDS = ({ name, email, password, passwordConfirm }) => [
@@ -49,14 +49,10 @@ const FIELDS = ({ name, email, password, passwordConfirm }) => [
 
 const register = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
-  const {
-    name,
-    email,
-    password,
-    passwordConfirm,
-    errorMsg,
-    successMsg,
-  } = formData;
+  const { name, email, password, passwordConfirm } = formData;
+  const dispatch = useDispatch();
+  const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);
+  const successMsg = useSelector(({ user: { successMsg } }) => successMsg);
 
   const handleChange = (evt) => {
     const { id, value } = evt.target;
@@ -66,11 +62,9 @@ const register = () => {
   // Submit to endpoint
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+
     if (password !== passwordConfirm) {
-      return setFormData((prev) => ({
-        ...prev,
-        errorMsg: "Passwords must match.",
-      }));
+      return dispatch(setError("Passwords must match.", 3500));
     }
 
     try {
@@ -79,13 +73,16 @@ const register = () => {
         email,
         password,
       });
-      setFormData({ ...INITIAL_STATE, successMsg: res.data.data.msg });
+      dispatch(setSuccess(res.data.data.msg, 7500));
+      setFormData(INITIAL_STATE);
     } catch (error) {
       console.error(error.response);
-      setFormData((prev) => ({
-        ...prev,
-        errorMsg: error.response.data.errors.map(({ msg }) => msg).join(" "),
-      }));
+      dispatch(
+        setError(
+          error.response.data.errors.map(({ msg }) => msg).join(" "),
+          5000
+        )
+      );
     }
   };
 
@@ -93,16 +90,7 @@ const register = () => {
     <div className={styles["auth"]}>
       <div className={styles["auth__paper"]}>
         {/* Toast */}
-        <Toast
-          successMsg={successMsg}
-          errorMsg={errorMsg}
-          successDuration={7000}
-          errorDuration={5500}
-          onHide={() =>
-            setFormData((prev) => ({ ...prev, successMsg: "", errorMsg: "" }))
-          }
-        />
-
+        <Toast successMsg={successMsg} errorMsg={errorMsg} />
         <div className={styles["auth__lower"]}>
           {/* Form, Left Side  */}
           <form className={styles["auth__form"]} onSubmit={handleSubmit}>

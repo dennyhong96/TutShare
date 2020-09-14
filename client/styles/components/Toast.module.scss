@@ -15,11 +15,11 @@
 
   &-success {
     opacity: 1;
-    background-color: rgba($color-success, 0.9);
+    background-color: rgba($color-success, 0.95);
   }
 
   &-error {
     opacity: 1;
-    background-color: rgba($color-error, 0.85);
+    background-color: rgba($color-error, 0.9);
   }
 }

@@ -1,31 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import clsx from "clsx";
 
 import styles from "../styles/components/Toast.module.scss";
 
-const Toast = ({
-  successMsg,
-  errorMsg,
-  successDuration,
-  errorDuration,
-  onHide,
-}) => {
-  // For auto hiding
-  useEffect(() => {
-    let timeoutId;
-    if (successMsg || errorMsg) {
-      timeoutId = setTimeout(
-        () => {
-          onHide();
-        },
-        successMsg ? successDuration : errorMsg && errorDuration
-      );
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [successMsg, errorMsg]);
-
+const Toast = ({ successMsg, errorMsg }) => {
   return (
     <div
       className={clsx(styles["toast"], {
