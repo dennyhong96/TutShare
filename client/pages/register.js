@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 
+import { API } from "../config";
 import Toast from "../components/Toast";
-
 import styles from "../styles/pages/Auth.module.scss";
 
 const INITIAL_STATE = {
@@ -94,10 +94,11 @@ const register = () => {
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
-        { name, email, password }
-      );
+      const res = await axios.post(`${API}/v1/auth/register`, {
+        name,
+        email,
+        password,
+      });
       setFormData({ ...INITIAL_STATE, successMsg: res.data.data.msg });
     } catch (error) {
       console.error(error.response);

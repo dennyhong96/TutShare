@@ -38,8 +38,19 @@ exports.register = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
+    if (error.code === "MessageRejected") {
+      return res.status(400).json({
+        errors: [
+          {
+            msg:
+              "Something went wrong while verifying this email address, please try again later.",
+          },
+        ],
+      });
+    }
+
     res.status(500).json({
-      errors: [{ msg: "Something went wrong." }],
+      errors: [{ msg: "Something went wrong, please try again later" }],
     });
   }
 };

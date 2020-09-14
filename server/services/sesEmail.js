@@ -11,7 +11,7 @@ exports.registerParams = ({ email, name, token }) => ({
         Data: `<html><body>
                <h1>Verify your email address, ${name}!</h1>
                <p>Please click on the following link to complete your registration.</p>
-               <a href="${process.env.CLIENT_URL}/api/v1/auth/activate/${token}">${process.env.CLIENT_URL}/api/v1/auth/activate/${token}</a>
+               <a href="${process.env.CLIENT_URL}/auth/activate/${token}">${process.env.CLIENT_URL}/auth/activate/${token}</a>
                </body></html>
               `,
       },
