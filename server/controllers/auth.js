@@ -78,7 +78,7 @@ exports.activate = async (req, res, next) => {
     // Check if email is already in use
     let user = await User.findOne({ email: decoded.email });
     if (user) {
-      return res.state(400).json({
+      return res.status(400).json({
         errors: [
           {
             msg: `Sorry, email ${decoded.email} is already in use.`,
@@ -101,4 +101,9 @@ exports.activate = async (req, res, next) => {
       errors: [{ msg: "Something went wrong, please try again later" }],
     });
   }
+};
+
+exports.loadUser = (req, res, next) => {
+  console.log(req.user);
+  res.status(200).json({ data: req.user });
 };
