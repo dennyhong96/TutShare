@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
+import clsx from "clsx";
 
 import styles from "../styles/Auth.module.scss";
 
@@ -44,6 +45,27 @@ const FIELDS = ({ name, email, password, passwordConfirm }) => [
   },
 ];
 
+const FEATURES = [
+  {
+    icon: <i className="fas fa-laptop-code"></i>,
+    title: "Developement",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia nam alias ab!",
+  },
+  {
+    icon: <i className="fas fa-edit"></i>,
+    title: "Updates",
+    text:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem iste quisquam facere voluptas.",
+  },
+  {
+    icon: <i className="fas fa-gifts"></i>,
+    title: "Features",
+    text:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium minima doloribus modi.",
+  },
+];
+
 const register = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const {
@@ -55,6 +77,19 @@ const register = () => {
     successMsg,
   } = formData;
 
+  // Make toast auto close
+  useEffect(() => {
+    let timeoutId;
+    if (successMsg || errorMsg) {
+      timeoutId = setTimeout(() => {
+        setFormData((prev) => ({ ...prev, successMsg: "", errorMsg: "" }));
+      }, 7000);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [successMsg, errorMsg]);
+
   const handleChange = (evt) => {
     const { id, value } = evt.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
@@ -63,80 +98,84 @@ const register = () => {
   // Submit to endpoint
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    if (password !== passwordConfirm) {
+      return setFormData((prev) => ({
+        ...prev,
+        errorMsg: "Passwords must match.",
+      }));
+    }
+
     try {
       const res = await axios.post(
         "http://localhost:5000/api/v1/auth/register",
         { name, email, password }
       );
-      console.log(res.data);
-      setFormData(INITIAL_STATE);
+      setFormData({ ...INITIAL_STATE, successMsg: res.data.data.message });
     } catch (error) {
       console.error(error.response);
+      setFormData((prev) => ({
+        ...prev,
+        errorMsg: error.response.data.errors.map(({ msg }) => msg).join(" "),
+      }));
     }
   };
 
   return (
     <div className={styles["register"]}>
       <div className={styles["register__paper"]}>
-        {/* Form, Left Side  */}
-        <form className={styles["register__form"]} onSubmit={handleSubmit}>
-          {FIELDS(formData).map(
-            ({ id, value, placeholder, type, label }, idx) => (
-              <div
-                key={`${id}-${idx}`}
-                className={styles["register__form__control"]}
-              >
-                <label htmlFor="email">{label}</label>
-                <input
-                  type={type}
-                  id={id}
-                  placeholder={placeholder}
-                  value={value}
-                  onChange={handleChange}
-                />
-              </div>
-            )
-          )}
-          <button>Register</button>
-          <small>
-            Already has an account?{" "}
-            <Link href="/login">
-              <a>Log in &rarr;</a>
-            </Link>
-          </small>
-        </form>
+        {/* Alert */}
+        <div
+          className={clsx(styles["register__alert"], {
+            [styles["register__alert-success"]]: !!successMsg,
+            [styles["register__alert-error"]]: !!errorMsg,
+          })}
+        >
+          {successMsg || errorMsg}
+        </div>
 
-        {/* Features, right side */}
-        <div className={styles["register__features"]}>
-          <div className={styles["register__features__item"]}>
-            <i className="fas fa-laptop-code"></i>
-            <div>
-              <h4>Developement</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia
-                nam alias ab!
-              </p>
-            </div>
-          </div>
-          <div className={styles["register__features__item"]}>
-            <i className="fas fa-edit"></i>
-            <div>
-              <h4>Updates</h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem iste quisquam facere voluptas.
-              </p>
-            </div>
-          </div>
-          <div className={styles["register__features__item"]}>
-            <i className="fas fa-gifts"></i>
-            <div>
-              <h4>Features</h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Accusantium minima doloribus modi.
-              </p>
-            </div>
+        <div className={styles["register__lower"]}>
+          {/* Form, Left Side  */}
+          <form className={styles["register__form"]} onSubmit={handleSubmit}>
+            {FIELDS(formData).map(
+              ({ id, value, placeholder, type, label }, idx) => (
+                <div
+                  key={`${id}-${idx}`}
+                  className={styles["register__form__control"]}
+                >
+                  <label htmlFor="email">{label}</label>
+                  <input
+                    type={type}
+                    id={id}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={handleChange}
+                  />
+                </div>
+              )
+            )}
+            <button>Register</button>
+            <small>
+              Already has an account?{" "}
+              <Link href="/login">
+                <a>Log in &rarr;</a>
+              </Link>
+            </small>
+          </form>
+
+          {/* Features, right side */}
+          <div className={styles["register__features"]}>
+            {FEATURES.map(({ icon, title, text }, idx) => (
+              <div
+                key={`${title}-${idx}`}
+                className={styles["register__features__item"]}
+              >
+                {icon}
+                <div>
+                  <h4>{title}</h4>
+                  <p>{text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
