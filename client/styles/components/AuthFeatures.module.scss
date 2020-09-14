@@ -1,0 +1,53 @@
+@import "../utils.scss";
+
+.features {
+  flex: 3;
+  padding: 1rem 1rem 1rem 3rem;
+
+  &__item {
+    display: flex;
+
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+
+    & > i {
+      font-size: 1.5rem;
+      color: $color-primary;
+      margin-right: 1rem;
+    }
+
+    & > div {
+      & > h4 {
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+
+      & > p {
+        font-size: 0.9rem;
+        line-height: 1.35;
+      }
+    }
+  }
+}
+
+@media (max-width: $screen-md) {
+  .features {
+    padding: 1rem;
+
+    &__item {
+      width: 75%;
+      margin: 0 auto;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media (max-width: $screen-sm) {
+  .features {
+    &__item {
+      width: 95%;
+    }
+  }
+}

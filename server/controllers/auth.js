@@ -108,7 +108,7 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await user.findOne({ email });
+    const user = await User.findOne({ email });
 
     // Handle user not exists
     if (!user) {

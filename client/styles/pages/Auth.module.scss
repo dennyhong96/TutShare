@@ -8,6 +8,7 @@
     width: 800px;
     @include card;
     position: relative; // For Toast to be positioned correctly
+    margin: 1rem auto;
   }
 
   &__lower {
@@ -46,42 +47,10 @@
       }
     }
   }
-
-  &__features {
-    flex: 3;
-    padding: 1rem 1rem 1rem 3rem;
-
-    &__item {
-      display: flex;
-
-      &:not(:last-child) {
-        margin-bottom: 1.5rem;
-      }
-
-      & > i {
-        font-size: 1.5rem;
-        color: $color-primary;
-        margin-right: 1rem;
-      }
-
-      & > div {
-        & > h4 {
-          font-size: 1.2rem;
-          font-weight: 500;
-          margin-bottom: 0.25rem;
-        }
-
-        & > p {
-          font-size: 0.9rem;
-          line-height: 1.35;
-        }
-      }
-    }
-  }
 }
 
 @media (max-width: $screen-lg) {
-  .register {
+  .auth {
     &__form {
       &__control {
         width: 90%;
@@ -91,7 +60,7 @@
 }
 
 @media (max-width: $screen-md) {
-  .register {
+  .auth {
     &__paper {
       margin: 3rem 0;
     }
@@ -116,21 +85,11 @@
         width: 75%;
       }
     }
-
-    &__features {
-      padding: 1rem;
-
-      &__item {
-        width: 75%;
-        margin: 0 auto;
-        margin-bottom: 1rem;
-      }
-    }
   }
 }
 
 @media (max-width: $screen-sm) {
-  .register {
+  .auth {
     &__form {
       &__control {
         @include form-control;
@@ -138,12 +97,6 @@
       }
 
       button {
-        width: 95%;
-      }
-    }
-
-    &__features {
-      &__item {
         width: 95%;
       }
     }

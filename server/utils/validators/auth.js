@@ -10,5 +10,5 @@ exports.setRegisterChecks = [
 
 exports.setLoginChecks = [
   body("email").isEmail().withMessage("Email must be valid."),
-  body("password").not().isEmail().withMessage("Password is required."),
+  body("password").not().isEmpty().withMessage("Password is required."),
 ];
