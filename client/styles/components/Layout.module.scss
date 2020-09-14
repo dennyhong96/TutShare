@@ -116,10 +116,12 @@
       padding: 5rem 0 0;
       transition: all 0.3s ease;
       overflow: hidden;
+      opacity: 0;
 
       &-drawerShow {
-        width: 15rem;
+        width: 16rem;
         padding: 5rem 1rem 0;
+        opacity: 1;
       }
 
       &__item {

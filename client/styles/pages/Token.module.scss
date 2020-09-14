@@ -1,0 +1,71 @@
+@import "../utils.scss";
+
+.token {
+  @include flex-center;
+  min-height: calc(100vh - #{$height-navbar});
+
+  &__card {
+    @include card;
+    margin-top: -5rem;
+
+    p:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    &__line1 {
+      font-size: 1.2rem;
+      span {
+        color: $color-secondary;
+      }
+    }
+
+    &__success {
+      font-size: 1.2rem;
+      i {
+        margin-left: 0.5rem;
+        font-size: 1.5rem;
+        color: $color-success;
+      }
+    }
+
+    &__error {
+      font-size: 1.2rem;
+      i {
+        margin-left: 0.5rem;
+        font-size: 1.5rem;
+        color: $color-error;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .token {
+    @include flex-center;
+    min-height: calc(100vh - #{$height-navbar});
+
+    &__card {
+      text-align: center;
+
+      &__line1 {
+        font-size: 1.1rem;
+      }
+
+      &__success {
+        font-size: 1.1rem;
+        i {
+          margin-left: 0.3rem;
+          font-size: 1.3rem;
+        }
+      }
+
+      &__error {
+        font-size: 1.1rem;
+        i {
+          margin-left: 0.3rem;
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+}

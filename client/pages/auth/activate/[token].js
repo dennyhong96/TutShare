@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
 
-import { activateUesr, loadUser } from "../../../redux/actions/user";
+import { activateUesr } from "../../../redux/actions/user";
+import styles from "../../../styles/pages/Token.module.scss";
 
 const ConfirnRegister = () => {
   const router = useRouter();
@@ -49,10 +50,24 @@ const ConfirnRegister = () => {
   }, [router.query.token]);
 
   return (
-    <div className="">
-      <p>Hi {username}, thanks for verifying your email address.</p>
-      {successMsg && <p>{successMsg}</p>}
-      {errorMsg && <p>{errorMsg}</p>}
+    <div className={styles["token"]}>
+      <div className={styles["token__card"]}>
+        <p className={styles["token__card__line1"]}>
+          Hi <span>{username}</span>, thanks for verifying your email address!
+        </p>
+        {successMsg ? (
+          <p className={styles["token__card__success"]}>
+            {successMsg} <i class="far fa-check-circle"></i>
+          </p>
+        ) : (
+          !errorMsg && (
+            <p className={styles["token__card__error"]}>
+              {errorMsg}
+              <i class="fas fa-exclamation-circle"></i>
+            </p>
+          )
+        )}
+      </div>
     </div>
   );
 };
