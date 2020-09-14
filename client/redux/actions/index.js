@@ -1,1 +1,5 @@
 export const USER_AUTHENTICATED = "USER_AUTHENTICATED";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+
+export const AUTH_ERROR = "AUTH_ERROR";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

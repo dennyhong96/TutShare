@@ -65,7 +65,7 @@ exports.activate = async (req, res, next) => {
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
-      return res.state(400).json({
+      return res.status(400).json({
         errors: [
           {
             msg:

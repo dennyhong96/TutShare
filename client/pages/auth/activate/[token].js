@@ -36,11 +36,7 @@ const ConfirnRegister = () => {
 
         try {
           // Activate user's account
-          await activateUesr(token);
-
-          // Load user
-          dispatch(loadUser());
-
+          dispatch(activateUesr(token));
           setSuccessMsg("Email confirmed, you are now logged in!");
         } catch (error) {
           console.error(error.response);

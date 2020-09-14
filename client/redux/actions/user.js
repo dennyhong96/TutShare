@@ -1,7 +1,12 @@
 import axios from "axios";
 
 import { API } from "../../config";
-import { USER_AUTHENTICATED } from "./index";
+import {
+  USER_AUTHENTICATED,
+  CLEAR_MESSAGE,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+} from "./index";
 import setTokenHeader from "../../utils/setTokenHeader";
 
 export const loadUser = () => async (dispatch) => {
@@ -15,21 +20,52 @@ export const loadUser = () => async (dispatch) => {
     });
   } catch (error) {
     console.error(error.response);
-    throw error;
+    dispatch({
+      type: AUTH_ERROR,
+      payload: error.response.data.errors.map(({ msg }) => msg),
+    });
   }
 };
 
-// Non state updating
-
-export const activateUesr = async (token) => {
+export const activateUesr = (token) => async (dispatch) => {
   try {
     // Activate user
     const res = await axios.post(`${API}/v1/auth/activate`, { token });
 
     // Store load user token into localstorage
     localStorage.setItem("TOKEN", res.data.data.token);
+
+    dispatch(loadUser());
   } catch (error) {
     console.error(error.response);
-    throw error;
+    dispatch({
+      type: AUTH_ERROR,
+      payload: error.response.data.errors.map(({ msg }) => msg),
+    });
   }
+};
+
+export const loginUser = (formData) => async (dispatch) => {
+  try {
+    // Activate user
+    const res = await axios.post(`${API}/v1/auth/login`, formData);
+
+    // Store load user token into localstorage
+    localStorage.setItem("TOKEN", res.data.data.token);
+
+    dispatch({ type: LOGIN_SUCCESS });
+    dispatch(loadUser());
+  } catch (error) {
+    console.error("from action", error);
+    dispatch({
+      type: AUTH_ERROR,
+      payload: error.response.data.errors.map(({ msg }) => msg),
+    });
+  }
+};
+
+export const clearToastMsg = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_MESSAGE,
+  });
 };
