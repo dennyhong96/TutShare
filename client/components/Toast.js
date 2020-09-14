@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-import styles from "../styles/Toast.module.scss";
+import styles from "../styles/components/Toast.module.scss";
 
 const Toast = ({
   successMsg,

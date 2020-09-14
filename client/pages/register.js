@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 
 import Toast from "../components/Toast";
 
-import styles from "../styles/Auth.module.scss";
+import styles from "../styles/pages/Auth.module.scss";
 
 const INITIAL_STATE = {
   name: "",

@@ -3,7 +3,7 @@ import NProgress from "nprogress";
 import Link from "next/link";
 import Router from "next/router";
 
-import styles from "../styles/Layout.module.scss";
+import styles from "../styles/components/Layout.module.scss";
 
 // Configure nprogress bar
 NProgress.configure({ showSpinner: false });
