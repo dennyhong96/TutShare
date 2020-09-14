@@ -6,7 +6,11 @@ import rootReducer from "./reducers";
 
 const middlewares = [reduxThunk];
 
-export default createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(...middlewares))
-);
+export default process.env.NODE_ENV === "production"
+  ? createStore(rootReducer, applyMiddleware(...middlewares))
+  : process.env.NODE_ENV === "development" &&
+    // User devtools in development
+    createStore(
+      rootReducer,
+      composeWithDevTools(applyMiddleware(...middlewares))
+    );
