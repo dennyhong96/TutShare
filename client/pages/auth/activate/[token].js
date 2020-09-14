@@ -19,7 +19,7 @@ const ConfirnRegister = () => {
 
       if (token) {
         // Hide the token in url without refresh
-        window.history.pushState({}, "", "/auth/activate");
+        // window.history.pushState({}, "", "/auth/activate");
 
         let decoded;
 
@@ -27,13 +27,18 @@ const ConfirnRegister = () => {
           decoded = jwt.decode(token);
         } catch (error) {
           return setErrorMsg(
-            "Sorry, your token has expired. Please try again."
+            "Sorry, your token has expired or is invalid. Please try again."
           );
         }
 
         setUsername(decoded.name);
 
-        const res = await axios.post(`${API}/v1/auth/activate`, decoded);
+        try {
+          const res = await axios.post(`${API}/v1/auth/activate`, { token });
+          console.log(res.data);
+        } catch (error) {
+          console.error(error.response);
+        }
       }
     })();
   }, [router.query.token]);
