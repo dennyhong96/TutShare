@@ -31,6 +31,13 @@ $screen-sm: 576px;
   padding-right: 2rem;
 }
 
+@mixin card {
+  padding: 1rem;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0 3px 10px rgba(#000, 0.1);
+}
+
 @mixin form-control {
   margin-bottom: 0.75rem;
 

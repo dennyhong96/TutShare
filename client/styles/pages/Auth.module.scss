@@ -5,11 +5,8 @@
   min-height: calc(100vh - #{$height-navbar});
 
   &__paper {
-    background-color: #fff;
     width: 800px;
-    padding: 1rem;
-    border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(#000, 0.1);
+    @include card;
     position: relative; // For Toast to be positioned correctly
   }
 
