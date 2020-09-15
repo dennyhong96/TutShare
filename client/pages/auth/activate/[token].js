@@ -3,10 +3,12 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
 
+import useGuestRoute from "../../../hooks/useGuestRoute";
 import { activateUesr } from "../../../redux/actions/user";
 import styles from "../../../styles/pages/Token.module.scss";
 
 const ConfirnRegister = () => {
+  useGuestRoute();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -26,6 +28,7 @@ const ConfirnRegister = () => {
         let decoded;
         try {
           decoded = jwt.decode(token);
+          if (!decoded?.name) throw error();
         } catch (error) {
           return setErrorMsg(
             "Sorry, your token has expired or is invalid. Please try again."

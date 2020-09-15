@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
+import useGuestRoute from "../hooks/useGuestRoute";
 import { loginUser } from "../redux/actions/user";
 import Toast from "../components/Toast";
 import styles from "../styles/pages/Auth.module.scss";
@@ -31,6 +32,7 @@ const FIELDS = ({ email, password }) => [
 ];
 
 const login = () => {
+  useGuestRoute();
   const [formData, setFormData] = useState(INITIAL_STATE);
   const dispatch = useDispatch();
   const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);

@@ -3,6 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
+import useGuestRoute from "../hooks/useGuestRoute";
 import { setError, setSuccess } from "../redux/actions/user";
 import { API } from "../config";
 import Toast from "../components/Toast";
@@ -48,6 +49,7 @@ const FIELDS = ({ name, email, password, passwordConfirm }) => [
 ];
 
 const register = () => {
+  useGuestRoute();
   const [formData, setFormData] = useState(INITIAL_STATE);
   const { name, email, password, passwordConfirm } = formData;
   const dispatch = useDispatch();

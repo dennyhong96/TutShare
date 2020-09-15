@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NProgress from "nprogress";
 import Link from "next/link";
 import Router from "next/router";
 import clsx from "clsx";
 
-import { logoutUser } from "../redux/actions/user";
+import { logoutUser, loadUser } from "../redux/actions/user";
 import styles from "../styles/components/Layout.module.scss";
 
 // Configure nprogress bar
@@ -24,8 +24,14 @@ const LINK_OPTIONS_GUEST = [
 const LINK_OPTIONS_AUTH = [{ name: "Home", link: "/" }];
 
 const Layout = ({ children }) => {
-  const [drawerShow, setDrawerShow] = useState(false);
   const dispatch = useDispatch();
+
+  // Try to authenticated on page load
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
+  const [drawerShow, setDrawerShow] = useState(false);
 
   // Get uesr obj from state, for deciding if user logged in or not
   const user = useSelector(({ user: { user } }) => user);
@@ -76,7 +82,10 @@ const Layout = ({ children }) => {
             {user && (
               <button
                 className={styles["navbar__links__item"]}
-                onClick={() => dispatch(logoutUser())}
+                onClick={() => {
+                  setDrawerShow(false);
+                  dispatch(logoutUser());
+                }}
               >
                 <span>Logout</span>
               </button>

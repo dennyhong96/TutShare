@@ -1,5 +1,6 @@
 export const USER_AUTHENTICATED = "USER_AUTHENTICATED";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
+
 export const SET_SUCCESS_MSG = "SET_SUCCESS_MSG";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
