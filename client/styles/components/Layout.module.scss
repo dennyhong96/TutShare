@@ -37,6 +37,15 @@
     }
   }
 
+  &__welcomeText {
+    line-height: 1;
+    font-weight: 500;
+    min-width: 10rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &__links {
     height: 100%;
     @include flex-center;
@@ -112,6 +121,11 @@
         color: $color-secondary;
         margin-top: -1px;
       }
+    }
+
+    &__welcomeText {
+      text-align: center;
+      margin-bottom: 2rem;
     }
 
     &__links {

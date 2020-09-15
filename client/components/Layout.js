@@ -21,7 +21,13 @@ const LINK_OPTIONS_GUEST = [
   { name: "Register", link: "/register" },
 ];
 
-const LINK_OPTIONS_AUTH = [{ name: "Home", link: "/" }];
+const LINK_OPTIONS_AUTH = (role) => [
+  {
+    name: "Account",
+    link: role === "user" ? "/user" : role === "admin" && "/admin",
+  },
+  { name: "Home", link: "/" },
+];
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
@@ -35,7 +41,7 @@ const Layout = ({ children }) => {
 
   // Get uesr obj from state, for deciding if user logged in or not
   const user = useSelector(({ user: { user } }) => user);
-  const LINK_OPTIONS = user ? LINK_OPTIONS_AUTH : LINK_OPTIONS_GUEST;
+  const LINK_OPTIONS = user ? LINK_OPTIONS_AUTH(user.role) : LINK_OPTIONS_GUEST;
 
   return (
     <Fragment>
@@ -65,6 +71,10 @@ const Layout = ({ children }) => {
             >
               <i className="fas fa-times"></i>
             </button>
+
+            {user && (
+              <p className={styles["navbar__welcomeText"]}>Hi, {user.name}!</p>
+            )}
 
             {/* Navbar Links */}
             {LINK_OPTIONS.map(({ name, link }, idx) => (
