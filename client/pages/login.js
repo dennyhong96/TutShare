@@ -32,12 +32,11 @@ const FIELDS = ({ email, password }) => [
 ];
 
 const login = () => {
-  useGuestRoute();
+  useGuestRoute({ delay: 1500 });
   const [formData, setFormData] = useState(INITIAL_STATE);
   const dispatch = useDispatch();
   const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);
   const successMsg = useSelector(({ user: { successMsg } }) => successMsg);
-  const router = useRouter();
 
   const handleChange = (evt) => {
     const { id, value } = evt.target;
@@ -54,7 +53,7 @@ const login = () => {
   // Submit to endpoint
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(loginUser(formData, () => router.push("/")));
+    dispatch(loginUser(formData));
   };
 
   return (
@@ -83,7 +82,7 @@ const login = () => {
                 </div>
               )
             )}
-            <button>Register</button>
+            <button>Login</button>
             <small>
               Don't have an account?{" "}
               <Link href="/register">

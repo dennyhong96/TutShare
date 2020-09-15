@@ -8,7 +8,7 @@ import { activateUesr } from "../../../redux/actions/user";
 import styles from "../../../styles/pages/Token.module.scss";
 
 const ConfirnRegister = () => {
-  useGuestRoute();
+  useGuestRoute({ delay: 1500 });
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ const ConfirnRegister = () => {
 
         try {
           // Activate user's account
-          dispatch(activateUesr(token, () => router.push("/")));
+          dispatch(activateUesr(token));
           setSuccessMsg("Email confirmed, you are now logged in!");
         } catch (error) {
           console.error(error.response);
