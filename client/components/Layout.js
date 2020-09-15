@@ -94,6 +94,13 @@ const Layout = ({ children }) => {
         </div>
       </nav>
       <div className={styles["content"]}>{children}</div>
+      {/* Backdrop when drawer is open */}
+      {drawerShow && (
+        <div
+          className={styles["backdrop"]}
+          onClick={() => setDrawerShow(false)}
+        />
+      )}
     </Fragment>
   );
 };
