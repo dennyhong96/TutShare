@@ -36,8 +36,11 @@
       align-self: stretch;
       @include flex-center;
       padding: 0.25rem 1rem;
+      color: $color-light;
       transition: all 0.3s ease;
       border-radius: 2px;
+      background-color: inherit;
+      width: 100%;
 
       &:last-child {
         margin-right: -0.25rem;

@@ -32,12 +32,12 @@ const ConfirnRegister = () => {
           );
         }
 
-        // Set username for display message
+        // Set username for display message on current [token] page
         setUsername(decoded.name);
 
         try {
           // Activate user's account
-          dispatch(activateUesr(token));
+          dispatch(activateUesr(token, () => router.push("/")));
           setSuccessMsg("Email confirmed, you are now logged in!");
         } catch (error) {
           console.error(error.response);
@@ -57,13 +57,13 @@ const ConfirnRegister = () => {
         </p>
         {successMsg ? (
           <p className={styles["token__card__success"]}>
-            {successMsg} <i class="far fa-check-circle"></i>
+            {successMsg} <i className="far fa-check-circle"></i>
           </p>
         ) : (
           !errorMsg && (
             <p className={styles["token__card__error"]}>
               {errorMsg}
-              <i class="fas fa-exclamation-circle"></i>
+              <i className="fas fa-exclamation-circle"></i>
             </p>
           )
         )}

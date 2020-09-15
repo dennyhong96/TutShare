@@ -6,6 +6,7 @@ import {
   CLEAR_MESSAGE,
   AUTH_ERROR,
   SET_SUCCESS_MSG,
+  LOGOUT,
 } from "./index";
 import setTokenHeader from "../../utils/setTokenHeader";
 
@@ -13,7 +14,10 @@ import setTokenHeader from "../../utils/setTokenHeader";
 let TIMEOUT_ID;
 
 export const loadUser = () => async (dispatch) => {
-  setTokenHeader(localStorage.getItem("TOKEN"));
+  if (process.browser) {
+    setTokenHeader(localStorage.getItem("TOKEN"));
+  }
+
   try {
     const res = await axios.get(`${API}/v1/auth`);
     console.log(res.data);
@@ -29,16 +33,24 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const activateUesr = (token) => async (dispatch) => {
+export const activateUesr = (token, next) => async (dispatch) => {
   try {
     // Activate user
     const res = await axios.post(`${API}/v1/auth/activate`, { token });
 
     // Store load user token into localstorage
-    localStorage.setItem("TOKEN", res.data.data.token);
+    if (process.browser) {
+      localStorage.setItem("TOKEN", res.data.data.token);
+    }
 
     dispatch(loadUser());
     dispatch(clearToastMsg(7500));
+
+    if (next) {
+      setTimeout(() => {
+        next();
+      }, 1500);
+    }
   } catch (error) {
     console.error(error.response);
     dispatch(
@@ -47,22 +59,37 @@ export const activateUesr = (token) => async (dispatch) => {
   }
 };
 
-export const loginUser = (formData) => async (dispatch) => {
+export const loginUser = (formData, next) => async (dispatch) => {
   try {
     // Activate user
     const res = await axios.post(`${API}/v1/auth/login`, formData);
 
     // Store load user token into localstorage
-    localStorage.setItem("TOKEN", res.data.data.token);
+    if (process.browser) {
+      localStorage.setItem("TOKEN", res.data.data.token);
+    }
 
     dispatch(loadUser());
     dispatch(setSuccess("Log in success.", 2500));
+
+    if (next) {
+      setTimeout(() => {
+        next();
+      }, 1500);
+    }
   } catch (error) {
     console.error(error.response);
     dispatch(
       setError(error.response.data.errors.map(({ msg }) => msg).join(" "), 5000)
     );
   }
+};
+
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem("TOKEN");
+  dispatch({
+    type: LOGOUT,
+  });
 };
 
 export const clearToastMsg = (duration) => async (dispatch) => {

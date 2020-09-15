@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../redux/actions/user";
@@ -34,6 +35,7 @@ const login = () => {
   const dispatch = useDispatch();
   const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);
   const successMsg = useSelector(({ user: { successMsg } }) => successMsg);
+  const router = useRouter();
 
   const handleChange = (evt) => {
     const { id, value } = evt.target;
@@ -50,7 +52,7 @@ const login = () => {
   // Submit to endpoint
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(loginUser(formData));
+    dispatch(loginUser(formData, () => router.push("/")));
   };
 
   return (

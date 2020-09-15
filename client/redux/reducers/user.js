@@ -3,6 +3,7 @@ import {
   USER_AUTHENTICATED,
   CLEAR_MESSAGE,
   SET_SUCCESS_MSG,
+  LOGOUT,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -16,6 +17,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
     case USER_AUTHENTICATED:
       return { ...state, user: payload };
+    case LOGOUT:
+      return INITIAL_STATE;
     case SET_SUCCESS_MSG:
       return { ...state, successMsg: payload };
     case AUTH_ERROR:

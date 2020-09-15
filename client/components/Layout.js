@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import NProgress from "nprogress";
 import Link from "next/link";
 import Router from "next/router";
 import clsx from "clsx";
 
+import { logoutUser } from "../redux/actions/user";
 import styles from "../styles/components/Layout.module.scss";
 
 // Configure nprogress bar
@@ -13,14 +15,21 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 // Navbar links
-const LINK_OPTIONS = [
+const LINK_OPTIONS_GUEST = [
   { name: "Home", link: "/" },
   { name: "Login", link: "/login" },
   { name: "Register", link: "/register" },
 ];
 
+const LINK_OPTIONS_AUTH = [{ name: "Home", link: "/" }];
+
 const Layout = ({ children }) => {
   const [drawerShow, setDrawerShow] = useState(false);
+  const dispatch = useDispatch();
+
+  // Get uesr obj from state, for deciding if user logged in or not
+  const user = useSelector(({ user: { user } }) => user);
+  const LINK_OPTIONS = user ? LINK_OPTIONS_AUTH : LINK_OPTIONS_GUEST;
 
   return (
     <Fragment>
@@ -50,6 +59,8 @@ const Layout = ({ children }) => {
             >
               <i className="fas fa-times"></i>
             </button>
+
+            {/* Navbar Links */}
             {LINK_OPTIONS.map(({ name, link }, idx) => (
               <Link href={link} key={`${name}-${idx}`}>
                 <a
@@ -60,6 +71,16 @@ const Layout = ({ children }) => {
                 </a>
               </Link>
             ))}
+
+            {/* Logout Button */}
+            {user && (
+              <button
+                className={styles["navbar__links__item"]}
+                onClick={() => dispatch(logoutUser())}
+              >
+                <span>Logout</span>
+              </button>
+            )}
           </div>
         </div>
       </nav>
