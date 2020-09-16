@@ -7,7 +7,7 @@ import useGuestRoute from "../../../hooks/useGuestRoute";
 import { activateUesr } from "../../../redux/actions/user";
 import styles from "../../../styles/pages/Token.module.scss";
 
-const ConfirnRegister = () => {
+const ConfirmRegister = () => {
   useGuestRoute({ delay: 1500 });
   const router = useRouter();
   const dispatch = useDispatch();
@@ -75,4 +75,4 @@ const ConfirnRegister = () => {
   );
 };
 
-export default ConfirnRegister;
+export default ConfirmRegister;
