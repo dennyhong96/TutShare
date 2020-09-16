@@ -6,8 +6,6 @@ module.exports = async (req, res, next) => {
     // Handle no token
     let token;
 
-    console.log(req.headers);
-
     // Get token from Request headers -> for SSR getInitialProps requests
     if (
       req.headers.authorization &&

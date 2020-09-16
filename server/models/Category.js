@@ -19,8 +19,14 @@ const categorySchema = new mongoose.Schema(
       index: true,
     },
     image: {
-      url: String,
-      key: String, // For deleting the image
+      url: {
+        type: String,
+        required: true,
+      },
+      key: {
+        type: String,
+        required: true,
+      },
     },
     description: {
       type: String,
@@ -36,5 +42,14 @@ const categorySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Slug the category name
+categorySchema.pre("validate", async function (next) {
+  if (!(this.isNew || this.isModified("name"))) {
+    return next();
+  }
+  this.slug = slugify(this.name);
+  next();
+});
 
 module.exports = mongoose.model("Cateogry", categorySchema);
