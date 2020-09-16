@@ -12,3 +12,17 @@ exports.setLoginChecks = [
   body("email").isEmail().withMessage("Email must be valid."),
   body("password").not().isEmpty().withMessage("Password is required."),
 ];
+
+exports.setForgetPWChecks = [
+  body("email").isEmail().withMessage("Email must be valid."),
+];
+
+exports.setResetPWCheck = [
+  body("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long."),
+  body("resetPasswordToken")
+    .not()
+    .isEmpty()
+    .withMessage("resetPasswordToken is required."),
+];

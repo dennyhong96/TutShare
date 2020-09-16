@@ -4,12 +4,16 @@ const validate = require("../utils/validators");
 const {
   setRegisterChecks,
   setLoginChecks,
+  setForgetPWChecks,
+  setResetPWCheck,
 } = require("../utils/validators/auth.js");
 const {
   register,
   activate,
   login,
   loadUser,
+  forgetPassword,
+  resetPassword,
 } = require("../controllers/auth.js");
 const auth = require("../middlewares/auth");
 const restrictTo = require("../middlewares/restrictTo");
@@ -22,6 +26,14 @@ router.route("/activate").post(activate);
 
 // Login
 router.route("/login").post(setLoginChecks, validate, login);
+
+// Forget password
+router
+  .route("/forget-password")
+  .post(setForgetPWChecks, validate, forgetPassword);
+
+// Reset password
+router.route("/reset-password").post(setResetPWCheck, validate, resetPassword);
 
 // For protecting client side user routes
 router.route("/user").get(auth, restrictTo("user"), loadUser);

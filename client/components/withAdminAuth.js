@@ -16,7 +16,7 @@ const withAdminAuth = (Page) => {
         token = getCookieFromServerReq(req, "AUTH_TOKEN");
       }
 
-      await axios.get(`${API}/v1/auth/user`, {
+      await axios.get(`${API}/v1/auth/admin`, {
         headers: {
           // If running on client, token is provided from cookies
           Authorization: token ? `Bearer ${token}` : "",
@@ -43,7 +43,8 @@ const withAdminAuth = (Page) => {
       return {
         ...(Page.getInitialProps
           ? await Page.getInitialProps({ req, res })
-          : {}),
+          : {}), // Merge in Page initial props
+        isAuthorized, // Add other initialProps from WithAdminAuth
       };
     }
   };

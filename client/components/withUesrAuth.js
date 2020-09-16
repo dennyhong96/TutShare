@@ -45,7 +45,8 @@ const withUserAuth = (Page) => {
       return {
         ...(Page.getInitialProps
           ? await Page.getInitialProps({ req, res })
-          : {}),
+          : {}), // Merge in Page initial props
+        isAuthorized, // Add other initialProps from WithAdminAuth
       };
     }
     // getInitialProps must return an object, each key is accessable in props

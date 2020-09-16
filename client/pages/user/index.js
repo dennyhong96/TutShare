@@ -2,7 +2,7 @@ import React from "react";
 
 import withUserAuth from "../../components/withUesrAuth";
 
-const User = ({}) => {
+const User = () => {
   return <p>Hello</p>;
 };
 
