@@ -1,0 +1,31 @@
+@import "../utils.scss";
+
+.reset-password {
+  min-height: calc(100vh - #{$height-navbar});
+  @include flex-center;
+
+  &__card {
+    @include card;
+    padding: 3rem;
+    position: relative;
+    width: 30rem;
+    text-align: center;
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__form {
+    &__form-control {
+      @include form-control;
+      margin-bottom: 1.5rem;
+    }
+
+    &__button {
+      @include btn;
+      width: 100%;
+    }
+  }
+}

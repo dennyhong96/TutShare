@@ -1,17 +1,18 @@
 import { useState } from "react";
 
+import ErrorSuccessMsg from "../../components/ErrorSuccessMsg";
 import axios from "../../utils/axios";
 import { API } from "../../config";
 import styles from "../../styles/pages/ForgetPassword.module.scss";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    setErrMsg("");
+    setErrorMsg("");
     setSuccessMsg("");
 
     try {
@@ -23,7 +24,7 @@ const ForgetPassword = () => {
       setEmail("");
     } catch (error) {
       console.error(error.response);
-      setErrMsg(error.response.data.errors.map((e) => e.msg).join(" "));
+      setErrorMsg(error.response.data.errors.map((e) => e.msg).join(" "));
     }
   };
 
@@ -45,7 +46,7 @@ const ForgetPassword = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(evt) => {
-                setErrMsg("");
+                setErrorMsg("");
                 setSuccessMsg("");
                 setEmail(evt.target.value);
               }}
@@ -55,18 +56,7 @@ const ForgetPassword = () => {
             Send<i className="fas fa-paper-plane"></i>
           </button>
         </form>
-        {!!errMsg && (
-          <p className={styles["forget-password__error"]}>
-            <i class="fas fa-exclamation-circle"></i>
-            {errMsg}
-          </p>
-        )}
-        {!!successMsg && (
-          <p className={styles["forget-password__success"]}>
-            <i class="far fa-check-circle"></i>
-            {successMsg}
-          </p>
-        )}
+        <ErrorSuccessMsg successMsg={successMsg} errorMsg={errorMsg} />
       </div>
     </div>
   );
