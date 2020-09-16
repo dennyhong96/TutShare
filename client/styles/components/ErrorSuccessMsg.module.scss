@@ -24,3 +24,15 @@
     color: $color-success;
   }
 }
+
+@media (max-width: 576px) {
+  .error-success-msg {
+    %response-text {
+      font-size: 0.7rem;
+
+      i {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+}

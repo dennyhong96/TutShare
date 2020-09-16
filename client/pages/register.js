@@ -120,6 +120,12 @@ const register = () => {
                 <a>Log in &rarr;</a>
               </Link>
             </small>
+            <small>
+              Forget password{" "}
+              <Link href="/auth/forget-password">
+                <a>Reset &rarr;</a>
+              </Link>
+            </small>
           </form>
 
           {/* Features, right side */}

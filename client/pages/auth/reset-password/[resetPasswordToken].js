@@ -19,6 +19,17 @@ const ResetPassword = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const { password, confirmPassword } = formData;
 
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    if (router.query.resetPasswordToken) {
+      setToken(router.query.resetPasswordToken);
+
+      // Hide token from browser url
+      window.history.pushState({}, "", "/auth/reset-password");
+    }
+  }, [router.query.resetPasswordToken]);
+
   const handleChange = (evt) => {
     evt.preventDefault();
     setErrorMsg("");
@@ -38,7 +49,7 @@ const ResetPassword = () => {
     try {
       const res = await axios.post(`${API}/v1/auth/reset-password`, {
         password,
-        resetPasswordToken: router.query.resetPasswordToken,
+        resetPasswordToken: token,
       });
       console.log(res.data);
       setSuccessMsg(res.data.data.msg);
@@ -76,7 +87,7 @@ const ResetPassword = () => {
             />
           </div>
           <button className={styles["reset-password__form__button"]}>
-            Confirm
+            Confirm <i className="fas fa-check"></i>
           </button>
         </form>
         <ErrorSuccessMsg successMsg={successMsg} errorMsg={errorMsg} />

@@ -26,6 +26,23 @@
     &__button {
       @include btn;
       width: 100%;
+
+      i {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .reset-password {
+    &__card {
+      width: 20rem;
+      padding: 3rem 1.5rem;
+
+      h1 {
+        font-size: 1.2rem;
+      }
     }
   }
 }
