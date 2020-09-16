@@ -1,3 +1,5 @@
+import axios from "./axios";
+
 /**
  * Extracts Cookie value from getInitialProps req object from context
  * @param {object} req - getInitialProps req object from context
