@@ -5,11 +5,27 @@ module.exports = async (req, res, next) => {
   try {
     // Handle no token
     let token;
-    if (!(req.headers && req.headers.authorization)) {
-      return res.status(401).json({ errors: [{ msg: "Invalid credentials" }] });
+
+    console.log(req.headers);
+
+    // Get token from Request headers -> for SSR getInitialProps requests
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+      console.log("TOKEN FROM HEADERS!!!", token);
     }
 
-    token = req.headers.authorization.split(" ")[1];
+    // Get token from Cookies -> for Client side requests
+    if (req.cookies && req.cookies["AUTH_TOKEN"]) {
+      token = req.cookies["AUTH_TOKEN"];
+      console.log("TOKEN FROM COOKIES!!!", token);
+    }
+
+    if (!token) {
+      return res.status(401).json({ errors: [{ msg: "Invalid credentials" }] });
+    }
 
     // Handle invalid token
     let decoded;

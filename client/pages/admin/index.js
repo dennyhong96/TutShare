@@ -1,7 +1,7 @@
 import React from "react";
 
-const index = () => {
+const Admin = () => {
   return <h1>Admin</h1>;
 };
 
-export default index;
+export default Admin;

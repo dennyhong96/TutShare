@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import axios from "axios";
+import axios from "../utils/axios";
 import { useSelector, useDispatch } from "react-redux";
 
 import useGuestRoute from "../hooks/useGuestRoute";

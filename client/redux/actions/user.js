@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from "../../utils/axios";
+import cookies from "js-cookie";
 
 import { API } from "../../config";
 import {
@@ -8,16 +9,11 @@ import {
   SET_SUCCESS_MSG,
   LOGOUT,
 } from "./index";
-import setTokenHeader from "../../utils/setTokenHeader";
 
 // Used for clearing previous timeout
 let TIMEOUT_ID;
 
 export const loadUser = () => async (dispatch) => {
-  if (process.browser) {
-    setTokenHeader(localStorage.getItem("TOKEN"));
-  }
-
   try {
     const res = await axios.get(`${API}/v1/auth`);
     console.log(res.data);
@@ -26,7 +22,7 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data.data,
     });
   } catch (error) {
-    console.error(error.response);
+    console.error(error);
     dispatch(
       setError(error.response.data.errors.map(({ msg }) => msg).join(" "), 5000)
     );
@@ -38,9 +34,9 @@ export const activateUesr = (token, next) => async (dispatch) => {
     // Activate user
     const res = await axios.post(`${API}/v1/auth/activate`, { token });
 
-    // Store load user token into localstorage
+    // Store load user token into cookies
     if (process.browser) {
-      localStorage.setItem("TOKEN", res.data.data.token);
+      cookies.set("AUTH_TOKEN", res.data.data.token);
     }
 
     dispatch(loadUser());
@@ -64,9 +60,9 @@ export const loginUser = (formData, next) => async (dispatch) => {
     // Activate user
     const res = await axios.post(`${API}/v1/auth/login`, formData);
 
-    // Store load user token into localstorage
+    // Store load user token into cookies
     if (process.browser) {
-      localStorage.setItem("TOKEN", res.data.data.token);
+      cookies.set("AUTH_TOKEN", res.data.data.token);
     }
 
     dispatch(loadUser());
@@ -86,7 +82,11 @@ export const loginUser = (formData, next) => async (dispatch) => {
 };
 
 export const logoutUser = () => (dispatch) => {
-  localStorage.removeItem("TOKEN");
+  // Remove user token from cookies
+  if (process.browser) {
+    cookies.remove("AUTH_TOKEN");
+  }
+
   dispatch({
     type: LOGOUT,
   });
