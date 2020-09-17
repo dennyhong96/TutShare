@@ -5,7 +5,15 @@ exports.createLink = async (req, res, next) => {
     const { title, url, categories, isFree, medium } = req.body;
     console.table({ title, url, categories, isFree, medium });
 
-    const link = await Link.create({
+    // Handle link already exists
+    let link = await Link.findOne({ url });
+    if (link) {
+      return res.status(400).json({
+        errors: [{ msg: "Sorry, this link has already been shared." }],
+      });
+    }
+
+    link = await Link.create({
       ...req.body,
       postedBy: req.user._id,
     });
@@ -16,17 +24,26 @@ exports.createLink = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      errors: [{ msg: "Something went wrong, please try again later" }],
+      errors: [{ msg: "Something went wrong, please try again later." }],
+    });
+  }
+};
+
+exports.listLinks = async (req, res, next) => {
+  try {
+    const links = await Link.find();
+    res.status(200).json({
+      data: { links },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later." }],
     });
   }
 };
 
 exports.getLink = async (req, res, next) => {
-  try {
-  } catch (error) {}
-};
-
-exports.listLinks = async (req, res, next) => {
   try {
   } catch (error) {}
 };

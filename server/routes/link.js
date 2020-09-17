@@ -19,7 +19,7 @@ router
   .get(listLinks)
   .post(auth, setCreateLinkCheck, validate, createLink);
 router
-  .route("/:slug")
+  .route("/:url")
   .get(getLink)
   .patch(auth, setUpdateLinkCheck, validate, updateLink)
   .delete(auth, deleteLink);

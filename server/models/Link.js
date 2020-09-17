@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const slugify = require("slugify");
+// const slugify = require("slugify");
 
 const linkSchema = new mongoose.Schema(
   {
@@ -8,18 +8,12 @@ const linkSchema = new mongoose.Schema(
       trim: true,
       required: true,
       max: 256,
-      unique: true,
     },
     url: {
       type: String,
       trim: true,
       required: true,
       max: 256,
-      unique: true,
-    },
-    slug: {
-      type: String,
-      lowercase: true,
       unique: true,
       index: true,
     },
@@ -51,12 +45,12 @@ const linkSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-linkSchema.pre("validate", async function (next) {
-  if (!(this.isNew || this.isModified("title"))) {
-    return next();
-  }
-  this.slug = slugify(this.title);
-  next();
-});
+// linkSchema.pre("validate", async function (next) {
+//   if (!(this.isNew || this.isModified("title"))) {
+//     return next();
+//   }
+//   this.slug = slugify(this.title);
+//   next();
+// });
 
 module.exports = mongoose.model("Link", linkSchema);
