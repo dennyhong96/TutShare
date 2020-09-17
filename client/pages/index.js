@@ -8,6 +8,14 @@ const Home = ({ categories }) => {
   console.log(categories);
   return (
     <div className={styles["home"]}>
+      <div className={styles["home__leadbox"]}>
+        <h1 className={styles["home__leadbox__heading"]}>
+          Discover the best software & web development tutorial's.
+        </h1>
+        <h2 className={styles["home__leadbox__subheading"]}>
+          - Contributed by the <span>devs community</span>.
+        </h2>
+      </div>
       <div className={styles["home__categories"]}>
         {categories.map((cate) => (
           <div key={cate._id} className={styles["home__categories__item"]}>

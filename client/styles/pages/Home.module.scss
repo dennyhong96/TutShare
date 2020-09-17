@@ -1,6 +1,24 @@
 @import "../utils.scss";
 
 .home {
+  &__leadbox {
+    margin: 2.5rem 0;
+
+    &__heading {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    &__subheading {
+      text-align: center;
+
+      span {
+        color: $color-secondary;
+      }
+    }
+  }
+
   &__categories {
     display: flex;
     flex-wrap: wrap;
@@ -16,10 +34,15 @@
       @include flex-center;
       justify-content: flex-start;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
 
       &:hover {
         transform: scale(1.025);
+        box-shadow: 0 3px 12px rgba(lighten($color-secondary, 10), 0.5);
+
+        p {
+          border-bottom: 1px solid lighten($color-secondary, 10);
+        }
       }
 
       img {
@@ -34,6 +57,8 @@
       p {
         font-size: 1.2rem;
         font-weight: 500;
+        border-bottom: 1px solid transparent;
+        transition: all 0.4s ease;
       }
     }
   }
@@ -41,6 +66,18 @@
 
 @media (max-width: 992px) {
   .home {
+    &__leadbox {
+      margin: 2rem 0;
+
+      &__heading {
+        font-size: 1.5rem;
+      }
+
+      &__subheading {
+        font-size: 1.2rem;
+      }
+    }
+
     &__categories {
       &__item {
         padding: 0.5rem;
@@ -64,7 +101,31 @@
 
 @media (max-width: 768px) {
   .home {
+    &__leadbox {
+      margin: 2rem 0;
+
+      &__heading {
+        font-size: 1.3rem;
+      }
+
+      &__subheading {
+        font-size: 1.1rem;
+      }
+    }
+
     &__categories {
+      &__leadbox {
+        margin: 2rem 0;
+
+        &__heading {
+          font-size: 1.2rem;
+        }
+
+        &__subheading {
+          font-size: 1rem;
+        }
+      }
+
       &__item {
         flex: 0 1 calc(100% / 2);
         min-width: calc(100% / 2);
@@ -73,7 +134,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .home {
     &__categories {
       &__item {
