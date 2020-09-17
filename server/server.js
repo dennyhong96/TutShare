@@ -9,6 +9,7 @@ const connectDB = require("./config/db");
 // Routers
 const authRouter = require("./routes/auth");
 const categoryRouter = require("./routes/category");
+const linkRouter = require("./routes/link");
 
 connectDB();
 const app = express();
@@ -27,6 +28,7 @@ app.use(
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/links", linkRouter);
 
 const port = process.env.NODE_ENV || 5000;
 app.listen(port, () => console.log(`Server up on port ${port}...`));
