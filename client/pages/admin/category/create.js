@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "../../../utils/axios";
 import Dropzone from "react-dropzone";
 import clsx from "clsx";
+import Resizer from "react-image-file-resizer";
 
 import ErrorSuccessMsg from "../../../components/ErrorSuccessMsg";
 import { API } from "../../../config";
@@ -12,12 +13,29 @@ const INITIAL_STATE = {
   name: "",
   description: "",
   image: null,
+  imageName: "",
 };
+
+const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      300,
+      300,
+      "JPEG",
+      100,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
 
 const create = () => {
   const [fields, setFields] = useState(INITIAL_STATE);
 
-  const { name, description, image } = fields;
+  const { name, description, image, imageName } = fields;
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -28,7 +46,7 @@ const create = () => {
     setFields((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleDropFile = (acceptedFiles) => {
+  const handleDropFile = async (acceptedFiles) => {
     setErrorMsg("");
     setSuccessMsg("");
     const file = acceptedFiles[0];
@@ -38,7 +56,12 @@ const create = () => {
     if (!acceptedFiles[0].type.startsWith("image/")) {
       return setErrorMsg("Please upload a valid image file.");
     }
-    setFields((prev) => ({ ...prev, image: file, imagePrompt: file.name }));
+    const processedImageUri = await resizeFile(file);
+    setFields((prev) => ({
+      ...prev,
+      image: processedImageUri,
+      imageName: file.name,
+    }));
   };
 
   const handleSubmit = async (evt) => {
@@ -50,15 +73,8 @@ const create = () => {
       return setErrorMsg("Name, description, and image are required.");
     }
 
-    const formData = new FormData();
-    Object.keys(fields).forEach((key) => {
-      formData.append(key, fields[key]);
-    });
-
     try {
-      const res = await axios.post(`${API}/v1/categories`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(`${API}/v1/categories`, fields);
 
       setSuccessMsg(`${name} is successfully added as a new category.`);
       setFields(INITIAL_STATE);
@@ -116,8 +132,8 @@ const create = () => {
                       [styles["create__dropzone__freearea-hasfile"]]: image,
                     })}
                   >
-                    {image ? (
-                      <p>{image.name}</p>
+                    {imageName ? (
+                      <p>{imageName}</p>
                     ) : (
                       <p>
                         Click or drop an image here.{" "}

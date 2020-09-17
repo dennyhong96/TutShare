@@ -65,6 +65,20 @@ exports.createCategory = async (req, res, next) => {
   }
 };
 
+exports.listCategories = async (req, res, next) => {
+  try {
+    const categories = await Category.find();
+    res.status(200).json({
+      data: { categories },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
+
 exports.getCategory = async (req, res, next) => {};
 
 exports.updateCategory = async (req, res, next) => {};
