@@ -93,7 +93,7 @@ const create = () => {
                     ) : (
                       <p>
                         Click or drop an image here.{" "}
-                        <i class="far fa-image"></i>
+                        <i className="far fa-image"></i>
                       </p>
                     )}
                   </div>

@@ -1,9 +1,11 @@
-import React from "react";
-
-import withUserAuth from "../../components/withUesrAuth";
+import { restrictToUser } from "../../utils/auth";
 
 const User = () => {
   return <p>Hello</p>;
 };
 
-export default withUserAuth(User);
+export const getServerSideProps = async (ctx) => {
+  return await restrictToUser(ctx);
+};
+
+export default User;

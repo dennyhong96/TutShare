@@ -1,5 +1,6 @@
-import withAdminAuth from "../../components/withAdminAuth";
 import Link from "next/link";
+
+import { restrictToAdmin } from "../../utils/auth";
 
 const Admin = () => {
   return (
@@ -15,4 +16,8 @@ const Admin = () => {
   );
 };
 
-export default withAdminAuth(Admin);
+export default Admin;
+
+export const getServerSideProps = async (ctx) => {
+  return await restrictToAdmin(ctx);
+};
