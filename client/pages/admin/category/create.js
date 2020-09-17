@@ -23,12 +23,14 @@ const create = () => {
 
   const handleChange = (evt) => {
     setErrorMsg("");
+    setSuccessMsg("");
     const { name, value } = evt.target;
     setFields((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDropFile = (acceptedFiles) => {
     setErrorMsg("");
+    setSuccessMsg("");
     const file = acceptedFiles[0];
     if (!file) {
       return setErrorMsg("Only supports one image per category.");
@@ -42,6 +44,7 @@ const create = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setErrorMsg("");
+    setSuccessMsg("");
 
     if (!(name && description && image)) {
       return setErrorMsg("Name, description, and image are required.");
