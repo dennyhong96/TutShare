@@ -1,0 +1,73 @@
+@import "../utils.scss";
+
+._container {
+  display: flex;
+  padding-top: 2rem;
+
+  &__left {
+    flex: 1.5;
+    padding: 1rem;
+
+    &__label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      margin-left: 0.5rem;
+    }
+
+    &__input-section {
+      display: flex;
+      flex-wrap: wrap;
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    &__check {
+      display: block;
+      cursor: pointer;
+      @include flex-center;
+      justify-content: flex-start;
+      margin-bottom: 0.5rem;
+      margin-right: 0.5rem;
+
+      &__icon {
+        @include flex-center;
+        padding: 0.5rem;
+        border-radius: 5rem;
+        background-color: lighten($color-muted, 18);
+        transition: all 0.2s ease;
+
+        i {
+          font-size: 1.1rem;
+          color: $color-primary;
+        }
+      }
+
+      &:hover {
+        ._container__left__check__icon {
+          background-color: lighten($color-muted, 15);
+        }
+      }
+
+      &__name {
+        line-height: 1;
+        margin-left: 0.5rem;
+      }
+    }
+
+    &__paper {
+      @include card;
+      padding: 2rem 1rem;
+    }
+  }
+
+  &__right {
+    flex: 3;
+    padding: 1rem;
+
+    &__paper {
+      @include card;
+    }
+  }
+}
