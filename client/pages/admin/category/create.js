@@ -1,45 +1,70 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../../utils/axios";
 import Dropzone from "react-dropzone";
 import clsx from "clsx";
 
 import ErrorSuccessMsg from "../../../components/ErrorSuccessMsg";
 import { API } from "../../../config";
-import withAdminAuth from "../../../components/withAdminAuth";
+import { restrictToAdmin } from "../../../utils/auth";
 import styles from "../../../styles/pages/Create.module.scss";
 
-const create = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    image: null,
-  });
+const INITIAL_STATE = {
+  name: "",
+  description: "",
+  image: null,
+};
 
-  const { name, description, image } = formData;
+const create = () => {
+  const [fields, setFields] = useState(INITIAL_STATE);
+
+  const { name, description, image } = fields;
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (evt) => {
+    setErrorMsg("");
     const { name, value } = evt.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFields((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDropFile = (acceptedFiles) => {
+    setErrorMsg("");
     const file = acceptedFiles[0];
-
     if (!file) {
       return setErrorMsg("Only supports one image per category.");
     }
     if (!acceptedFiles[0].type.startsWith("image/")) {
       return setErrorMsg("Please upload a valid image file.");
     }
-
-    setFormData((prev) => ({ ...prev, image: file, imagePrompt: file.name }));
+    setFields((prev) => ({ ...prev, image: file, imagePrompt: file.name }));
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(formData);
+    setErrorMsg("");
+
+    if (!(name && description && image)) {
+      return setErrorMsg("Name, description, and image are required.");
+    }
+
+    const formData = new FormData();
+    Object.keys(fields).forEach((key) => {
+      formData.append(key, fields[key]);
+    });
+
+    try {
+      const res = await axios.post(`${API}/v1/categories`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setSuccessMsg(`${name} is successfully added as a new category.`);
+      setFields(INITIAL_STATE);
+
+      console.log(res.data);
+    } catch (error) {
+      console.error(error.response);
+      setErrorMsg(error.response.data.errors.map((e) => e.msg).join(" "));
+    }
   };
 
   return (
@@ -110,4 +135,8 @@ const create = () => {
   );
 };
 
-export default withAdminAuth(create);
+export default create;
+
+export const getServerSideProps = async (ctx) => {
+  return await restrictToAdmin(ctx);
+};
