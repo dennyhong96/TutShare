@@ -118,6 +118,9 @@ const create = ({ preCategories }) => {
     <div className={styles["_container"]}>
       <div className={styles["_container__left"]}>
         <div className={styles["_container__left__paper"]}>
+          <h1 className={styles["_container__left__title"]}>
+            Share learning resource
+          </h1>
           {/* Categories checkbox */}
           <h4 className={styles["_container__left__label"]}>Categories:</h4>
           <div className={styles["_container__left__input-section"]}>

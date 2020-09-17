@@ -60,6 +60,14 @@
       @include card;
       padding: 2rem 1rem;
     }
+
+    &__title {
+      text-align: center;
+      line-height: 1;
+      font-size: 1.5rem;
+      padding-bottom: 1rem;
+      display: none;
+    }
   }
 
   &__right {
@@ -91,6 +99,24 @@
     &__form-button {
       @include btn;
       width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  ._container {
+    flex-direction: column;
+
+    &__left {
+      &__title {
+        display: block;
+      }
+    }
+
+    &__right {
+      &__title {
+        display: none;
+      }
     }
   }
 }
