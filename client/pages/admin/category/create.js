@@ -15,7 +15,7 @@ import styles from "../../../styles/pages/Create.module.scss";
 
 const INITIAL_STATE = {
   name: "",
-  description: "",
+  description: "<p><br></p>",
   image: null,
   imageName: "",
 };
@@ -52,7 +52,7 @@ const create = () => {
 
   const handleQuill = (evt) => {
     setErrorMsg("");
-    setSuccessMsg("");
+    // setSuccessMsg("");
     setFields((prev) => ({ ...prev, description: evt }));
   };
 
@@ -85,7 +85,9 @@ const create = () => {
 
     try {
       const res = await axios.post(`${API}/v1/categories`, fields);
+      console.log(res.data);
 
+      console.log(`${name} is successfully added as a new category.`);
       setSuccessMsg(`${name} is successfully added as a new category.`);
       setFields(INITIAL_STATE);
 
@@ -154,7 +156,6 @@ const create = () => {
           </Dropzone>
           <button className={styles["create__submitBtn"]}>Submit</button>
         </form>
-
         <ErrorSuccessMsg successMsg={successMsg} errorMsg={errorMsg} />
       </div>
     </div>
