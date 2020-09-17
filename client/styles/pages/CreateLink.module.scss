@@ -66,8 +66,31 @@
     flex: 3;
     padding: 1rem;
 
+    &__title {
+      text-align: center;
+      line-height: 1;
+      font-size: 1.75rem;
+      padding-bottom: 1rem;
+    }
+
     &__paper {
       @include card;
+      padding: 2rem 1rem 2.5rem;
+      position: relative;
+    }
+
+    &__form-control {
+      @include form-control;
+      margin-bottom: 1.5rem;
+
+      &:last-of-type {
+        margin-bottom: 2rem;
+      }
+    }
+
+    &__form-button {
+      @include btn;
+      width: 100%;
     }
   }
 }

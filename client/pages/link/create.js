@@ -3,35 +3,61 @@ import axios from "../../utils/axios";
 
 import { API } from "../../config";
 import styles from "../../styles/pages/CreateLink.module.scss";
+import ErrorSuccessMsg from "../../components/ErrorSuccessMsg";
+import useErrorSuccess from "../../hooks/useErrorSuccess";
 
 const MEDIUM_OPTIONS = ["video", "book", "e-book", "article"];
+
+const INITIAL_FORM_DATA = {
+  title: "",
+  url: "",
+};
+
+const INIITAL_CATEGORIES_DATA = (preCategories) =>
+  preCategories.reduce((acc, cur) => {
+    acc[[cur._id]] = false;
+    return acc;
+  }, {});
+
+const INITIAL_MEDIUM_DATA = () =>
+  MEDIUM_OPTIONS.reduce((acc, cur, idx) => {
+    acc[cur] = idx === 0 ? true : false;
+    return acc;
+  }, {});
 
 const create = ({ preCategories }) => {
   // Categories checkbox
   const [categories, setCategories] = useState(
-    preCategories.reduce((acc, cur) => {
-      acc[[cur._id]] = false;
-      return acc;
-    }, {})
+    INIITAL_CATEGORIES_DATA(preCategories)
   );
 
   // Resource medium radio buttons
-  const [medium, setMedium] = useState(
-    MEDIUM_OPTIONS.reduce((acc, cur, idx) => {
-      acc[cur] = idx === 0 ? true : false;
-      return acc;
-    }, {})
-  );
+  const [medium, setMedium] = useState(INITIAL_MEDIUM_DATA());
 
   // Is free resource radio buttons
   const [isFree, setIsFree] = useState(true);
 
-  const handleIsFree = (evt) => {
+  // Right side form
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const { title, url } = formData;
+
+  // Error and success message
+  const {
+    errorMsg,
+    successMsg,
+    setErrorMsg,
+    setSuccessMsg,
+    clearMsg,
+  } = useErrorSuccess();
+
+  const handleCategoryChange = (evt) => {
+    clearMsg();
     const { id } = evt.target;
     setCategories((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const handleMediumChange = (key) => {
+    clearMsg();
     setMedium({
       ...MEDIUM_OPTIONS.reduce((acc, cur) => {
         acc[cur] = false;
@@ -41,23 +67,55 @@ const create = ({ preCategories }) => {
     });
   };
 
+  const handleFormChange = (evt) => {
+    clearMsg();
+    const { name, value } = evt.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (evt) => {
-    // evt.preventDefualt();
-    console.log(
-      Object.keys(categories).reduce((acc, cur) => {
-        if (categories[cur]) return [...acc, cur];
-        return acc;
-      }, [])
-    );
+    evt.preventDefault();
+    clearMsg();
 
-    console.log(Object.keys(medium).find((key) => medium[key]));
+    const selectedCategories = Object.keys(categories).reduce((acc, cur) => {
+      if (categories[cur]) return [...acc, cur];
+      return acc;
+    }, []);
 
-    console.log(isFree);
+    const selectedMedium = Object.keys(medium).find((key) => medium[key]);
+
+    if (!selectedCategories.length) {
+      return setErrorMsg("At least one category is required.");
+    }
+
+    if (!(title && url)) {
+      return setErrorMsg("Title and url are required.");
+    }
+
+    try {
+      const res = await axios.post(`${API}/v1/links`, {
+        ...formData,
+        categories: selectedCategories,
+        medium: selectedMedium,
+        isFree,
+      });
+
+      console.log(res.data);
+      setSuccessMsg("Your resource is successfully shared!");
+
+      // Reset all input fields
+      setFormData(INITIAL_FORM_DATA);
+      setCategories(INIITAL_CATEGORIES_DATA(preCategories));
+      setMedium(INITIAL_MEDIUM_DATA());
+      setIsFree(true);
+    } catch (error) {
+      console.error(error.response);
+      setErrorMsg(error.response.data.errors.map((e) => e.msg).join(" "));
+    }
   };
 
   return (
     <div className={styles["_container"]}>
-      <button onClick={handleSubmit}>dsfsdf</button>
       <div className={styles["_container__left"]}>
         <div className={styles["_container__left__paper"]}>
           {/* Categories checkbox */}
@@ -74,7 +132,7 @@ const create = ({ preCategories }) => {
                   hidden
                   checked={categories[cate._id]}
                   id={cate._id}
-                  onChange={handleIsFree}
+                  onChange={handleCategoryChange}
                 />
                 <div className={styles["_container__left__check__icon"]}>
                   {categories[cate._id] ? (
@@ -102,7 +160,10 @@ const create = ({ preCategories }) => {
                 name="isFree"
                 hidden
                 checked={isFree}
-                onChange={() => setIsFree(true)}
+                onChange={() => {
+                  setIsFree(true);
+                  clearMsg();
+                }}
                 id="free-resource"
               />
               <div className={styles["_container__left__check__icon"]}>
@@ -124,7 +185,10 @@ const create = ({ preCategories }) => {
                 id="paid-resource"
                 hidden
                 checked={!isFree}
-                onChange={() => setIsFree(false)}
+                onChange={() => {
+                  setIsFree(false);
+                  clearMsg();
+                }}
               />
               <div className={styles["_container__left__check__icon"]}>
                 {!isFree ? (
@@ -169,8 +233,42 @@ const create = ({ preCategories }) => {
           </div>
         </div>
       </div>
+
+      {/* Right side form */}
       <div className={styles["_container__right"]}>
-        <div className={styles["_container__right__paper"]}></div>
+        <div className={styles["_container__right__paper"]}>
+          <h1 className={styles["_container__right__title"]}>
+            Share learning resource
+          </h1>
+          <form onSubmit={handleSubmit}>
+            <div className={styles["_container__right__form-control"]}>
+              <label htmlFor="share-title">Title</label>
+              <input
+                type="text"
+                id="share-title"
+                placeholder="Give your resource a title."
+                value={title}
+                onChange={handleFormChange}
+                name="title"
+              />
+            </div>
+            <div className={styles["_container__right__form-control"]}>
+              <label htmlFor="share-url">Url</label>
+              <input
+                type="text"
+                id="share-url"
+                placeholder="Paste your the url of your resource here."
+                value={url}
+                onChange={handleFormChange}
+                name="url"
+              />
+            </div>
+            <button className={styles["_container__right__form-button"]}>
+              Share
+            </button>
+          </form>
+          <ErrorSuccessMsg successMsg={successMsg} errorMsg={errorMsg} />
+        </div>
       </div>
     </div>
   );
