@@ -1,7 +1,7 @@
-const fs = require("fs");
-const formidable = require("formidable");
 const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
+// const fs = require("fs");
+// const formidable = require("formidable");
 
 const Category = require("../models/Category");
 
@@ -11,6 +11,67 @@ AWS.config.update({
 });
 const s3 = new AWS.S3();
 
+exports.createCategory = async (req, res, next) => {
+  try {
+    const { name, image, description } = req.body;
+
+    // Process Image data
+    const imageBase64Buffer = new Buffer.from(
+      image.replace(/^data:image\/\w+;base64,/, ""),
+      "base64"
+    );
+    const imageType = image.split(";")[0].split("/")[1];
+
+    const s3UploadParams = {
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Key: `category/${uuidv4()}.${imageType}`,
+      Body: imageBase64Buffer, // sync -> Make sure file is loaded at the time of update
+      ACL: process.env.AWS_S3_BUCKET_ACL, // public-read -> so user do can view image
+      ContentType: `image/${imageType}`,
+      ContentEncoding: "base64",
+    };
+
+    let data;
+    try {
+      data = await s3.upload(s3UploadParams).promise();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        errors: [{ msg: "Upload image failed, please try again." }],
+      });
+    }
+
+    // data: { ...,
+    //   Location: 'https://tutshare.s3.us-west-2.amazonaws.com/category/37af4ebd-7223-49c6-b7df-56f5f002dd9d',
+    //   key: 'category/37af4ebd-7223-49c6-b7df-56f5f002dd9d',
+    //   ... }
+
+    // Create the category
+    category = await Category.create({
+      name,
+      image: { url: data.Location, key: data.Key }, // key is used for deleting images
+      description,
+      postedBy: req.user._id,
+    });
+
+    res.status(201).json({
+      data: { category },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
+
+exports.getCategory = async (req, res, next) => {};
+
+exports.updateCategory = async (req, res, next) => {};
+
+exports.deleteCategory = async (req, res, next) => {};
+
+/*
 exports.createCategory = async (req, res, next) => {
   const form = new formidable.IncomingForm();
   form.parse(req, async (err, fields, files) => {
@@ -61,12 +122,12 @@ exports.createCategory = async (req, res, next) => {
         });
       }
 
-      /*
-      data: { ...,
-        Location: 'https://tutshare.s3.us-west-2.amazonaws.com/category/37af4ebd-7223-49c6-b7df-56f5f002dd9d',
-        key: 'category/37af4ebd-7223-49c6-b7df-56f5f002dd9d',
-        ... }
-      */
+
+      // data: { ...,
+      //   Location: 'https://tutshare.s3.us-west-2.amazonaws.com/category/37af4ebd-7223-49c6-b7df-56f5f002dd9d',
+      //   key: 'category/37af4ebd-7223-49c6-b7df-56f5f002dd9d',
+      //   ... }
+
 
       // Create the category
       category = await Category.create({
@@ -87,23 +148,4 @@ exports.createCategory = async (req, res, next) => {
     }
   });
 };
-
-exports.listCategories = async (req, res, next) => {
-  try {
-    const categories = await Category.find();
-    res.status(200).json({
-      data: { categories },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      errors: [{ msg: "Something went wrong, please try again later" }],
-    });
-  }
-};
-
-exports.getCategory = async (req, res, next) => {};
-
-exports.updateCategory = async (req, res, next) => {};
-
-exports.deleteCategory = async (req, res, next) => {};
+*/

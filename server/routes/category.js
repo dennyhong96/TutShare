@@ -21,8 +21,8 @@ router
   .post(
     auth,
     restrictTo("admin"),
-    // setCreateCategoryCheck,
-    // validate,
+    setCreateCategoryCheck,
+    validate,
     createCategory
   )
   .get(listCategories);

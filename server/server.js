@@ -17,7 +17,13 @@ const app = express();
 app.use(morgan("dev"));
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(cookieParser());
-app.use(express.json());
+app.use(
+  // Json data size limit is 1mb by default
+  express.json({
+    limit: "5mb",
+    type: "application/json",
+  })
+);
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/categories", categoryRouter);
