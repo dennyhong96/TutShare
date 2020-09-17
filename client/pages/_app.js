@@ -1,6 +1,7 @@
 // import Head from "next/head";
 import { Provider as ReduxProvider } from "react-redux";
 import "nprogress/nprogress.css";
+import "react-quill/dist/quill.snow.css";
 
 import store from "../redux/store";
 import Layout from "../components/Layout";

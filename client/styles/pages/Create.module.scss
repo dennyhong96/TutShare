@@ -17,6 +17,36 @@
     }
   }
 
+  .quill {
+    background-color: lighten($color-muted, 18);
+    border-radius: 25px;
+    margin-bottom: 0.75rem;
+
+    & > div {
+      border: none !important;
+
+      &:first-child {
+        position: relative;
+        padding-bottom: 3px;
+
+        &::after {
+          contain: "";
+          position: absolute;
+          height: 1px;
+          bottom: 0;
+          left: 1rem;
+          right: 1rem;
+          border-bottom: 1px solid lighten($color-muted, 5);
+        }
+      }
+
+      &:last-child {
+        font-family: inherit;
+        min-height: 5rem;
+      }
+    }
+  }
+
   &__form-control {
     @include form-control;
   }

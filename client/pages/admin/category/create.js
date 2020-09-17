@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "../../../utils/axios";
 import Dropzone from "react-dropzone";
 import clsx from "clsx";
 import Resizer from "react-image-file-resizer";
+
+// Nextjs dynamic import
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 import ErrorSuccessMsg from "../../../components/ErrorSuccessMsg";
 import { API } from "../../../config";
@@ -44,6 +48,12 @@ const create = () => {
     setSuccessMsg("");
     const { name, value } = evt.target;
     setFields((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleQuill = (evt) => {
+    setErrorMsg("");
+    setSuccessMsg("");
+    setFields((prev) => ({ ...prev, description: evt }));
   };
 
   const handleDropFile = async (acceptedFiles) => {
@@ -92,7 +102,7 @@ const create = () => {
         <h1>Create a category</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles["create__form-control"]}>
-            <label htmlFor="name">Category Name</label>
+            <label htmlFor="name">Add a category name</label>
             <input
               type="text"
               id="name"
@@ -102,17 +112,14 @@ const create = () => {
               value={name}
             />
           </div>
-          <div className={styles["create__form-control"]}>
-            <label htmlFor="description">Category Description</label>
-            <textarea
-              name="description"
-              id="description"
-              rows="3"
-              placeholder="Enter a description for the category"
-              onChange={handleChange}
-              value={description}
-            ></textarea>
-          </div>
+
+          {/* Rich text editor */}
+          <p className={styles["create__image-prompt"]}>Add a description</p>
+          <ReactQuill
+            className={styles["quill"]}
+            value={description}
+            onChange={handleQuill}
+          />
 
           {/* Drop file zone */}
           <p className={styles["create__image-prompt"]}>Add an image</p>
