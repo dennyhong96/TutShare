@@ -59,8 +59,14 @@ exports.createCategory = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
+    if (error.code === 11000) {
+      return res.status(500).json({
+        errors: [{ msg: "Sorry, this category name is already in use." }],
+      });
+    }
+
     res.status(500).json({
-      errors: [{ msg: "Something went wrong, please try again later" }],
+      errors: [{ msg: "Something went wrong, please try again later." }],
     });
   }
 };

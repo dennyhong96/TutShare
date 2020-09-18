@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "../../utils/axios";
+import { useSelector } from "react-redux";
 
 import { API } from "../../config";
 import styles from "../../styles/pages/CreateLink.module.scss";
@@ -26,6 +27,8 @@ const INITIAL_MEDIUM_DATA = () =>
   }, {});
 
 const create = ({ preCategories }) => {
+  const user = useSelector(({ user: { user } }) => user);
+
   // Categories checkbox
   const [categories, setCategories] = useState(
     INIITAL_CATEGORIES_DATA(preCategories)
@@ -266,8 +269,11 @@ const create = ({ preCategories }) => {
                 name="url"
               />
             </div>
-            <button className={styles["_container__right__form-button"]}>
-              Share
+            <button
+              className={styles["_container__right__form-button"]}
+              disabled={!user}
+            >
+              {user ? "Share" : "Please log in to share"}
             </button>
           </form>
           <ErrorSuccessMsg successMsg={successMsg} errorMsg={errorMsg} />

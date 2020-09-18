@@ -13,6 +13,31 @@
   background-color: $color-primary;
   box-shadow: 0 3px 10px rgba(#000, 0.25);
 
+  &__mainAction {
+    margin-right: auto;
+    margin-left: 1.5rem;
+    border-radius: 5rem;
+    color: $color-light;
+    background-color: $color-secondary;
+    line-height: 1;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 7px rgba(#000, 0.1);
+    transition: all 0.2s ease;
+    font-weight: 500;
+
+    &:hover {
+      transform: translateY(-1px);
+      background-color: lighten($color-secondary, 5);
+      box-shadow: 0 3px 9px rgba(#000, 0.08);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background-color: $color-secondary;
+      box-shadow: 0 2px 7px rgba(#000, 0.1);
+    }
+  }
+
   &__menuBtn,
   &__closeBtn {
     display: none;
@@ -81,8 +106,39 @@
   @include container;
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    &__brand {
+      font-size: 1.75rem;
+    }
+
+    &__mainAction {
+      margin-left: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    &__links {
+      height: 100%;
+      @include flex-center;
+
+      &__item {
+        & span {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 576px) {
   .navbar {
+    &__mainAction {
+      margin-left: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
     &__menuBtn {
       display: initial;
       background-color: transparent;

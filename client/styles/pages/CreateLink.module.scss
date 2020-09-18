@@ -10,16 +10,18 @@
 
     &__label {
       font-weight: 500;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
       margin-left: 0.5rem;
+      text-align: center;
     }
 
     &__input-section {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
 
       &:not(:last-child) {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
       }
     }
 
@@ -35,7 +37,7 @@
         @include flex-center;
         padding: 0.5rem;
         border-radius: 5rem;
-        background-color: lighten($color-muted, 18);
+        background-color: lighten($color-muted, 19);
         transition: all 0.2s ease;
 
         i {

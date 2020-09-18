@@ -10,10 +10,10 @@ const Home = ({ categories }) => {
     <div className={styles["home"]}>
       <div className={styles["home__leadbox"]}>
         <h1 className={styles["home__leadbox__heading"]}>
-          Discover the best software & web development tutorial's.
+          Discover the best web development learning resources.
         </h1>
         <h2 className={styles["home__leadbox__subheading"]}>
-          - Contributed by the <span>devs community</span>.
+          - Shared by the <span>dev community</span> with ♥️
         </h2>
       </div>
       <div className={styles["home__categories"]}>

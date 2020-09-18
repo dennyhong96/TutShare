@@ -78,6 +78,19 @@ $screen-sm: 576px;
   box-shadow: 0 3px 10px rgba(#000, 0.1);
   transition: all 0.2s ease;
 
+  &:disabled {
+    background-color: lighten($color-muted, 15);
+    box-shadow: 0 3px 10px rgba(#000, 0.05);
+    color: lighten($color-dark, 10);
+    cursor: default;
+
+    &:hover {
+      background-color: lighten($color-muted, 15);
+      box-shadow: 0 3px 10px rgba(#000, 0.05);
+      transform: initial;
+    }
+  }
+
   &:hover {
     transform: translateY(-2px);
     background-color: lighten($color-primary, 2);
