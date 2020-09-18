@@ -95,6 +95,28 @@
         }
       }
     }
+
+    &__buttonBox {
+      @include flex-center;
+
+      &__button {
+        @include btn;
+        text-transform: uppercase;
+        padding: 0.5rem 2.5rem;
+        background-color: $color-light;
+        color: darken($color-primary, 10);
+        border: 1px solid darken($color-primary, 10);
+
+        &:hover {
+          background-color: $color-light;
+          color: darken($color-primary, 10);
+        }
+
+        i {
+          margin-left: 0.25rem;
+        }
+      }
+    }
   }
 
   &__right {

@@ -1,14 +1,39 @@
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState, useRef } from "react";
 import parse from "html-react-parser";
 import moment from "moment";
+import { useRouter } from "next/router";
 
+import Loader from "../../components/Loader";
 import axios from "../../utils/axios";
 import { API } from "../../config";
 import styles from "../../styles/pages/category.module.scss";
 
+const LIMIT = 2;
+
 const category = ({ preLinks, preCategory }) => {
   const [links, setLinks] = useState(preLinks);
+  const [isLoading, setLoading] = useState(false);
+
+  const {
+    query: { slug },
+  } = useRouter();
+
+  const prevLinksLength = useRef(0);
+  const skipNum = useRef(preLinks.length);
+  // const isLoading = useRef(false);
+
+  const handleLoadMore = async () => {
+    setLoading(true);
+    try {
+      prevLinksLength.current = links.length;
+      const res = await axios.get(
+        `${API}/v1/categories/${slug}?limit=${LIMIT}&skip=${skipNum.current}`
+      );
+      setLinks((prev) => [...prev, ...res.data.data.links]);
+      skipNum.current += res.data.data.links.length;
+    } catch (error) {}
+    setLoading(false);
+  };
 
   return (
     <div className={styles["_container"]}>
@@ -22,7 +47,10 @@ const category = ({ preLinks, preCategory }) => {
             {parse(preCategory.description)}
           </div>
           <hr />
-          <ul className={styles["_container__left__links"]}>
+          <ul
+            className={styles["_container__left__links"]}
+            id="links-container"
+          >
             {links.map((link) => (
               <li
                 key={link._id}
@@ -54,6 +82,19 @@ const category = ({ preLinks, preCategory }) => {
               </li>
             ))}
           </ul>
+          <div className={styles["_container__left__buttonBox"]}>
+            {!isLoading &&
+              !!links.length &&
+              links.length - prevLinksLength.current >= LIMIT && (
+                <button
+                  className={styles["_container__left__buttonBox__button"]}
+                  onClick={handleLoadMore}
+                >
+                  More<i class="far fa-caret-square-down"></i>
+                </button>
+              )}
+            {isLoading && <Loader />}
+          </div>
         </div>
       </div>
 
@@ -76,11 +117,11 @@ export default category;
 
 export const getStaticProps = async ({ params }) => {
   // Fetch category detail and links of this category
-  const limit = 10;
+
   const skip = 0;
 
   const res = await axios.get(
-    `${API}/v1/categories/${params.slug}?limit=${limit}&skip=${skip}`
+    `${API}/v1/categories/${params.slug}?limit=${LIMIT}&skip=${skip}`
   );
 
   return {
