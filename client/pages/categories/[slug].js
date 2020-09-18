@@ -20,7 +20,6 @@ const category = ({ preLinks, preCategory }) => {
 
   const prevLinksLength = useRef(0);
   const skipNum = useRef(preLinks.length);
-  // const isLoading = useRef(false);
 
   const handleLoadMore = async () => {
     setLoading(true);
@@ -33,6 +32,20 @@ const category = ({ preLinks, preCategory }) => {
       skipNum.current += res.data.data.links.length;
     } catch (error) {}
     setLoading(false);
+  };
+
+  const handleView = async (url) => {
+    try {
+      const res = await axios.patch(`${API}/v1/links/views/increase`, { url });
+      const modifiedLink = res.data.data.link;
+      setLinks((prev) =>
+        prev.map((link) =>
+          link._id === modifiedLink._id ? modifiedLink : link
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -64,7 +77,12 @@ const category = ({ preLinks, preCategory }) => {
                     {moment(link.createdAt).fromNow()}
                   </p>
                 </div>
-                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => handleView(link.url)}
+                >
                   {link.url}
                 </a>
                 <div className={styles["_container__left__linkItem__row"]}>
@@ -73,10 +91,11 @@ const category = ({ preLinks, preCategory }) => {
                     <span>{link.medium.toUpperCase()}</span>
                   </p>
                   <p className={styles["_container__left__linkItem__views"]}>
-                    <i class="far fa-eye"></i> <span>{link.views}</span> Views
+                    <i className="far fa-eye"></i> <span>{link.views}</span>{" "}
+                    Views
                   </p>
                   <p className={styles["_container__left__linkItem__user"]}>
-                    <i class="fas fa-user"></i> {link.postedBy.name}
+                    <i className="fas fa-user"></i> {link.postedBy.name}
                   </p>
                 </div>
               </li>
@@ -90,7 +109,7 @@ const category = ({ preLinks, preCategory }) => {
                   className={styles["_container__left__buttonBox__button"]}
                   onClick={handleLoadMore}
                 >
-                  More<i class="far fa-caret-square-down"></i>
+                  More<i className="far fa-caret-square-down"></i>
                 </button>
               )}
             {isLoading && <Loader />}

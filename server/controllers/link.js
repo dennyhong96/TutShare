@@ -57,3 +57,38 @@ exports.deleteLink = async (req, res, next) => {
   try {
   } catch (error) {}
 };
+
+exports.increaseView = async (req, res, next) => {
+  try {
+    const { url } = req.body;
+
+    // Handle no url
+    if (!url) {
+      return res.status(500).json({
+        errors: [{ msg: "Url is required." }],
+      });
+    }
+
+    const link = await Link.findOneAndUpdate(
+      { url },
+      { $inc: { views: 1 } }, // Increase views by 1
+      { runValidators: true, new: true }
+    );
+
+    // Handle url not exists
+    if (!link) {
+      return res.status(500).json({
+        errors: [{ msg: `Resource with url: ${url} not found.` }],
+      });
+    }
+
+    res.status(200).json({
+      data: { link },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later." }],
+    });
+  }
+};

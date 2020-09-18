@@ -12,6 +12,7 @@ const {
   getLink,
   updateLink,
   deleteLink,
+  increaseView,
 } = require("../controllers/link");
 
 router
@@ -23,5 +24,6 @@ router
   .get(getLink)
   .patch(auth, setUpdateLinkCheck, validate, updateLink)
   .delete(auth, deleteLink);
+router.route("/views/increase").patch(increaseView);
 
 module.exports = router;
