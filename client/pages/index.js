@@ -5,7 +5,6 @@ import axios from "../utils/axios";
 import { API } from "../config";
 
 const Home = ({ categories }) => {
-  console.log(categories);
   return (
     <div className={styles["home"]}>
       <div className={styles["home__leadbox"]}>
@@ -19,7 +18,7 @@ const Home = ({ categories }) => {
       <div className={styles["home__categories"]}>
         {categories.map((cate) => (
           <div key={cate._id} className={styles["home__categories__item"]}>
-            <Link href={`/cateogries/${cate.slug}`}>
+            <Link href={`/categories/${cate.slug}`}>
               <a className={styles["home__categories__card"]}>
                 <img src={cate.image.url} alt={cate.name} />
                 <p>{cate.name}</p>

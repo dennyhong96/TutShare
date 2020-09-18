@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 // const formidable = require("formidable");
 
 const Category = require("../models/Category");
+const Link = require("../models/Link");
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -85,7 +86,43 @@ exports.listCategories = async (req, res, next) => {
   }
 };
 
-exports.getCategory = async (req, res, next) => {};
+exports.getCategory = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const skip = req.query.skip ? parseInt(req.query.skip) : 0;
+
+    const category = await Category.findOne({ slug });
+
+    // Handle category does not exist
+    if (!category) {
+      return res.status(404).json({
+        errors: [{ msg: "Category not found." }],
+      });
+    }
+
+    // Get all links of this category
+    const links = await Link.find({ categories: category })
+      .sort({
+        createdAt: -1,
+      })
+      .limit(limit)
+      .skip(skip);
+
+    return res.status(200).json({
+      data: {
+        category,
+        links,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
 
 exports.updateCategory = async (req, res, next) => {};
 

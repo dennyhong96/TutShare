@@ -40,6 +40,10 @@ button {
   cursor: pointer;
 }
 
+ul {
+  list-style: none;
+}
+
 // Overwrite nprogress bar styles
 #nprogress .bar {
   background-color: $color-secondary !important;

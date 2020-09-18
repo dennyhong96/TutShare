@@ -53,4 +53,13 @@ const linkSchema = new mongoose.Schema(
 //   next();
 // });
 
+// Return posted by user upon query
+linkSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "postedBy",
+    select: "-password -__v -resetPasswordToken",
+  });
+  next();
+});
+
 module.exports = mongoose.model("Link", linkSchema);

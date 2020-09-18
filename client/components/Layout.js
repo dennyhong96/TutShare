@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
           </Link>
           <Link href="/link/create">
             <a className={styles["navbar__mainAction"]}>
-              Share resource! <i class="fas fa-share"></i>
+              Share resource! <i className="fas fa-share"></i>
             </a>
           </Link>
           {/* Menu button for small screen drawer */}

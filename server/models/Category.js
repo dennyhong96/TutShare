@@ -52,4 +52,13 @@ categorySchema.pre("validate", async function (next) {
   next();
 });
 
+// Return posted by user upon query
+categorySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "postedBy",
+    select: "-password -__v -resetPasswordToken",
+  });
+  next();
+});
+
 module.exports = mongoose.model("Cateogry", categorySchema);
