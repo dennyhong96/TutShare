@@ -18,7 +18,7 @@ const Modal = ({ children, show = true, onHide }) => {
         })}
       >
         <button className={styles[`_container__button`]} onClick={onHide}>
-          <i class="fas fa-times"></i>
+          <i className="fas fa-times"></i>
         </button>
         {children}
       </div>
