@@ -1,0 +1,55 @@
+@import "../utils.scss";
+
+._container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: all 0.2s ease;
+  width: 20rem;
+  @include card;
+
+  &-show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  &__button {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 5rem;
+    background-color: lighten($color-secondary, 5);
+    color: $color-light;
+    @include flex-center;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+
+    backface-visibility: hidden;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(1);
+    }
+  }
+}
+
+._backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: scale(0);
+
+  &-show {
+    transform: scale(1);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}

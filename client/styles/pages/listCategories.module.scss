@@ -48,6 +48,7 @@
       width: 2rem;
       height: 2rem;
       object-fit: cover;
+      border-radius: 3px;
     }
 
     %button {
@@ -56,6 +57,8 @@
       border-radius: 5rem;
       box-shadow: 0 2px 7px rgba(0, 0, 0, 0.075);
       transition: all 0.2s ease;
+      @include flex-center;
+      margin-left: auto;
 
       &:hover {
         transform: scale(1.075);
@@ -79,6 +82,25 @@
       i {
         color: #d9534f;
       }
+    }
+  }
+
+  &__modalInner {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__prompt {
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    &__delete {
+      @include btn;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.85rem;
     }
   }
 }
