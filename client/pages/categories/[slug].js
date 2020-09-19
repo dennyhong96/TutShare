@@ -126,6 +126,9 @@ const category = ({ preLinks, preCategory }) => {
           </ul>
           <div className={styles["_container__left__buttonBox"]}>
             {isLoading && <Loader />}
+            {links.length - prevLinksLength.current < LIMIT && (
+              <p>All resources have been displayed.</p>
+            )}
           </div>
         </div>
       </div>

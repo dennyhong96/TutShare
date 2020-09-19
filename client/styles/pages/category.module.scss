@@ -98,6 +98,7 @@
 
     &__buttonBox {
       @include flex-center;
+      margin-bottom: 1rem;
 
       &__button {
         @include btn;
@@ -115,6 +116,10 @@
         i {
           margin-left: 0.25rem;
         }
+      }
+
+      p {
+        font-size: 0.9rem;
       }
     }
   }
