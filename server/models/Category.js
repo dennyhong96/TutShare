@@ -61,4 +61,18 @@ categorySchema.pre(/^find/, function (next) {
   next();
 });
 
+categorySchema.pre("findOneAndUpdate", async function (next) {
+  // To get a reference of doc to be updated
+  const doc = await this.model.findOne(this.getFilter());
+
+  // Slugify new name
+  const newName = this._update.name;
+  if (newName && newName !== doc.name) {
+    doc.name = slugify(newName);
+    await doc.save();
+  }
+
+  next();
+});
+
 module.exports = mongoose.model("Cateogry", categorySchema);

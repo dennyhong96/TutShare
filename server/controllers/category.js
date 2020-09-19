@@ -1,4 +1,3 @@
-const { S3 } = require("aws-sdk");
 const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
 // const fs = require("fs");
