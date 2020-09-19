@@ -14,6 +14,12 @@ export const getCookieFromServerReq = (req, cookieKey) => {
     .split(`${cookieKey}=`)[1];
 };
 
+/**
+ * Server side render a page only if user's authenticated and role is 'admin'
+ * Other wise redirect to home page
+ * @param {object} context - Nextjs getServerSideProps context object
+ * @returns {object} server side props
+ */
 export const restrictToAdmin = async ({ req, res }) => {
   let isAuthorized;
 
@@ -59,6 +65,12 @@ export const restrictToAdmin = async ({ req, res }) => {
   }
 };
 
+/**
+ * Server side render a page only if user's authenticated and role is 'user'
+ * Other wise redirect to home page
+ * @param {object} context - Nextjs getServerSideProps context object
+ * @returns {object} server side props
+ */
 export const restrictToUser = async ({ req, res }) => {
   let isAuthorized;
 

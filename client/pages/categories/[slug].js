@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import parse from "html-react-parser";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -20,7 +20,28 @@ const category = ({ preLinks, preCategory }) => {
 
   const prevLinksLength = useRef(0);
   const skipNum = useRef(preLinks.length);
+  const observerRef = useRef();
 
+  // Infinite Scrolling
+  const lastNode = useCallback(
+    (lastNode) => {
+      if (!links.length) return;
+      if (isLoading) return;
+      if (observerRef.current) observerRef.current.disconnect();
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (
+          entries[0].isIntersecting && // If the last current last node is on the screen
+          links.length - prevLinksLength.current >= LIMIT // And there are more nodes to fetch
+        ) {
+          handleLoadMore();
+        }
+      });
+      if (lastNode) observerRef.current.observe(lastNode); // Observe the last node
+    },
+    [isLoading, links.length]
+  );
+
+  // Load more links
   const handleLoadMore = async () => {
     setLoading(true);
     try {
@@ -34,6 +55,7 @@ const category = ({ preLinks, preCategory }) => {
     setLoading(false);
   };
 
+  // Increase view count
   const handleView = async (url) => {
     try {
       const res = await axios.patch(`${API}/v1/links/views/increase`, { url });
@@ -64,8 +86,9 @@ const category = ({ preLinks, preCategory }) => {
             className={styles["_container__left__links"]}
             id="links-container"
           >
-            {links.map((link) => (
+            {links.map((link, idx) => (
               <li
+                ref={idx + 1 === links.length ? lastNode : undefined}
                 key={link._id}
                 className={styles["_container__left__linkItem"]}
               >
@@ -102,16 +125,6 @@ const category = ({ preLinks, preCategory }) => {
             ))}
           </ul>
           <div className={styles["_container__left__buttonBox"]}>
-            {!isLoading &&
-              !!links.length &&
-              links.length - prevLinksLength.current >= LIMIT && (
-                <button
-                  className={styles["_container__left__buttonBox__button"]}
-                  onClick={handleLoadMore}
-                >
-                  More<i className="far fa-caret-square-down"></i>
-                </button>
-              )}
             {isLoading && <Loader />}
           </div>
         </div>
