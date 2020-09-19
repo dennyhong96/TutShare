@@ -53,6 +53,15 @@ exports.createCategory = async (req, res, next) => {
   try {
     const { name, image, description } = req.body;
 
+    // Handle category name already in use
+    let category = await Category.findOne({ name });
+    if (category) {
+      return res.status(400).json({
+        errors: [{ msg: `Category name ${name} is already taken.` }],
+      });
+    }
+
+    // Upload image to s3
     let data;
     try {
       data = await s3UploadImage(image);
@@ -76,12 +85,6 @@ exports.createCategory = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
-    if (error.code === 11000) {
-      return res.status(500).json({
-        errors: [{ msg: "Sorry, this category name is already in use." }],
-      });
-    }
-
     res.status(500).json({
       errors: [{ msg: "Something went wrong, please try again later." }],
     });

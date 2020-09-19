@@ -59,7 +59,7 @@ const list = ({ preCategories }) => {
                   <td>{moment(cate.createdAt).format("MMM Do YY")}</td>
                   <td>{moment(cate.updatedAt).format("MMM Do YY")}</td>
                   <td>
-                    <Link href={`/admin/category/edit/${cate.slug}`}>
+                    <Link href={`/admin/category/update/${cate.slug}`}>
                       <a className={styles["_container__table__button-update"]}>
                         <i className="fas fa-pen-alt"></i>
                       </a>

@@ -130,7 +130,7 @@ const update = ({ preCategory }) => {
           />
 
           {/* Drop file zone */}
-          <p className={styles["create__image-prompt"]}>Add an image</p>
+          <p className={styles["create__image-prompt"]}>Upload a new image</p>
           <Dropzone multiple={false} onDrop={handleDropFile}>
             {({ getRootProps, getInputProps }) => (
               <section className={styles["create__dropzone"]}>
@@ -147,14 +147,12 @@ const update = ({ preCategory }) => {
                       [styles["create__dropzone__freearea-hasfile"]]: image,
                     })}
                   >
-                    {imageName ? (
-                      <p>{imageName}</p>
-                    ) : (
-                      <p>
-                        Upload a new image here.{" "}
-                        <i className="far fa-image"></i>
-                      </p>
-                    )}
+                    <img
+                      src={image || category.image.url}
+                      alt=""
+                      s
+                      className={styles["create__dropzone__preview"]}
+                    />
                   </div>
                 </div>
               </section>
