@@ -1,5 +1,84 @@
 @import "../utils.scss";
 
 ._container {
-  background-color: red;
+  &__inner {
+    @include card;
+  }
+
+  &__title {
+    margin: 2rem 0 1.5rem;
+    width: fit-content;
+    padding-bottom: 1px;
+    border-bottom: 2px solid $color-secondary;
+  }
+
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 1px darken($color-muted, 30);
+
+    thead {
+      border-bottom: 1px solid lighten($color-muted, 15);
+    }
+
+    tr {
+      &:not(:last-of-type) {
+        border-bottom: 1px solid lighten($color-muted, 15);
+      }
+    }
+
+    td,
+    th {
+      text-align: right;
+      padding: 0.5rem;
+    }
+
+    &__firstCol {
+      text-align: left !important;
+      padding-left: 1rem !important;
+    }
+
+    &__lastCol {
+      padding-right: 1rem !important;
+    }
+
+    &__image {
+      width: 2rem;
+      height: 2rem;
+      object-fit: cover;
+    }
+
+    %button {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 5rem;
+      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.075);
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.075);
+      }
+    }
+
+    &__button-update {
+      @extend %button;
+      background-color: $color-primary;
+
+      i {
+        color: $color-light;
+      }
+    }
+
+    &__button-delete {
+      @extend %button;
+      background-color: lighten($color-light, 5);
+      border: 1px solid #d9534f;
+
+      i {
+        color: #d9534f;
+      }
+    }
+  }
 }
