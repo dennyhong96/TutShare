@@ -61,6 +61,7 @@ categorySchema.pre(/^find/, function (next) {
   next();
 });
 
+// Slugify new name if name is updated
 categorySchema.pre("findOneAndUpdate", async function (next) {
   // To get a reference of doc to be updated
   const doc = await this.model.findOne(this.getFilter());

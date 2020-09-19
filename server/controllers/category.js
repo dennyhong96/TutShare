@@ -39,6 +39,16 @@ const s3UploadImage = async (image) => {
   //   ... }
 };
 
+// Delete a s3 object by given key
+const s3DeleteImage = async (key) => {
+  const s3DeleteParams = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Key: key,
+  };
+
+  return s3.deleteObject(s3DeleteParams).promise();
+};
+
 exports.createCategory = async (req, res, next) => {
   try {
     const { name, image, description } = req.body;
@@ -154,16 +164,12 @@ exports.updateCategory = async (req, res, next) => {
       }
     }
 
-    // Delete existing image
+    // User passed in new image
     let uploadData;
     if (image) {
-      const s3DeleteParams = {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: category.image.key,
-      };
-
+      // Delete existing image
       try {
-        const deleteData = await s3.deleteObject(s3DeleteParams).promise();
+        const deleteData = await s3DeleteImage(category.image.key);
         console.log("IMAGE DELETED", deleteData);
       } catch (error) {
         console.error(error);
@@ -209,7 +215,42 @@ exports.updateCategory = async (req, res, next) => {
   }
 };
 
-exports.deleteCategory = async (req, res, next) => {};
+exports.deleteCategory = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+
+    // Handle category not found
+    let category = await Category.findOne({ slug });
+    if (!category) {
+      return res.status(404).json({
+        errors: [{ msg: `Category with slug ${slug} not found.` }],
+      });
+    }
+
+    // Delete image from s3
+    try {
+      const deleteData = await s3DeleteImage(category.image.key);
+      console.log("IMAGE DELETED", deleteData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        errors: [{ msg: "Error deleting previous image, please try again." }],
+      });
+    }
+
+    // Delete document
+    await Category.findByIdAndDelete(category._id);
+
+    res.status(200).json({
+      data: { msg: "Category successfully deleted." },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later." }],
+    });
+  }
+};
 
 /*
 exports.createCategory = async (req, res, next) => {
