@@ -28,7 +28,9 @@ const category = ({ preLinks, preCategory }) => {
       );
       setLinks((prev) => [...prev, ...res.data.data.links]);
       numLinksToSkip.current += res.data.data.links.length;
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
     setLoading(false);
   };
 

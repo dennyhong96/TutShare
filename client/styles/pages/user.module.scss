@@ -46,7 +46,10 @@
     padding-left: 1rem;
 
     &__inner {
-      @include card;
+    }
+
+    &__loadingBox {
+      @include flex-center;
     }
   }
 }

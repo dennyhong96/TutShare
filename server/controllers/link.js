@@ -46,7 +46,13 @@ exports.listLinks = async (req, res, next) => {
 // For returning links postedBy a specific user
 exports.listUserLinks = async (req, res, next) => {
   try {
-    const links = await Link.find({ postedBy: req.user });
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const skip = req.query.skip ? parseInt(req.query.skip) : 0;
+
+    const links = await Link.find({ postedBy: req.user })
+      .limit(limit)
+      .skip(skip);
+
     res.status(200).json({
       data: { links },
     });
