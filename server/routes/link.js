@@ -10,11 +10,13 @@ const {
   createLink,
   listLinks,
   getLink,
+  listUserLinks,
   updateLink,
   deleteLink,
   increaseView,
 } = require("../controllers/link");
 
+router.route("/user").get(auth, listUserLinks);
 router
   .route("/")
   .get(listLinks)

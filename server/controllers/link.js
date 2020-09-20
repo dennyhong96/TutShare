@@ -43,6 +43,21 @@ exports.listLinks = async (req, res, next) => {
   }
 };
 
+// For returning links postedBy a specific user
+exports.listUserLinks = async (req, res, next) => {
+  try {
+    const links = await Link.find({ postedBy: req.user });
+    res.status(200).json({
+      data: { links },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later." }],
+    });
+  }
+};
+
 exports.getLink = async (req, res, next) => {
   try {
   } catch (error) {}

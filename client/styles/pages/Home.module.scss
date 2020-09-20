@@ -13,9 +13,21 @@
     &__subheading {
       text-align: center;
 
-      span {
+      a {
         color: $color-secondary;
-        border-bottom: 1px solid $color-secondary;
+        line-height: 1;
+        padding: 2px 3px;
+        border-radius: 1px;
+        transition: all 0.1s ease;
+        display: inline-block;
+
+        &:hover {
+          border-bottom: none;
+          background-color: $color-secondary;
+          color: $color-light;
+
+          transform: skew(-1deg, -1deg);
+        }
       }
     }
   }

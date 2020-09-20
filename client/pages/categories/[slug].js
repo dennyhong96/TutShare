@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback } from "react";
 import parse from "html-react-parser";
-import moment from "moment";
 import { useRouter } from "next/router";
 
+import LinkCard from "../../components/LinkCard";
 import Loader from "../../components/Loader";
 import axios from "../../utils/axios";
 import { API } from "../../config";
@@ -87,41 +87,11 @@ const category = ({ preLinks, preCategory }) => {
             id="links-container"
           >
             {links.map((link, idx) => (
-              <li
+              <LinkCard
                 ref={idx + 1 === links.length ? lastNode : undefined}
                 key={link._id}
-                className={styles["_container__left__linkItem"]}
-              >
-                <div className={styles["_container__left__linkItem__row"]}>
-                  <p className={styles["_container__left__linkItem__title"]}>
-                    {link.title}
-                  </p>
-                  <p className={styles["_container__left__linkItem__date"]}>
-                    {moment(link.createdAt).fromNow()}
-                  </p>
-                </div>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => handleView(link.url)}
-                >
-                  {link.url}
-                </a>
-                <div className={styles["_container__left__linkItem__row"]}>
-                  <p className={styles["_container__left__linkItem__tags"]}>
-                    <span>{link.isFree === true ? "FREE" : "PAID"}</span>
-                    <span>{link.medium.toUpperCase()}</span>
-                  </p>
-                  <p className={styles["_container__left__linkItem__views"]}>
-                    <i className="far fa-eye"></i> <span>{link.views}</span>{" "}
-                    Views
-                  </p>
-                  <p className={styles["_container__left__linkItem__user"]}>
-                    <i className="fas fa-user"></i> {link.postedBy.name}
-                  </p>
-                </div>
-              </li>
+                link={link}
+              />
             ))}
           </ul>
           <div className={styles["_container__left__buttonBox"]}>

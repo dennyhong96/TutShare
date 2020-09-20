@@ -12,7 +12,15 @@ const Home = ({ categories }) => {
           Discover the best web development learning resources.
         </h1>
         <h2 className={styles["home__leadbox__subheading"]}>
-          - Shared by the <span>dev community</span> with ♥️
+          - Shared by the{" "}
+          <a
+            href="https://twitter.com/hashtag/DevCommunity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            dev community
+          </a>{" "}
+          with ♥️
         </h2>
       </div>
       <div className={styles["home__categories"]}>
