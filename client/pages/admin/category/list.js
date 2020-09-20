@@ -79,7 +79,11 @@ const list = ({ preCategories }) => {
           </table>
         </div>
       </div>
-      <Modal show={!!selectedCate} onHide={() => setSelectedCate(null)}>
+      <Modal
+        show={!!selectedCate}
+        onHide={() => setSelectedCate(null)}
+        style={{ width: "20rem" }}
+      >
         <div className={styles["_container__modalInner"]}>
           <p className={styles["_container__modalInner__prompt"]}>
             Are your sure you want to delete {selectedCate?.name} ?

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 
 import Modal from "../../components/Modal";
+import UpdateLink from "../../components/UpdateLink";
 import { API } from "../../config";
 import axios from "../../utils/axios";
 import { restrictToUser, getCookieFromServerReq } from "../../utils/auth";
@@ -13,7 +14,7 @@ import styles from "../../styles/pages/user.module.scss";
 
 const LIMIT = 2;
 
-const User = ({ preLinks }) => {
+const User = ({ preLinks, preCategories }) => {
   const user = useSelector(({ user: { user } }) => user);
   const [links, setLinks] = useState(preLinks);
   const [selectedUpdateLink, setSelectedUpdateLink] = useState(null);
@@ -45,6 +46,13 @@ const User = ({ preLinks }) => {
     } catch (error) {
       console.error(error.response);
     }
+  };
+
+  // Update link list upon updated a link
+  const handleLinkUpdated = (updatedLink) => {
+    setLinks((prev) =>
+      prev.map((link) => (link._id === updatedLink._id ? updatedLink : link))
+    );
   };
 
   // Use Infinite Scroll
@@ -106,10 +114,21 @@ const User = ({ preLinks }) => {
       <Modal
         show={!!selectedUpdateLink}
         onHide={() => setSelectedUpdateLink(null)}
-      ></Modal>
+      >
+        {selectedUpdateLink && (
+          <UpdateLink
+            link={selectedUpdateLink}
+            preCategories={preCategories}
+            onLinkUpdated={handleLinkUpdated}
+          />
+        )}
+      </Modal>
+
+      {/* Confirm Delete Modal */}
       <Modal
         show={!!selectedDeleteLink}
         onHide={() => setSelectedDeleteLink(null)}
+        style={{ width: "20rem" }}
       >
         <div className={styles["_inner__delete"]}>
           <p className={styles["_inner__delete__prompt"]}>
@@ -144,11 +163,15 @@ export const getServerSideProps = async (ctx) => {
     }
   );
 
+  // Get all categories
+  const cateRes = await axios.get(`${API}/v1/categories`);
+
   return {
     ...authResult,
     props: {
       ...authResult.props,
       preLinks: res.data.data.links,
+      preCategories: cateRes.data.data.categories,
     },
   };
 };

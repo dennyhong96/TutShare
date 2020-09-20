@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 import styles from "../styles/components/modal.module.scss";
 
-const Modal = ({ children, show = true, onHide }) => {
+const Modal = ({ children, show = true, onHide, style }) => {
   return (
     <Fragment>
       <div
@@ -16,6 +16,7 @@ const Modal = ({ children, show = true, onHide }) => {
         className={clsx(styles[`_container`], {
           [styles[`_container-show`]]: show,
         })}
+        style={style}
       >
         <button className={styles[`_container__button`]} onClick={onHide}>
           <i className="fas fa-times"></i>

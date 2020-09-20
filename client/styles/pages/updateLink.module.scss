@@ -1,0 +1,95 @@
+@import "../utils.scss";
+
+._container {
+  display: flex;
+  flex-direction: column;
+
+  &__left {
+    flex: 1.5;
+    padding: 1rem;
+    padding-bottom: 0;
+
+    &__label {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      margin-left: 0.5rem;
+      text-align: center;
+    }
+
+    &__input-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      &:not(:last-child) {
+        margin-bottom: 0.75rem;
+      }
+    }
+
+    &__check {
+      display: block;
+      cursor: pointer;
+      @include flex-center;
+      justify-content: flex-start;
+      margin-bottom: 0.5rem;
+      margin-right: 0.5rem;
+
+      &__icon {
+        @include flex-center;
+        padding: 0.5rem;
+        border-radius: 5rem;
+        background-color: lighten($color-muted, 19);
+        transition: all 0.2s ease;
+
+        i {
+          font-size: 1.1rem;
+          color: $color-primary;
+        }
+      }
+
+      &:hover {
+        ._container__left__check__icon {
+          background-color: lighten($color-muted, 15);
+        }
+      }
+
+      &__name {
+        line-height: 1;
+        margin-left: 0.5rem;
+      }
+    }
+
+    &__title {
+      text-align: center;
+      line-height: 1;
+      font-size: 1.5rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  &__right {
+    flex: 3;
+    padding: 1rem;
+
+    &__title {
+      text-align: center;
+      line-height: 1;
+      font-size: 1.75rem;
+      padding-bottom: 1rem;
+    }
+
+    &__form-control {
+      @include form-control;
+      margin-bottom: 1.5rem;
+
+      &:last-of-type {
+        margin-bottom: 2rem;
+      }
+    }
+
+    &__form-button {
+      @include btn;
+      width: 100%;
+    }
+  }
+}
