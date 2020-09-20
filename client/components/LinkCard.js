@@ -3,7 +3,7 @@ import moment from "moment";
 
 import styles from "../styles/components/linkCard.module.scss";
 
-const LinkCard = forwardRef(({ link }, ref) => {
+const LinkCard = forwardRef(({ link, onIncreaseView }, ref) => {
   return (
     <li ref={ref} key={link._id} className={styles["_container"]}>
       <div className={styles["_container__row"]}>
@@ -16,7 +16,7 @@ const LinkCard = forwardRef(({ link }, ref) => {
         href={link.url}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => handleView(link.url)}
+        onClick={() => onIncreaseView(link.url)}
       >
         {link.url}
       </a>

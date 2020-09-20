@@ -3,6 +3,7 @@ import { getCookieFromServerReq } from "../../utils/auth";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 
+import LinkCard from "../../components/LinkCard";
 import axios from "../../utils/axios";
 import { API } from "../../config";
 import styles from "../../styles/pages/user.module.scss";
@@ -32,6 +33,15 @@ const User = ({ preLinks }) => {
         <div className={styles["_inner__right"]}>
           <div className={styles["_inner__right__inner"]}>
             {/* Map User's links */}
+            <ul id="links-container">
+              {links.map((link, idx) => (
+                <LinkCard
+                  ref={idx + 1 === links.length ? lastNode : undefined}
+                  key={link._id}
+                  link={link}
+                />
+              ))}
+            </ul>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback } from "react";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
 
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import LinkCard from "../../components/LinkCard";
 import Loader from "../../components/Loader";
 import axios from "../../utils/axios";
@@ -12,34 +13,10 @@ const LIMIT = 2;
 
 const category = ({ preLinks, preCategory }) => {
   const [links, setLinks] = useState(preLinks);
-  const [isLoading, setLoading] = useState(false);
 
   const {
     query: { slug },
   } = useRouter();
-
-  const prevLinksLength = useRef(0);
-  const skipNum = useRef(preLinks.length);
-  const observerRef = useRef();
-
-  // Infinite Scrolling
-  const lastNode = useCallback(
-    (lastNode) => {
-      if (!links.length) return;
-      if (isLoading) return;
-      if (observerRef.current) observerRef.current.disconnect();
-      observerRef.current = new IntersectionObserver((entries) => {
-        if (
-          entries[0].isIntersecting && // If the last current last node is on the screen
-          links.length - prevLinksLength.current >= LIMIT // And there are more nodes to fetch
-        ) {
-          handleLoadMore();
-        }
-      });
-      if (lastNode) observerRef.current.observe(lastNode); // Observe the last node
-    },
-    [isLoading, links.length]
-  );
 
   // Load more links
   const handleLoadMore = async () => {
@@ -47,13 +24,22 @@ const category = ({ preLinks, preCategory }) => {
     try {
       prevLinksLength.current = links.length;
       const res = await axios.get(
-        `${API}/v1/categories/${slug}?limit=${LIMIT}&skip=${skipNum.current}`
+        `${API}/v1/categories/${slug}?limit=${LIMIT}&skip=${numLinksToSkip.current}`
       );
       setLinks((prev) => [...prev, ...res.data.data.links]);
-      skipNum.current += res.data.data.links.length;
+      numLinksToSkip.current += res.data.data.links.length;
     } catch (error) {}
     setLoading(false);
   };
+
+  // Use Infinite Scroll
+  const {
+    lastNodeRef,
+    numItemsToSkip: numLinksToSkip,
+    prevItemsLength: prevLinksLength,
+    isLoading,
+    setLoading,
+  } = useInfiniteScroll(links.length, LIMIT, handleLoadMore);
 
   // Increase view count
   const handleView = async (url) => {
@@ -88,9 +74,10 @@ const category = ({ preLinks, preCategory }) => {
           >
             {links.map((link, idx) => (
               <LinkCard
-                ref={idx + 1 === links.length ? lastNode : undefined}
+                ref={idx + 1 === links.length ? lastNodeRef : undefined}
                 key={link._id}
                 link={link}
+                onIncreaseView={handleView}
               />
             ))}
           </ul>
