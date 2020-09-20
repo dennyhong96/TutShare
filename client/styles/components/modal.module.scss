@@ -8,6 +8,8 @@
   opacity: 0;
   transition: all 0.2s ease;
   @include card;
+  min-width: 27.5rem;
+  max-width: 40rem;
 
   &-show {
     transform: translate(-50%, -50%) scale(1);
@@ -50,5 +52,25 @@
   &-show {
     transform: scale(1);
     background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 576px) {
+  ._container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    @include card;
+    border-radius: 0;
+    min-width: 0;
+    transition: none;
+
+    &-show {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
   }
 }

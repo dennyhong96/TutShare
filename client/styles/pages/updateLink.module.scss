@@ -7,7 +7,6 @@
   &__left {
     flex: 1.5;
     padding: 1rem;
-    padding-bottom: 0;
 
     &__label {
       font-weight: 500;
@@ -22,7 +21,7 @@
       justify-content: center;
 
       &:not(:last-child) {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
       }
     }
 
@@ -31,7 +30,7 @@
       cursor: pointer;
       @include flex-center;
       justify-content: flex-start;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
       margin-right: 0.5rem;
 
       &__icon {
@@ -42,7 +41,7 @@
         transition: all 0.2s ease;
 
         i {
-          font-size: 1.1rem;
+          font-size: 0.9rem;
           color: $color-primary;
         }
       }
@@ -63,7 +62,7 @@
       text-align: center;
       line-height: 1;
       font-size: 1.5rem;
-      padding-bottom: 1rem;
+      padding-bottom: 0.5rem;
     }
   }
 
@@ -90,6 +89,18 @@
     &__form-button {
       @include btn;
       width: 100%;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  ._container {
+    &__left {
+      padding: 0 1rem;
+    }
+
+    &__right {
+      padding: 0 1rem;
     }
   }
 }

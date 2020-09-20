@@ -19,11 +19,13 @@
     color: darken($color-primary, 15);
     line-height: 1.2;
     font-size: 0.9rem;
-    margin-bottom: 0.75rem;
     padding: 1px 1px;
     border-radius: 2px;
     transition: all 0.1s ease;
+
+    // Force url to wrap
     word-wrap: break-word;
+    word-break: break-all;
 
     &:hover {
       background-color: darken($color-primary, 3);

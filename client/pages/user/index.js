@@ -89,7 +89,7 @@ const User = ({ preLinks, preCategories }) => {
           <div className={styles["_inner__right"]}>
             <div className={styles["_inner__right__inner"]}>
               {/* Map User's links */}
-              <ul id="links-container">
+              <ul className={styles["_inner__right__inner__links"]}>
                 {links.map((link, idx) => (
                   <LinkCard
                     ref={idx + 1 === links.length ? lastNodeRef : undefined}
