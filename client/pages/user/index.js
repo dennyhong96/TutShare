@@ -1,20 +1,18 @@
 import { useState } from "react";
-import { restrictToUser } from "../../utils/auth";
-import { getCookieFromServerReq } from "../../utils/auth";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 
-import Loader from "../../components/Loader";
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import LinkCard from "../../components/LinkCard";
-import axios from "../../utils/axios";
 import { API } from "../../config";
+import axios from "../../utils/axios";
+import { restrictToUser, getCookieFromServerReq } from "../../utils/auth";
+import Loader from "../../components/Loader";
+import LinkCard from "../../components/LinkCard";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import styles from "../../styles/pages/user.module.scss";
 
 const LIMIT = 2;
 
 const User = ({ preLinks }) => {
-  console.log(preLinks);
   const [links, setLinks] = useState(preLinks);
 
   const handleLoadMore = async () => {
