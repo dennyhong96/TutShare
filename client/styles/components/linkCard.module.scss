@@ -64,4 +64,30 @@
       margin-top: 0.75rem;
     }
   }
+
+  &__actions {
+    display: flex;
+
+    %card-action-btn {
+      @include roundBtn;
+      width: 1.75rem;
+      height: 1.75rem;
+      color: $color-light;
+
+      i {
+        font-size: 0.9rem;
+      }
+    }
+
+    &-update {
+      @extend %card-action-btn;
+      background-color: $color-primary;
+    }
+
+    &-delete {
+      @extend %card-action-btn;
+      background-color: $color-secondary;
+      margin-left: 0.25rem;
+    }
+  }
 }

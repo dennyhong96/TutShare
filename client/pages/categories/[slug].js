@@ -114,22 +114,6 @@ const category = ({ preLinks, preCategory }) => {
 
 export default category;
 
-// export const getServerSideProps = async ({ params }) => {
-//   const skip = 0;
-//   const limit = 2;
-
-//   const res = await axios.get(
-//     `${API}/v1/categories/${params.slug}?limit=${limit}&skip=${skip}`
-//   );
-
-//   return {
-//     props: {
-//       preLinks: res.data.data.links,
-//       preCategory: res.data.data.category,
-//     },
-//   };
-// };
-
 export const getStaticProps = async ({ params }) => {
   // Fetch category detail and links of this category
 

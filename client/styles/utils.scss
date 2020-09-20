@@ -112,3 +112,17 @@ $screen-sm: 576px;
     box-shadow: 0 2px 5px rgba(#000, 0.15);
   }
 }
+
+@mixin roundBtn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 5rem;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.075);
+  transition: all 0.2s ease;
+  @include flex-center;
+  // margin-left: auto;
+
+  &:hover {
+    transform: scale(1.075);
+  }
+}

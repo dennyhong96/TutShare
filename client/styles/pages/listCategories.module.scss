@@ -51,22 +51,9 @@
       border-radius: 3px;
     }
 
-    %button {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 5rem;
-      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.075);
-      transition: all 0.2s ease;
-      @include flex-center;
-      margin-left: auto;
-
-      &:hover {
-        transform: scale(1.075);
-      }
-    }
-
     &__button-update {
-      @extend %button;
+      @include roundBtn;
+      margin-left: auto;
       background-color: $color-primary;
 
       i {
@@ -75,7 +62,8 @@
     }
 
     &__button-delete {
-      @extend %button;
+      @include roundBtn;
+      margin-left: auto;
       background-color: lighten($color-light, 5);
       border: 1px solid #d9534f;
 
