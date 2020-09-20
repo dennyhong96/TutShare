@@ -86,6 +86,7 @@ const User = ({ preLinks }) => {
 
 export const getServerSideProps = async (ctx) => {
   const authResult = await restrictToUser(ctx);
+
   const skip = 0;
 
   // Get all links posted by user

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, Fragment } from "react";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
 
@@ -41,7 +41,7 @@ const category = ({ preLinks, preCategory }) => {
     prevItemsLength: prevLinksLength,
     isLoading,
     setLoading,
-  } = useInfiniteScroll(links.length, LIMIT, handleLoadMore);
+  } = useInfiniteScroll(links?.length, LIMIT, handleLoadMore);
 
   // Increase view count
   const handleView = async (url) => {
@@ -60,54 +60,75 @@ const category = ({ preLinks, preCategory }) => {
 
   return (
     <div className={styles["_container"]}>
-      {/* Left side */}
-      <div className={styles["_container__left"]}>
-        <div className={styles["_container__left__inner"]}>
-          <h1 className={styles["_container__left__title"]}>
-            {preCategory.name}
-          </h1>
-          <div className={styles["_container__left__description"]}>
-            {parse(preCategory.description)}
+      {/* Must check dynamic pages' props are available before using them. */}
+      {links?.length && (
+        <Fragment>
+          {/* Left side */}
+          <div className={styles["_container__left"]}>
+            <div className={styles["_container__left__inner"]}>
+              <h1 className={styles["_container__left__title"]}>
+                {preCategory.name}
+              </h1>
+              <div className={styles["_container__left__description"]}>
+                {parse(preCategory.description)}
+              </div>
+              <hr />
+              <ul
+                className={styles["_container__left__links"]}
+                id="links-container"
+              >
+                {links.map((link, idx) => (
+                  <LinkCard
+                    ref={idx + 1 === links.length ? lastNodeRef : undefined}
+                    key={link._id}
+                    link={link}
+                    onIncreaseView={handleView}
+                  />
+                ))}
+              </ul>
+              <div className={styles["_container__left__buttonBox"]}>
+                {isLoading && <Loader />}
+                {links.length - prevLinksLength.current < LIMIT && (
+                  <p>All resources have been displayed.</p>
+                )}
+              </div>
+            </div>
           </div>
-          <hr />
-          <ul
-            className={styles["_container__left__links"]}
-            id="links-container"
-          >
-            {links.map((link, idx) => (
-              <LinkCard
-                ref={idx + 1 === links.length ? lastNodeRef : undefined}
-                key={link._id}
-                link={link}
-                onIncreaseView={handleView}
-              />
-            ))}
-          </ul>
-          <div className={styles["_container__left__buttonBox"]}>
-            {isLoading && <Loader />}
-            {links.length - prevLinksLength.current < LIMIT && (
-              <p>All resources have been displayed.</p>
-            )}
-          </div>
-        </div>
-      </div>
 
-      {/* Right side */}
-      <div className={styles["_container__right"]}>
-        <div className={styles["_container__left__inner"]}>
-          <img
-            className={styles["_container__left__inner"]}
-            src={preCategory.image.url}
-            alt={preCategory.name}
-            width="100%"
-          />
-        </div>
-      </div>
+          {/* Right side */}
+          <div className={styles["_container__right"]}>
+            <div className={styles["_container__left__inner"]}>
+              <img
+                className={styles["_container__left__inner"]}
+                src={preCategory.image.url}
+                alt={preCategory.name}
+                width="100%"
+              />
+            </div>
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 };
 
 export default category;
+
+// export const getServerSideProps = async ({ params }) => {
+//   const skip = 0;
+//   const limit = 2;
+
+//   const res = await axios.get(
+//     `${API}/v1/categories/${params.slug}?limit=${limit}&skip=${skip}`
+//   );
+
+//   return {
+//     props: {
+//       preLinks: res.data.data.links,
+//       preCategory: res.data.data.category,
+//     },
+//   };
+// };
 
 export const getStaticProps = async ({ params }) => {
   // Fetch category detail and links of this category
