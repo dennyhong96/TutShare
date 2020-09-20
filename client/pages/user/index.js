@@ -34,6 +34,19 @@ const User = ({ preLinks }) => {
     setLoading(false);
   };
 
+  const handleDeleteLink = async () => {
+    try {
+      const res = await axios.delete(
+        `${API}/v1/links/${selectedDeleteLink._id}`
+      );
+      console.log(res.data);
+      setLinks((prev) => prev.filter((l) => l._id !== selectedDeleteLink._id));
+      setSelectedDeleteLink(null);
+    } catch (error) {
+      console.error(error.response);
+    }
+  };
+
   // Use Infinite Scroll
   const {
     lastNodeRef,
@@ -97,7 +110,20 @@ const User = ({ preLinks }) => {
       <Modal
         show={!!selectedDeleteLink}
         onHide={() => setSelectedDeleteLink(null)}
-      ></Modal>
+      >
+        <div className={styles["_inner__delete"]}>
+          <p className={styles["_inner__delete__prompt"]}>
+            Are you sure you want to delete resource{" "}
+            <span>"{selectedDeleteLink?.title}"</span> ?
+          </p>
+          <button
+            className={styles["_inner__delete__button"]}
+            onClick={handleDeleteLink}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
     </Fragment>
   );
 };

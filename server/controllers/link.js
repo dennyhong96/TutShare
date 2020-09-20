@@ -76,7 +76,36 @@ exports.updateLink = async (req, res, next) => {
 
 exports.deleteLink = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const { id } = req.params;
+
+    // Handle link not exists
+    const link = await Link.findById(id);
+    if (!link) {
+      return res.status(404).json({
+        errors: [{ msg: "Link not found." }],
+      });
+    }
+
+    console.log(link.postedBy._id.toString(), req.user.id);
+
+    // Handle user not owner of link
+    if (link.postedBy._id.toString() !== req.user.id) {
+      return res.status(401).json({
+        errors: [{ msg: "Your not authorized to delte this link." }],
+      });
+    }
+
+    await Link.findByIdAndDelete(link._id);
+
+    res.status(200).json({
+      data: { msg: "Link successfully updated." },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later." }],
+    });
+  }
 };
 
 exports.increaseView = async (req, res, next) => {

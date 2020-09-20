@@ -52,4 +52,28 @@
       @include flex-center;
     }
   }
+
+  &__delete {
+    width: 95%;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    &__prompt {
+      line-height: 1.2;
+
+      span {
+        color: darken($color-secondary, 15);
+        font-weight: 500;
+      }
+    }
+
+    &__button {
+      @include btn;
+      margin-left: auto;
+      font-size: 0.9rem;
+      padding: 0.15rem 0.75rem;
+    }
+  }
 }

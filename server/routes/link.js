@@ -22,7 +22,7 @@ router
   .get(listLinks)
   .post(auth, setCreateLinkCheck, validate, createLink);
 router
-  .route("/:url")
+  .route("/:id")
   .get(getLink)
   .patch(auth, setUpdateLinkCheck, validate, updateLink)
   .delete(auth, deleteLink);
