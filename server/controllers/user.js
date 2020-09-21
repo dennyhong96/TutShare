@@ -3,7 +3,8 @@ const User = require("../models/User");
 exports.updateInterests = async (req, res, next) => {
   try {
     const { interestedIn } = req.body;
-    const user = User.findByIdAndUpdate(
+    console.log(interestedIn);
+    const user = await User.findByIdAndUpdate(
       req.user._id,
       { interestedIn },
       { new: true, runValidators: true }

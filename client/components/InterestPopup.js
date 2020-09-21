@@ -44,6 +44,21 @@ const InterestPopup = () => {
     setCategorySelection((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const handleUpdateInterest = async () => {
+    try {
+      const interestedIn = Object.keys(categorySelection).reduce((acc, cur) => {
+        return categorySelection[cur] ? [...acc, cur] : acc;
+      }, []);
+      const res = await axios.patch(`${API}/v1/users/interests`, {
+        interestedIn,
+      });
+      console.log(res.data);
+      setNeverShowPopup("TRUE");
+    } catch (error) {
+      console.error(error.response);
+    }
+  };
+
   return (
     <Modal show={!neverShowPopup && user && !user.interestedIn.length}>
       <div className={styles["_wrapper"]}>
@@ -91,7 +106,10 @@ const InterestPopup = () => {
           >
             Never show again
           </button>
-          <button className={styles["_actions__confirm"]}>
+          <button
+            className={styles["_actions__confirm"]}
+            onClick={handleUpdateInterest}
+          >
             Update interests
           </button>
         </div>
