@@ -7,7 +7,7 @@ import LinkCard from "../../components/LinkCard";
 import Loader from "../../components/Loader";
 import axios from "../../utils/axios";
 import { API } from "../../config";
-import styles from "../../styles/pages/category.module.scss";
+import styles from "../../styles/pages/categories.module.scss";
 
 const LIMIT = 2;
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useGuestRoute from "../hooks/useGuestRoute";
 import { loginUser } from "../redux/actions/user";
 import Toast from "../components/Toast";
-import styles from "../styles/pages/Auth.module.scss";
+import styles from "../styles/pages/authenticate.module.scss";
 import AuthFeatures from "../components/AuthFeautres";
 
 const INITIAL_STATE = {

@@ -7,7 +7,7 @@ import useGuestRoute from "../hooks/useGuestRoute";
 import { setError, setSuccess } from "../redux/actions/user";
 import { API } from "../config";
 import Toast from "../components/Toast";
-import styles from "../styles/pages/Auth.module.scss";
+import styles from "../styles/pages/authenticate.module.scss";
 import AuthFeatures from "../components/AuthFeautres";
 
 const INITIAL_STATE = {

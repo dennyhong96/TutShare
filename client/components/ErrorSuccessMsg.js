@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-import styles from "../styles/components/ErrorSuccessMsg.module.scss";
+import styles from "../styles/components/errorSuccessMsg.module.scss";
 
 const ErrorSuccessMsg = ({ errorMsg, successMsg }) => {
   return (

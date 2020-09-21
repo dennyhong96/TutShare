@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 import useGuestRoute from "../../../hooks/useGuestRoute";
 import { activateUesr } from "../../../redux/actions/user";
-import styles from "../../../styles/pages/Token.module.scss";
+import styles from "../../../styles/pages/activateAccount.module.scss";
 
 const ConfirmRegister = () => {
   useGuestRoute({ delay: 1500 });

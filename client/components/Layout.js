@@ -6,7 +6,7 @@ import Router from "next/router";
 import clsx from "clsx";
 
 import { logoutUser, loadUser } from "../redux/actions/user";
-import styles from "../styles/components/Layout.module.scss";
+import styles from "../styles/components/layout.module.scss";
 
 // Configure nprogress bar
 NProgress.configure({ showSpinner: false });

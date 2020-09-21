@@ -3,7 +3,7 @@ import axios from "../../utils/axios";
 import { useSelector } from "react-redux";
 
 import { API } from "../../config";
-import styles from "../../styles/pages/CreateLink.module.scss";
+import styles from "../../styles/pages/createLink.module.scss";
 import ErrorSuccessMsg from "../../components/ErrorSuccessMsg";
 import useErrorSuccess from "../../hooks/useErrorSuccess";
 

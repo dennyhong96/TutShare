@@ -6,7 +6,7 @@ import Modal from "../../../components/Modal";
 import axios from "../../../utils/axios";
 import { API } from "../../../config";
 import { restrictToAdmin } from "../../../utils/auth";
-import styles from "../../../styles/pages/listCategories.module.scss";
+import styles from "../../../styles/pages/adminListCategories.module.scss";
 
 const list = ({ preCategories }) => {
   const [categories, setCategories] = useState(preCategories);

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import ErrorSuccessMsg from "../../../components/ErrorSuccessMsg";
 import axios from "../../../utils/axios";
 import { API } from "../../../config";
-import styles from "../../../styles/pages/ResetPassowrd.module.scss";
+import styles from "../../../styles/pages/resetPassowrd.module.scss";
 
 const INITIAL_STATE = {
   password: "",

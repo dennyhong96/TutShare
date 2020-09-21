@@ -3,7 +3,7 @@ import { useState } from "react";
 import ErrorSuccessMsg from "../../components/ErrorSuccessMsg";
 import axios from "../../utils/axios";
 import { API } from "../../config";
-import styles from "../../styles/pages/ForgetPassword.module.scss";
+import styles from "../../styles/pages/forgetPassword.module.scss";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");

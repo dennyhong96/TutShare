@@ -12,7 +12,7 @@ import axios from "../../../../utils/axios";
 import ErrorSuccessMsg from "../../../../components/ErrorSuccessMsg";
 import { API } from "../../../../config";
 import { restrictToAdmin } from "../../../../utils/auth";
-import styles from "../../../../styles/pages/Create.module.scss";
+import styles from "../../../../styles/pages/adminCUCategory.module.scss";
 
 const resizeFile = (file) =>
   new Promise((resolve) => {

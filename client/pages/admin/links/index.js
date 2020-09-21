@@ -8,7 +8,7 @@ import { restrictToAdmin, getCookieFromServerReq } from "../../../utils/auth";
 import Loader from "../../../components/Loader";
 import LinkCard from "../../../components/LinkCard";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
-import styles from "../../../styles/pages/adminLinks.module.scss";
+import styles from "../../../styles/pages/adminListLinks.module.scss";
 
 const LIMIT = 2;
 

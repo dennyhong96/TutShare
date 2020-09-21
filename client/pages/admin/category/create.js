@@ -11,7 +11,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import ErrorSuccessMsg from "../../../components/ErrorSuccessMsg";
 import { API } from "../../../config";
 import { restrictToAdmin } from "../../../utils/auth";
-import styles from "../../../styles/pages/Create.module.scss";
+import styles from "../../../styles/pages/adminCUCategory.module.scss";
 
 const INITIAL_STATE = {
   name: "",
