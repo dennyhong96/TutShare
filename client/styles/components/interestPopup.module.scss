@@ -1,0 +1,85 @@
+@import "../utils.scss";
+
+._wrapper {
+  display: flex;
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  small {
+    margin-bottom: 1rem;
+  }
+}
+
+._input-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  &__check {
+    display: block;
+    cursor: pointer;
+    @include flex-center;
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+
+    &__icon {
+      @include flex-center;
+      padding: 0.5rem;
+      border-radius: 5rem;
+      background-color: lighten($color-muted, 19);
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 1.1rem;
+        color: $color-primary;
+      }
+    }
+
+    &:hover {
+      ._input-section__check__icon {
+        background-color: lighten($color-muted, 15);
+      }
+    }
+
+    &__name {
+      line-height: 1;
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+._actions {
+  display: flex;
+
+  &__confirm {
+    @include btn;
+    margin-left: 1rem;
+    padding: 0.25rem 1rem;
+  }
+
+  &__neverShow {
+    @include btn;
+    padding: 0.25rem 1rem;
+    background-color: $color-light;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+
+    &:hover {
+      background-color: $color-light;
+      border: 1px solid $color-primary;
+      color: $color-primary;
+    }
+  }
+}
