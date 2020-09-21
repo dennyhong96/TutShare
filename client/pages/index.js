@@ -1,10 +1,26 @@
-import styles from "../styles/pages/home.module.scss";
+import { useState } from "react";
 import Link from "next/link";
 
 import axios from "../utils/axios";
 import { API } from "../config";
+import LinkCard from "../components/LinkCard";
+import styles from "../styles/pages/home.module.scss";
 
-const Home = ({ categories }) => {
+const Home = ({ categories, trendingResources }) => {
+  const [resources, setResources] = useState(trendingResources);
+
+  const handleIncreaseView = async (url) => {
+    try {
+      const res = await axios.patch(`${API}/v1/links/views/increase`, { url });
+      console.log(res.data);
+      setResources((prev) =>
+        prev.map((rc) => (rc.url === url ? res.data.data.link : rc))
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className={styles["home"]}>
       <div className={styles["home__leadbox"]}>
@@ -35,16 +51,34 @@ const Home = ({ categories }) => {
           </div>
         ))}
       </div>
+      <div className={styles["home__trending"]}>
+        <h1 className={styles["home__trending__title"]}>
+          Trending Resourses 🔥
+        </h1>
+        <ul className={styles["home__trending__resources"]}>
+          {resources.map((rc) => (
+            <LinkCard
+              link={rc}
+              onIncreaseView={() => handleIncreaseView(rc.url)}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
 export const getStaticProps = async () => {
-  const res = await axios.get(`${API}/v1/categories`);
+  const [categoryRes, resourceRes] = await Promise.all([
+    axios.get(`${API}/v1/categories`),
+    axios.get(`${API}/v1/links/popular`),
+  ]);
+
   return {
     revalidate: 1,
     props: {
-      categories: res.data.data.categories,
+      categories: categoryRes.data.data.categories,
+      trendingResources: resourceRes.data.data.links,
     },
   };
 };

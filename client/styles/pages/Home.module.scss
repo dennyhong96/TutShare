@@ -75,6 +75,24 @@
       }
     }
   }
+
+  &__trending {
+    &__title {
+      text-align: center;
+      margin: 2.5rem 0;
+      line-height: 1.2;
+    }
+
+    &__resources {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      & > li {
+        flex: 0 0 49%;
+      }
+    }
+  }
 }
 
 @media (max-width: 992px) {
