@@ -7,12 +7,13 @@ import LinkCard from "../../components/LinkCard";
 import Loader from "../../components/Loader";
 import axios from "../../utils/axios";
 import { API } from "../../config";
-import styles from "../../styles/pages/categories.module.scss";
+import styles from "../../styles/pages/categorie.module.scss";
 
 const LIMIT = 2;
 
-const category = ({ preLinks, preCategory }) => {
+const category = ({ preLinks, preCategory, preTrendingLinks }) => {
   const [links, setLinks] = useState(preLinks);
+  const [trendingLinks, setTrendingLinks] = useState(preTrendingLinks);
 
   const {
     query: { slug },
@@ -44,15 +45,26 @@ const category = ({ preLinks, preCategory }) => {
   } = useInfiniteScroll(links?.length, LIMIT, handleLoadMore);
 
   // Increase view count
-  const handleView = async (url) => {
+  const handleIncreseView = async (url, isTrendingLink = false) => {
     try {
       const res = await axios.patch(`${API}/v1/links/views/increase`, { url });
       const modifiedLink = res.data.data.link;
-      setLinks((prev) =>
-        prev.map((link) =>
-          link._id === modifiedLink._id ? modifiedLink : link
-        )
-      );
+
+      if (links.map((l) => l.url).includes(url)) {
+        setLinks((prev) =>
+          prev.map((link) =>
+            link._id === modifiedLink._id ? modifiedLink : link
+          )
+        );
+      }
+
+      if (trendingLinks.map((l) => l.url).includes(url)) {
+        setTrendingLinks((prev) =>
+          prev.map((link) =>
+            link._id === modifiedLink._id ? modifiedLink : link
+          )
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +95,7 @@ const category = ({ preLinks, preCategory }) => {
                       ref={idx + 1 === links.length ? lastNodeRef : undefined}
                       key={link._id}
                       link={link}
-                      onIncreaseView={handleView}
+                      onIncreaseView={handleIncreseView}
                     />
                   ))}
               </ul>
@@ -98,14 +110,24 @@ const category = ({ preLinks, preCategory }) => {
 
           {/* Right side */}
           <div className={styles["_container__right"]}>
-            <div className={styles["_container__left__inner"]}>
+            <div className={styles["_container__right__inner"]}>
               <img
-                className={styles["_container__left__inner"]}
+                className={styles["_container__right__img"]}
                 src={preCategory.image.url}
                 alt={preCategory.name}
                 width="100%"
               />
             </div>
+
+            <h2 className={styles["_container__right__title"]}>
+              Tranding MongoDB resources 🔥
+            </h2>
+
+            <ul className={styles["_container__right__trending"]}>
+              {trendingLinks.map((link) => (
+                <LinkCard link={link} />
+              ))}
+            </ul>
           </div>
         </Fragment>
       )}
@@ -120,14 +142,24 @@ export const getStaticProps = async ({ params }) => {
 
   const skip = 0;
 
-  const res = await axios.get(
+  const preLinksCatePromise = axios.get(
     `${API}/v1/categories/${params.slug}?limit=${LIMIT}&skip=${skip}`
   );
 
+  const trendingLinksPromise = axios.get(
+    `${API}/v1/links/popular/${params.slug}`
+  );
+
+  const [preLinksCateRes, trendingLinksRes] = await Promise.all([
+    preLinksCatePromise,
+    trendingLinksPromise,
+  ]);
+
   return {
     props: {
-      preLinks: res.data.data.links,
-      preCategory: res.data.data.category,
+      preLinks: preLinksCateRes.data.data.links,
+      preCategory: preLinksCateRes.data.data.category,
+      preTrendingLinks: trendingLinksRes.data.data.links,
     },
     revalidate: 1,
   };

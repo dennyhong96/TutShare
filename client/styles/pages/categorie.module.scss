@@ -129,6 +129,26 @@
     padding: 0 1rem;
 
     &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.075);
+    }
+
+    &__title {
+      font-size: 1.25rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    &__trending {
     }
   }
 }

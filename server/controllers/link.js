@@ -207,7 +207,7 @@ exports.getPopularLinks = async (req, res, next) => {
 
 exports.getCategoryPopularLinks = async (req, res, next) => {
   try {
-    const { slug } = req.query;
+    const { slug } = req.params;
     const category = await Category.findOne({ slug });
 
     // Handle category not exists

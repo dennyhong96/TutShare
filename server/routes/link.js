@@ -21,8 +21,9 @@ const {
 } = require("../controllers/link");
 
 router.route("/user").get(auth, listUserLinks);
-router.route("/popular").get(getPopularLinks);
 router.route("/popular/:slug").get(getCategoryPopularLinks);
+router.route("/popular").get(getPopularLinks);
+
 router
   .route("/:id")
   .get(getLink)
