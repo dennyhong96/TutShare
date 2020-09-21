@@ -19,7 +19,7 @@ export const loadUser = () => async (dispatch) => {
     console.log(res.data);
     dispatch({
       type: USER_AUTHENTICATED,
-      payload: res.data.data,
+      payload: res.data.data.user,
     });
   } catch (error) {
     console.error(error);

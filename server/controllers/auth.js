@@ -139,7 +139,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.loadUser = (req, res, next) => {
-  res.status(200).json({ data: req.user });
+  res.status(200).json({ data: { user: req.user } });
 };
 
 exports.forgetPassword = async (req, res, next) => {

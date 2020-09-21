@@ -16,9 +16,13 @@ const {
   updateLink,
   deleteLink,
   increaseView,
+  getPopularLinks,
+  getCategoryPopularLinks,
 } = require("../controllers/link");
 
 router.route("/user").get(auth, listUserLinks);
+router.route("/popular").get(getPopularLinks);
+router.route("/popular/:slug").get(getCategoryPopularLinks);
 router
   .route("/:id")
   .get(getLink)

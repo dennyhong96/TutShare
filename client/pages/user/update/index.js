@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import axios from "../../../utils/axios";
 import { API } from "../../../config";
 import ErrorSuccessMsg from "../../../components/ErrorSuccessMsg";
 import useErrorSuccess from "../../../hooks/useErrorSuccess";
 import styles from "../../../styles/pages/userUpdateAccount.module.scss";
+import { loadUser } from "../../../redux/actions/user";
 
 const getCategorySelection = (preCategories, user) =>
   preCategories
@@ -19,15 +20,18 @@ const getFormData = (user) => ({
   name: user.name,
   email: user.email,
   password: "",
+  confirmPassword: "",
 });
 
 const index = ({ preCategories }) => {
+  const dispatch = useDispatch();
   const user = useSelector(({ user: { user } }) => user);
   const [categorySelection, setCategorySelection] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const {
@@ -52,7 +56,7 @@ const index = ({ preCategories }) => {
     }
   }, [user]);
 
-  const { name, email, password } = formData;
+  const { name, email, password, confirmPassword } = formData;
 
   const handleCategoryChange = (evt) => {
     clearMsg();
@@ -66,11 +70,16 @@ const index = ({ preCategories }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdate = async (evt) => {
+  const handleSubmitUpdate = async (evt) => {
     evt.preventDefault();
     clearMsg();
 
+    if (password && password !== confirmPassword) {
+      return setErrorMsg("Passwords must match.");
+    }
+
     try {
+      // Get changed form data fields and value
       const updateBody = Object.entries(formData).reduce(
         (acc, [key, value]) => {
           if (value) acc[key] = value;
@@ -79,6 +88,7 @@ const index = ({ preCategories }) => {
         {}
       );
 
+      // Get new interests
       updateBody.interestedIn = Object.entries(categorySelection).reduce(
         (acc, [key, value]) => {
           if (value) return [...acc, key];
@@ -89,13 +99,16 @@ const index = ({ preCategories }) => {
 
       const res = await axios.patch(`${API}/v1/users/interests`, updateBody);
       console.log(res.data);
+
       setCategorySelection(
         getCategorySelection(preCategories, res.data.data.user)
       );
       setFormData(getFormData(res.data.data.user));
       setSuccessMsg("Your profile is successfully updated.");
+      await dispatch(loadUser());
     } catch (error) {
       console.error(error.response);
+
       setCategorySelection(getCategorySelection(preCategories, user));
       setFormData(getFormData(user));
       setErrorMsg(error.response.data.errors.map((e) => e.msg).join(" "));
@@ -105,7 +118,7 @@ const index = ({ preCategories }) => {
   return (
     <div className={styles["_wrapper"]}>
       <h1 className={styles["_wrapper__title"]}>Update Profile</h1>
-      <form className={styles["_wrapper__inner"]} onSubmit={handleUpdate}>
+      <form className={styles["_wrapper__inner"]} onSubmit={handleSubmitUpdate}>
         <div className={styles["_card"]}>
           <div className={styles["_card__top"]}>
             <div className={styles["_card__left"]}>
@@ -174,13 +187,26 @@ const index = ({ preCategories }) => {
                   />
                 </div>
                 <div className={styles["_card__right__input"]}>
-                  <label htmlFor="update-user-name">Password</label>
+                  <label htmlFor="update-user-password">Password</label>
                   <input
                     type="password"
                     id="update-user-password"
                     name="password"
-                    placeholder="Update your password"
+                    placeholder="Update your password (optional)"
                     value={password}
+                    onChange={handleFormChange}
+                  />
+                </div>
+                <div className={styles["_card__right__input"]}>
+                  <label htmlFor="update-user-password-confirm">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="update-user-password-confirm"
+                    name="confirmPassword"
+                    placeholder="Required if you wish to update password"
+                    value={confirmPassword}
                     onChange={handleFormChange}
                   />
                 </div>

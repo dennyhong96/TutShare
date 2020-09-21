@@ -61,7 +61,7 @@ const category = ({ preLinks, preCategory }) => {
   return (
     <div className={styles["_container"]}>
       {/* Must check dynamic pages' props are available before using them. */}
-      {links?.length && (
+      {preCategory && (
         <Fragment>
           {/* Left side */}
           <div className={styles["_container__left"]}>
@@ -77,14 +77,15 @@ const category = ({ preLinks, preCategory }) => {
                 className={styles["_container__left__links"]}
                 id="links-container"
               >
-                {links.map((link, idx) => (
-                  <LinkCard
-                    ref={idx + 1 === links.length ? lastNodeRef : undefined}
-                    key={link._id}
-                    link={link}
-                    onIncreaseView={handleView}
-                  />
-                ))}
+                {!!links.length &&
+                  links.map((link, idx) => (
+                    <LinkCard
+                      ref={idx + 1 === links.length ? lastNodeRef : undefined}
+                      key={link._id}
+                      link={link}
+                      onIncreaseView={handleView}
+                    />
+                  ))}
               </ul>
               <div className={styles["_container__left__buttonBox"]}>
                 {isLoading && <Loader />}

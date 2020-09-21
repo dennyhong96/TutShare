@@ -188,3 +188,49 @@ exports.increaseView = async (req, res, next) => {
     });
   }
 };
+
+exports.getPopularLinks = async (req, res, next) => {
+  try {
+    const links = await Link.find().sort({ views: -1 }).limit(10);
+
+    // Find 10 most viewed links
+    res.status(200).json({
+      data: { links },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
+
+exports.getCategoryPopularLinks = async (req, res, next) => {
+  try {
+    const { slug } = req.query;
+    const category = await Category.findOne({ slug });
+
+    // Handle category not exists
+    if (!category) {
+      return res.status(404).json({
+        errors: [{ msg: "This category does not exist." }],
+      });
+    }
+
+    // Find 3 most viewed links in this cateogry
+    const links = await Link.find({ categories: category._id })
+      .sort({
+        views: -1,
+      })
+      .limit(3);
+
+    res.status(200).json({
+      data: { links },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errors: [{ msg: "Something went wrong, please try again later" }],
+    });
+  }
+};
