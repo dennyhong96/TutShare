@@ -1,0 +1,24 @@
+@import "../utils.scss";
+
+._wrapper {
+}
+
+._title {
+  margin: 2rem 0;
+  display: inline-block;
+  border-bottom: 2px solid $color-secondary;
+}
+
+._actions {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    color: darken($color-primary, 20);
+
+    &:hover {
+      background-color: darken($color-primary, 20);
+      color: $color-light;
+    }
+  }
+}

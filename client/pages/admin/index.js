@@ -1,20 +1,21 @@
 import Link from "next/link";
 
 import { restrictToAdmin } from "../../utils/auth";
+import styles from "../../styles/pages/admin.module.scss";
 
 const Admin = () => {
   return (
-    <div className="">
-      <h1>Admin Dashboard</h1>
-      <div className="">
+    <div className={styles["_wrapper"]}>
+      <h1 className={styles["_title"]}>Admin Dashboard</h1>
+      <div className={styles["_actions"]}>
         <Link href="/admin/category/create">
-          <a>Create category</a>
+          <a className={styles["_actions__item"]}>Create category</a>
         </Link>
         <Link href="/admin/category">
-          <a>Manage categories</a>
+          <a className={styles["_actions__item"]}>Manage categories</a>
         </Link>
         <Link href="/admin/links">
-          <a>Manage Resources</a>
+          <a className={styles["_actions__item"]}>Manage Resources</a>
         </Link>
       </div>
       <div className=""></div>

@@ -75,36 +75,14 @@ exports.getLink = async (req, res, next) => {
 
 exports.updateLink = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    // const { url } = req.body;
-
-    // Handle link not exists
-    let link = await Link.findById(id);
-    if (!link) {
-      return res.status(404).json({
-        errors: [{ msg: "Link not found." }],
-      });
-    }
-
-    // Handle user is not owner of link
-    if (
-      !(
-        link.postedBy._id.toString() === req.user.id ||
-        req.user.role === "admin"
-      )
-    ) {
-      return res.status(401).json({
-        errors: [{ msg: "Your not authorized to delte this link." }],
-      });
-    }
-
+    // req.link passed in by linkWriteAccess middleware
+    let { link } = req;
     link = await Link.findByIdAndUpdate(
       link._id,
       { ...req.body },
       { new: true, runValidators: true }
     );
 
-    console.log(link);
     res.status(200).json({
       data: { link },
     });
@@ -125,28 +103,8 @@ exports.updateLink = async (req, res, next) => {
 
 exports.deleteLink = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
-    // Handle link not exists
-    const link = await Link.findById(id);
-    if (!link) {
-      return res.status(404).json({
-        errors: [{ msg: "Link not found." }],
-      });
-    }
-
-    // Handle user is not owner of link
-    if (
-      !(
-        link.postedBy._id.toString() === req.user.id ||
-        req.user.role === "admin"
-      )
-    ) {
-      return res.status(401).json({
-        errors: [{ msg: "Your not authorized to delte this link." }],
-      });
-    }
-
+    // req.link passed in by linkWriteAccess middleware
+    let { link } = req;
     await Link.findByIdAndDelete(link._id);
 
     res.status(200).json({

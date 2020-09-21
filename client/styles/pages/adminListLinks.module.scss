@@ -3,6 +3,8 @@
 ._wrapper {
   &__title {
     margin: 2rem 0;
+    display: inline-block;
+    border-bottom: 2px solid $color-secondary;
   }
 }
 

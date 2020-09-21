@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 
 // Routers
 const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user");
 const categoryRouter = require("./routes/category");
 const linkRouter = require("./routes/link");
 
@@ -27,6 +28,7 @@ app.use(
 );
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/links", linkRouter);
 

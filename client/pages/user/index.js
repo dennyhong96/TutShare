@@ -83,7 +83,7 @@ const User = ({ preLinks, preCategories }) => {
     <Fragment>
       <div className={styles["_wrapper"]}>
         <h1 className={styles["_wrapper__title"]}>
-          Welcome back, {user.name}!
+          Welcome back, {user?.name}!
         </h1>
         <div className={styles["_inner"]}>
           <div className={styles["_inner__left"]}>

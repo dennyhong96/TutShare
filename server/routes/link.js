@@ -7,6 +7,7 @@ const {
 const validate = require("../utils/validators");
 const auth = require("../middlewares/auth");
 const restrictTo = require("../middlewares/restrictTo");
+const linkWriteAccess = require("../middlewares/linkWriteAccess");
 const {
   createLink,
   listLinks,
@@ -21,8 +22,8 @@ router.route("/user").get(auth, listUserLinks);
 router
   .route("/:id")
   .get(getLink)
-  .patch(auth, setUpdateLinkCheck, validate, updateLink)
-  .delete(auth, deleteLink);
+  .patch(auth, setUpdateLinkCheck, validate, linkWriteAccess, updateLink)
+  .delete(auth, linkWriteAccess, deleteLink);
 router.route("/views/increase").patch(increaseView);
 router
   .route("/")

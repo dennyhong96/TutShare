@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    interestedIn: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: "Category",
+        },
+      ],
+    },
     password: {
       type: String,
       required: true,
