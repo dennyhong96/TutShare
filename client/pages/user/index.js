@@ -94,7 +94,7 @@ const User = ({ preLinks, preCategories }) => {
                   <i className="fas fa-share-alt"></i>Share a resource
                 </a>
               </Link>
-              <Link href="/user">
+              <Link href="/user/update">
                 <a className={styles["_inner__left__action"]}>
                   <i className="fas fa-user"></i>Update profile
                 </a>

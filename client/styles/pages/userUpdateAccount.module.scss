@@ -1,0 +1,98 @@
+@import "../utils.scss";
+
+._wrapper {
+  &__title {
+    margin: 2rem 0;
+    display: inline-block;
+    border-bottom: 2px solid $color-secondary;
+  }
+}
+
+._card {
+  display: flex;
+  flex-direction: column;
+  width: 50rem;
+  margin: 0 auto;
+  @include card;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+  position: relative;
+
+  &__top {
+    display: flex;
+    margin: 1rem 0;
+  }
+
+  &__left {
+    flex: 1;
+
+    &__title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    &__input {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      &__check {
+        display: block;
+        cursor: pointer;
+        @include flex-center;
+        justify-content: flex-start;
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+
+        &__icon {
+          @include flex-center;
+          padding: 0.5rem;
+          border-radius: 5rem;
+          background-color: lighten($color-muted, 19);
+          transition: all 0.2s ease;
+
+          i {
+            font-size: 1.1rem;
+            color: $color-primary;
+          }
+        }
+
+        &:hover {
+          ._card__left__input__check__icon {
+            background-color: lighten($color-muted, 15);
+          }
+        }
+
+        &__name {
+          line-height: 1;
+          margin-left: 0.5rem;
+        }
+      }
+    }
+  }
+
+  &__right {
+    flex: 2;
+
+    &__title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    &__input {
+      @include form-control;
+    }
+  }
+
+  &__bottom {
+    @include flex-center;
+
+    &__confirm {
+      @include btn;
+    }
+  }
+}

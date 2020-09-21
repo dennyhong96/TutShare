@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      minlength: 6,
       required: true,
     },
     role: {
@@ -54,8 +55,6 @@ const userSchema = new mongoose.Schema(
 
 // Hash user's password before saving / updating
 userSchema.pre("save", async function (next) {
-  console.log("PRE SAVE TRIGGERED");
-  console.log(this.isNew, this.isModified("password"));
   if (!(this.isNew || this.isModified("password"))) {
     return next();
   }
