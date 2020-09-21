@@ -192,8 +192,6 @@ exports.updateCategory = async (req, res, next) => {
       }
     }
 
-    console.log({ uploadData });
-
     // Update category
     const mongoUpdateObj = { name, description };
     if (image && uploadData)

@@ -1,4 +1,17 @@
+const AWS = require("aws-sdk");
+const { notifyNewResourceParams } = require("../services/sesEmail");
+
 const Link = require("../models/Link");
+const User = require("../models/User");
+const Category = require("../models/Category");
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_REGION,
+});
+
+const ses = new AWS.SES();
 
 exports.createLink = async (req, res, next) => {
   try {
@@ -17,6 +30,29 @@ exports.createLink = async (req, res, next) => {
       ...req.body,
       postedBy: req.user._id,
     });
+
+    // Get all users that subscribes to created link
+    const users = await User.find({
+      interestedIn: { $in: categories },
+    });
+
+    // Get all categories of the link
+    const categoriesDetail = await Category.find({
+      _id: { $in: categories },
+    });
+
+    // Send each user an email notification
+    for (let user of users) {
+      try {
+        ses
+          .sendEmail(notifyNewResourceParams({ user, link, categoriesDetail }))
+          .promise();
+        console.error(`Email sent to ${user.name}`);
+      } catch (error) {
+        console.error("ERROR: send email", error);
+        continue;
+      }
+    }
 
     res.status(201).json({
       data: { link },

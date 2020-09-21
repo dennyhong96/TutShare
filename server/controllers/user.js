@@ -11,8 +11,6 @@ exports.updateInterests = async (req, res, next) => {
   try {
     const updateObject = setUpdateObject(req.body);
 
-    console.log(updateObject);
-
     // Handle email is already taken
     if (req.body.email) {
       const existingUser = await User.findOne({ email: req.body.email });
