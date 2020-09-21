@@ -1,21 +1,18 @@
 import { useState, Fragment } from "react";
-import { useSelector } from "react-redux";
-import Link from "next/link";
 
-import Modal from "../../components/Modal";
-import UpdateLink from "../../components/UpdateLink";
-import { API } from "../../config";
-import axios from "../../utils/axios";
-import { restrictToUser, getCookieFromServerReq } from "../../utils/auth";
-import Loader from "../../components/Loader";
-import LinkCard from "../../components/LinkCard";
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import styles from "../../styles/pages/user.module.scss";
+import axios from "../../../utils/axios";
+import { API } from "../../../config";
+import Modal from "../../../components/Modal";
+import UpdateLink from "../../../components/UpdateLink";
+import { restrictToAdmin, getCookieFromServerReq } from "../../../utils/auth";
+import Loader from "../../../components/Loader";
+import LinkCard from "../../../components/LinkCard";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
+import styles from "../../../styles/pages/adminLinks.module.scss";
 
 const LIMIT = 2;
 
-const User = ({ preLinks, preCategories }) => {
-  const user = useSelector(({ user: { user } }) => user);
+const Links = ({ preLinks, preCategories }) => {
   const [links, setLinks] = useState(preLinks);
   const [selectedUpdateLink, setSelectedUpdateLink] = useState(null);
   const [selectedDeleteLink, setSelectedDeleteLink] = useState(null);
@@ -25,7 +22,7 @@ const User = ({ preLinks, preCategories }) => {
     try {
       prevLinksLength.current = links.length;
       const res = await axios.get(
-        `${API}/v1/links/user?limit=${LIMIT}&skip=${numLinksToSkip.current}`
+        `${API}/v1/links?limit=${LIMIT}&skip=${numLinksToSkip.current}`
       );
       setLinks((prev) => [...prev, ...res.data.data.links]);
       numLinksToSkip.current += res.data.data.links.length;
@@ -82,48 +79,28 @@ const User = ({ preLinks, preCategories }) => {
   return (
     <Fragment>
       <div className={styles["_wrapper"]}>
-        <h1 className={styles["_wrapper__title"]}>
-          Welcome back, {user.name}!
-        </h1>
+        <h1 className={styles["_wrapper__title"]}>Manage Resources</h1>
         <div className={styles["_inner"]}>
-          <div className={styles["_inner__left"]}>
-            <div className={styles["_inner__left__inner"]}>
-              {/* Display user actions */}
-              <Link href="/link/create">
-                <a className={styles["_inner__left__action"]}>
-                  <i className="fas fa-share-alt"></i>Share a resource
-                </a>
-              </Link>
-              <Link href="/user">
-                <a className={styles["_inner__left__action"]}>
-                  <i className="fas fa-user"></i>Update profile
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className={styles["_inner__right"]}>
-            <div className={styles["_inner__right__inner"]}>
-              {/* Map User's links */}
-              <ul className={styles["_inner__right__inner__links"]}>
-                {links.map((link, idx) => (
-                  <LinkCard
-                    ref={idx + 1 === links.length ? lastNodeRef : undefined}
-                    key={link._id}
-                    link={link}
-                    enableEdit
-                    onSelectUpdate={() => setSelectedUpdateLink(link)}
-                    onSelectDelete={() => setSelectedDeleteLink(link)}
-                    onIncreaseView={handleIncreseView}
-                  />
-                ))}
-              </ul>
-              <div className={styles["_inner__right__loadingBox"]}>
-                {isLoading && <Loader />}
-                {links.length - prevLinksLength.current < LIMIT && (
-                  <p>All resources have been displayed.</p>
-                )}
-              </div>
-            </div>
+          {/* Map User's links */}
+          <ul className={styles["_inner__links"]}>
+            {links.map((link, idx) => (
+              <LinkCard
+                ref={idx + 1 === links.length ? lastNodeRef : undefined}
+                key={link._id}
+                link={link}
+                enableEdit
+                onSelectUpdate={() => setSelectedUpdateLink(link)}
+                onSelectDelete={() => setSelectedDeleteLink(link)}
+                isAdmin
+                onIncreaseView={handleIncreseView}
+              />
+            ))}
+          </ul>
+          <div className={styles["_inner__loadingBox"]}>
+            {isLoading && <Loader />}
+            {links.length - prevLinksLength.current < LIMIT && (
+              <p>All resources have been displayed.</p>
+            )}
           </div>
         </div>
       </div>
@@ -164,20 +141,17 @@ const User = ({ preLinks, preCategories }) => {
 };
 
 export const getServerSideProps = async (ctx) => {
-  const authResult = await restrictToUser(ctx);
+  const authResult = await restrictToAdmin(ctx);
 
   const skip = 0;
 
   // Get all links posted by user
   const token = getCookieFromServerReq(ctx.req, "AUTH_TOKEN");
-  const res = await axios.get(
-    `${API}/v1/links/user?limit=${LIMIT}&skip=${skip}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await axios.get(`${API}/v1/links?limit=${LIMIT}&skip=${skip}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   // Get all categories
   const cateRes = await axios.get(`${API}/v1/categories`);
@@ -192,4 +166,4 @@ export const getServerSideProps = async (ctx) => {
   };
 };
 
-export default User;
+export default Links;

@@ -31,7 +31,11 @@ exports.createLink = async (req, res, next) => {
 
 exports.listLinks = async (req, res, next) => {
   try {
-    const links = await Link.find();
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const skip = req.query.skip ? parseInt(req.query.skip) : 0;
+
+    const links = await Link.find().skip(skip).limit(limit);
+
     res.status(200).json({
       data: { links },
     });
@@ -83,7 +87,12 @@ exports.updateLink = async (req, res, next) => {
     }
 
     // Handle user is not owner of link
-    if (link.postedBy._id.toString() !== req.user.id) {
+    if (
+      !(
+        link.postedBy._id.toString() === req.user.id ||
+        req.user.role === "admin"
+      )
+    ) {
       return res.status(401).json({
         errors: [{ msg: "Your not authorized to delte this link." }],
       });
@@ -127,7 +136,12 @@ exports.deleteLink = async (req, res, next) => {
     }
 
     // Handle user is not owner of link
-    if (link.postedBy._id.toString() !== req.user.id) {
+    if (
+      !(
+        link.postedBy._id.toString() === req.user.id ||
+        req.user.role === "admin"
+      )
+    ) {
       return res.status(401).json({
         errors: [{ msg: "Your not authorized to delte this link." }],
       });

@@ -10,8 +10,11 @@ const Admin = () => {
         <Link href="/admin/category/create">
           <a>Create category</a>
         </Link>
-        <Link href="/admin/category/list">
-          <a>List categories</a>
+        <Link href="/admin/category">
+          <a>Manage categories</a>
+        </Link>
+        <Link href="/admin/links">
+          <a>Manage Resources</a>
         </Link>
       </div>
       <div className=""></div>

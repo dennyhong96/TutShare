@@ -12,10 +12,18 @@ const LinkCard = forwardRef(
       onSelectUpdate,
       onSelectDelete,
       enableEdit = false,
+      isAdmin = false,
     },
     ref
   ) => {
     const user = useSelector(({ user: { user } }) => user);
+
+    const postedBy = (
+      <p className={styles["_container__user"]}>
+        <i className="fas fa-user"></i> {link.postedBy.name}
+      </p>
+    );
+
     return (
       <li ref={ref} key={link._id} className={styles["_container"]}>
         {/* Card Header */}
@@ -46,8 +54,10 @@ const LinkCard = forwardRef(
             <i className="far fa-eye"></i> <span>{link.views}</span> Views
           </p>
 
+          {isAdmin && postedBy}
+
           {/* Action buttons | User' name */}
-          {enableEdit && user && user._id === link.postedBy._id ? (
+          {(enableEdit && user && user._id === link.postedBy._id) || isAdmin ? (
             <div className={styles["_container__actions"]}>
               <button
                 className={styles["_container__actions-update"]}
@@ -63,9 +73,7 @@ const LinkCard = forwardRef(
               </button>
             </div>
           ) : (
-            <p className={styles["_container__user"]}>
-              <i className="fas fa-user"></i> {link.postedBy.name}
-            </p>
+            postedBy
           )}
         </div>
       </li>

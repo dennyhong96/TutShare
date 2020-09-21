@@ -1,0 +1,57 @@
+@import "../utils.scss";
+
+._wrapper {
+  &__title {
+    margin: 2rem 0;
+  }
+}
+
+._inner {
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    & > li {
+      flex: 0 0 49%;
+    }
+  }
+
+  &__delete {
+    width: 95%;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    &__prompt {
+      line-height: 1.2;
+
+      span {
+        color: darken($color-secondary, 15);
+        font-weight: 500;
+      }
+    }
+
+    &__button {
+      @include btn;
+      margin-left: auto;
+      font-size: 0.9rem;
+      padding: 0.15rem 0.75rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  ._wrapper {
+    &__title {
+      margin: 1rem 0;
+    }
+  }
+
+  ._inner {
+    &__links {
+      flex-direction: column;
+    }
+  }
+}
