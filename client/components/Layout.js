@@ -45,6 +45,15 @@ const Layout = ({ children }) => {
 
   return (
     <Fragment>
+      {/* Backdrop when drawer is open */}
+      {drawerShow && (
+        <div
+          className={styles["backdrop"]}
+          onClick={() => setDrawerShow(false)}
+        />
+      )}
+
+      {/* Navbar */}
       <nav className={styles["navbar"]}>
         <div className={styles["navbar__inner"]}>
           <Link href="/">
@@ -109,13 +118,6 @@ const Layout = ({ children }) => {
         </div>
       </nav>
       <div className={styles["content"]}>{children}</div>
-      {/* Backdrop when drawer is open */}
-      {drawerShow && (
-        <div
-          className={styles["backdrop"]}
-          onClick={() => setDrawerShow(false)}
-        />
-      )}
     </Fragment>
   );
 };

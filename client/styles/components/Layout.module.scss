@@ -14,6 +14,10 @@
   box-shadow: 1px 3px 10px rgba(#000, 0.2);
   border-radius: 5rem;
   margin: 0.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
   &__mainAction {
     margin-right: auto;
@@ -106,6 +110,7 @@
 
 .content {
   @include container;
+  padding-top: calc(60px + 1rem);
 }
 
 @media (max-width: 768px) {
@@ -122,6 +127,8 @@
 
     &__links {
       height: 100%;
+      top: 0;
+      bottom: 0;
       @include flex-center;
 
       &__item {
@@ -188,7 +195,7 @@
 
     &__links {
       display: initial;
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
       bottom: 0;
