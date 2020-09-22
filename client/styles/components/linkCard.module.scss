@@ -93,3 +93,62 @@
     }
   }
 }
+
+@media (max-width: 576px) {
+  ._container {
+    margin-bottom: 1rem;
+
+    &__title {
+      font-size: 0.9rem;
+      line-height: 1.2;
+      flex: 7;
+    }
+
+    &__date {
+      flex: 2.5;
+      font-size: 0.7rem;
+      @include flex-center;
+      justify-content: flex-end;
+    }
+
+    a {
+      display: inline-block;
+      line-height: 1.2;
+      font-size: 0.85rem;
+
+      &:hover {
+        background-color: initial;
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
+
+    &__tags {
+      span {
+        font-size: 0.6rem;
+      }
+    }
+
+    &__views,
+    &__user {
+      font-size: 0.75rem;
+    }
+
+    &__row {
+      &:not(:last-of-type) {
+        margin-bottom: 0.5rem;
+      }
+      &:last-of-type {
+        margin-top: 0.5rem;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      %card-action-btn {
+        @include roundBtn;
+        transform: scale(0.9);
+      }
+    }
+  }
+}

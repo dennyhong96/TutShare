@@ -162,15 +162,39 @@
         min-width: calc(100% / 2);
       }
     }
+
+    &__trending {
+      &__title {
+        font-size: 1.3rem;
+      }
+
+      &__resources {
+        & > li {
+          flex: 0 0 100%;
+        }
+      }
+    }
   }
 }
 
 @media (max-width: 576px) {
   .home {
+    &__leadbox {
+      margin: 1.5rem 0;
+    }
+
     &__categories {
       &__item {
         flex: 0 1 calc(100% / 1);
         min-width: calc(100% / 1);
+      }
+    }
+
+    &__trending {
+      &__title {
+        text-align: center;
+        margin: 1.5rem 0;
+        line-height: 1.2;
       }
     }
   }
