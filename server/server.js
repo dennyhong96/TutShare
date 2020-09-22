@@ -32,5 +32,5 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/links", linkRouter);
 
-const port = process.env.NODE_ENV || 5000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server up on port ${port}...`));
