@@ -122,3 +122,16 @@
     }
   }
 }
+
+@media (max-width: 576px) {
+  ._container {
+    &__left {
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    &__right {
+      padding: 0;
+    }
+  }
+}
