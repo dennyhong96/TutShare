@@ -139,6 +139,12 @@ const category = ({ preLinks, preCategory, preTrendingLinks }) => {
             {/* Right side */}
             <div className={styles["_container__right"]}>
               <div className={styles["_container__right__inner"]}>
+                <h1 className={styles["_container__right__title-alt"]}>
+                  {preCategory.name}
+                </h1>
+                <div className={styles["_container__right__description"]}>
+                  {parse(preCategory.description)}
+                </div>
                 <img
                   className={styles["_container__right__img"]}
                   src={preCategory.image.url}

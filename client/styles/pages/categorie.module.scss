@@ -7,7 +7,6 @@
   &__left {
     flex: 2;
     min-width: 300px;
-    padding: 0 1rem;
 
     &__inner {
       hr {
@@ -126,12 +125,24 @@
 
   &__right {
     flex: 1;
-    padding: 0 1rem;
+    padding-left: 1.5rem;
 
     &__inner {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    &__title-alt {
+      display: inline-block;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid $color-secondary;
+      display: none;
+    }
+
+    &__description {
+      @include card;
+      display: none;
     }
 
     &__img {
@@ -149,6 +160,68 @@
     }
 
     &__trending {
+      & > li {
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  ._container {
+    &__left {
+      flex: 3;
+    }
+
+    &__right {
+      flex: 2;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  ._container {
+    flex-direction: column;
+
+    &__left {
+      order: 1;
+
+      &__inner {
+        hr {
+          margin: 1.75rem 0.5rem;
+          border-top: 1px solid darken($color-primary, 5);
+        }
+      }
+
+      &__title {
+        display: none;
+      }
+
+      &__description {
+        display: none;
+      }
+    }
+
+    &__right {
+      order: 0;
+      padding: 0;
+
+      &__title-alt {
+        display: initial;
+        font-size: 1.5rem;
+      }
+
+      &__description {
+        display: initial;
+        margin-bottom: 1rem;
+      }
+
+      &__img {
+        width: 75px;
+        height: 75px;
+      }
     }
   }
 }
