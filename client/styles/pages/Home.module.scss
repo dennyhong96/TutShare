@@ -35,6 +35,7 @@
   &__categories {
     display: flex;
     flex-wrap: wrap;
+    margin: -0.5rem;
 
     &__item {
       flex: 0 1 calc(100% / 3);

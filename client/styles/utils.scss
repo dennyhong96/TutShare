@@ -11,6 +11,11 @@ $color-error: #f50057;
 // Contants
 $height-navbar: 60px;
 
+// z-index
+$zIndex-navbar: 1;
+$zIndex-backdrop: 1;
+$zIndex-modal: 10;
+
 // Media Breakpoints
 $screen-xl: 1300px;
 $screen-lg: 992px;

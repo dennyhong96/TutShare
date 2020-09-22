@@ -1,7 +1,11 @@
 import { useState, Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 
+import {
+  openUpdateResourceModal,
+  closeUpdateResourceModal,
+} from "../../redux/actions/modal";
 import Modal from "../../components/Modal";
 import UpdateLink from "../../components/UpdateLink";
 import { API } from "../../config";
@@ -19,6 +23,7 @@ const User = ({ preLinks, preCategories }) => {
   const [links, setLinks] = useState(preLinks);
   const [selectedUpdateLink, setSelectedUpdateLink] = useState(null);
   const [selectedDeleteLink, setSelectedDeleteLink] = useState(null);
+  const dispatch = useDispatch();
 
   const handleLoadMore = async () => {
     setLoading(true);
@@ -111,7 +116,10 @@ const User = ({ preLinks, preCategories }) => {
                     key={link._id}
                     link={link}
                     enableEdit
-                    onSelectUpdate={() => setSelectedUpdateLink(link)}
+                    onSelectUpdate={() => {
+                      setSelectedUpdateLink(link);
+                      dispatch(openUpdateResourceModal());
+                    }}
                     onSelectDelete={() => setSelectedDeleteLink(link)}
                     onIncreaseView={handleIncreseView}
                   />
@@ -129,7 +137,10 @@ const User = ({ preLinks, preCategories }) => {
       </div>
       <Modal
         show={!!selectedUpdateLink}
-        onHide={() => setSelectedUpdateLink(null)}
+        onHide={() => {
+          setSelectedUpdateLink(null);
+          dispatch(closeUpdateResourceModal());
+        }}
       >
         {selectedUpdateLink && (
           <UpdateLink
