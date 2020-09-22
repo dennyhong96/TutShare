@@ -17,23 +17,23 @@ const category = ({ preLinks, preCategory, preTrendingLinks }) => {
   const head = () => (
     <Head>
       <title>
-        {preCategory.name} | {APP_NAME}
+        {preCategory?.name} | {APP_NAME}
       </title>
       <meta
         name="description"
-        content={`${preCategory.name} learning resources | ${withoutHTMLTags(
-          preCategory.description
-        )}`}
+        content={`${preCategory?.name} learning resources | ${
+          preCategory ? withoutHTMLTags(preCategory.description) : ""
+        }`}
       />
       {/* Open gaphs: For facebook sharing, etc */}
-      {/* <meta property="og:image:secure_url" content={preCategory.image.url} /> */}
-      <meta property="og:image" content={preCategory.image.url} />
-      <meta property="og:title" content={preCategory.name} />
+      {/* <meta property="og:image:secure_url" content={preCategory?.image.url} /> */}
+      <meta property="og:image" content={preCategory?.image.url} />
+      <meta property="og:title" content={preCategory?.name} />
       <meta
         property="og:description"
-        content={`${preCategory.name} learning resources | ${withoutHTMLTags(
-          preCategory.description
-        )}`}
+        content={`${preCategory?.name} learning resources | ${
+          preCategory ? withoutHTMLTags(preCategory.description) : ""
+        }`}
       />
     </Head>
   );
