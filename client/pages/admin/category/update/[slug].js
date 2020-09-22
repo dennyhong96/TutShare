@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { useRouter } from "next/router";
 import Dropzone from "react-dropzone";
 import clsx from "clsx";
 import Resizer from "react-image-file-resizer";
@@ -31,6 +32,7 @@ const resizeFile = (file) =>
   });
 
 const update = ({ preCategory }) => {
+  const router = useRouter();
   const [category, setCategory] = useState(preCategory);
   const [fields, setFields] = useState({
     name: preCategory.name,
@@ -97,6 +99,8 @@ const update = ({ preCategory }) => {
       );
 
       setSuccessMsg(`${name} is successfully updated.`);
+
+      router.push("/admin/category");
       console.log(res.data);
     } catch (error) {
       console.error(error.response);
@@ -107,7 +111,7 @@ const update = ({ preCategory }) => {
   return (
     <div className={styles["create"]}>
       <div className={styles["create__card"]}>
-        <h1>Create a category</h1>
+        <h1>Update a category</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles["create__form-control"]}>
             <label htmlFor="name">Add a category name</label>

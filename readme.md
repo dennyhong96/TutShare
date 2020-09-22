@@ -2,11 +2,11 @@
 
 ### An online platform for sharing web devleopment study resources.
 
-#### Built with React, Next.js, Redux, Sass, Nodejs, MongoDB, AWS (S3, EC2, SES)
+#### Built with Next.js, React, Redux, Sass, Nodejs, MongoDB, AWS (S3, EC2, SES)
 
-## User stories:
+## Implemented User stories:
 
-#### As a user, I can:
+#### As a user, I want to...
 
 - See trending study resources.
 - Browse study resources by category.
@@ -16,7 +16,7 @@
 - Get email notifications when new study reources are shared that fits my interests.
 - Use TutShare platform on all devices regardless of screen sizes.
 
-#### As an admin, I can:
+#### As an admin, I want to...
 
 - Create new categories.
 - Provide rich-text description and image for categories.
