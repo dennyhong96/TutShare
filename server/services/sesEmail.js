@@ -71,9 +71,10 @@ exports.notifyNewResourceParams = ({ user, link, categoriesDetail }) => ({
                 <a href="${process.env.CLIENT_URL}/categories/${cate.slug}">Checkout ${cate.name}</a></div>`
               )}
               ${
-                user.role === "user" &&
-                `<br/><small style="font-size:10px;">Not interested in this resource? Follow this link to update your interests.</small>
+                user.role === "user"
+                  ? `<br/><small style="font-size:10px;">Not interested in this resource? Follow this link to update your interests.</small>
                 <a style="font-size:10px; margin-left:5px;" href="${process.env.CLIENT_URL}/user/update">${user.name}'s Dashboard</a>`
+                  : ""
               }
               </body></html>
               `,

@@ -1,17 +1,26 @@
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const shortid = require("shortid");
+const nodemailer = require("nodemailer");
 
-const { registerParams, forgetPWParams } = require("../services/sesEmail");
+// const { registerParams, forgetPWParams } = require("../services/sesEmail");
+const { registerParams, forgetPWParams } = require("../services/nodeMailer");
 const User = require("../models/User");
 
-AWS.config.update({
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-});
+// AWS.config.update({
+//   region: process.env.AWS_REGION,
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_KEY,
+// });
+// const ses = new AWS.SES();
 
-const ses = new AWS.SES();
+const transporter = nodemailer.createTransport({
+  service: process.env.NODE_MAILER_SERVICE,
+  auth: {
+    user: process.env.NODE_MAILER_GMAIL,
+    pass: process.env.NODE_MAILER_PASSWORD,
+  },
+});
 
 exports.register = async (req, res, next) => {
   try {
@@ -30,7 +39,8 @@ exports.register = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES,
     });
 
-    await ses.sendEmail(registerParams({ email, name, token })).promise();
+    // await ses.sendEmail(registerParams({ email, name, token })).promise();
+    transporter.sendMail(registerParams({ email, name, token }));
 
     res.status(200).json({
       data: {
@@ -164,9 +174,10 @@ exports.forgetPassword = async (req, res, next) => {
       { runValidators: true }
     );
 
-    const data = await ses
-      .sendEmail(forgetPWParams({ email, name: user.name, token }))
-      .promise();
+    // await ses
+    //   .sendEmail(forgetPWParams({ email, name: user.name, token }))
+    //   .promise();
+    transporter.sendMail(forgetPWParams({ email, name: user.name, token }));
 
     res.status(200).json({
       data: {

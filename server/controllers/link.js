@@ -1,17 +1,26 @@
 const AWS = require("aws-sdk");
-const { notifyNewResourceParams } = require("../services/sesEmail");
+// const { notifyNewResourceParams } = require("../services/sesEmail");
+const { notifyNewResourceParams } = require("../services/nodeMailer");
+const nodemailer = require("nodemailer");
 
 const Link = require("../models/Link");
 const User = require("../models/User");
 const Category = require("../models/Category");
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: process.env.AWS_REGION,
-});
+// AWS.config.update({
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_KEY,
+//   region: process.env.AWS_REGION,
+// });
+// const ses = new AWS.SES();
 
-const ses = new AWS.SES();
+const transporter = nodemailer.createTransport({
+  service: process.env.NODE_MAILER_SERVICE,
+  auth: {
+    user: process.env.NODE_MAILER_GMAIL,
+    pass: process.env.NODE_MAILER_PASSWORD,
+  },
+});
 
 exports.createLink = async (req, res, next) => {
   try {
@@ -44,10 +53,13 @@ exports.createLink = async (req, res, next) => {
     // Send each user an email notification
     for (let user of users) {
       try {
-        ses
-          .sendEmail(notifyNewResourceParams({ user, link, categoriesDetail }))
-          .promise();
-        console.error(`Email sent to ${user.name}`);
+        // ses
+        //   .sendEmail(notifyNewResourceParams({ user, link, categoriesDetail }))
+        //   .promise();
+        transporter.sendMail(
+          notifyNewResourceParams({ user, link, categoriesDetail })
+        );
+        console.log(`Email sent to ${user.name}`);
       } catch (error) {
         console.error("ERROR: send email", error);
         continue;
