@@ -5,21 +5,21 @@ import styles from "../styles/components/authPageFeatures.module.scss";
 const FEATURES = [
   {
     icon: <i className="fas fa-laptop-code"></i>,
-    title: "Developement",
+    title: "Learn from the best",
     text:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia nam alias ab!",
+      "Stop wasting time on random tutorials, learn from the best resources shared by the developers' community.",
   },
   {
-    icon: <i className="fas fa-edit"></i>,
-    title: "Updates",
+    icon: <i class="fas fa-share-square"></i>,
+    title: "Pay it forward",
     text:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem iste quisquam facere voluptas.",
+      "Contribute to the community by sharing worthwhile learning resources.",
   },
   {
     icon: <i className="fas fa-gifts"></i>,
-    title: "Features",
+    title: `The "full-stack"`,
     text:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium minima doloribus modi.",
+      "We aim to cover all topics regarding web development, frontend, backend, and deployment.",
   },
 ];
 

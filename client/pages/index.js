@@ -6,9 +6,14 @@ import axios from "../utils/axios";
 import { API } from "../config";
 import LinkCard from "../components/LinkCard";
 import styles from "../styles/pages/home.module.scss";
+// import HomeImg from "../public/home.svg";
+import useMobileScreen from "../hooks/useMobileScreen";
+
+import HomeImg from "../components/HomeImg.js";
 
 const Home = ({ categories, trendingResources }) => {
   const [resources, setResources] = useState(trendingResources);
+  const { isMobile } = useMobileScreen();
 
   const head = () => (
     <Head>
@@ -50,20 +55,18 @@ const Home = ({ categories, trendingResources }) => {
       {head()}
       <div className={styles["home"]}>
         <div className={styles["home__leadbox"]}>
-          <h1 className={styles["home__leadbox__heading"]}>
-            Discover the best web development learning resources.
-          </h1>
-          <h2 className={styles["home__leadbox__subheading"]}>
-            - Shared by the{" "}
-            <a
-              href="https://twitter.com/hashtag/DevCommunity"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              dev community
-            </a>{" "}
-            with ♥️
-          </h2>
+          {!isMobile && (
+            <HomeImg width="50%" className={styles["home__leadbox__img"]} />
+          )}
+          <div className={styles["home__leadbox__text"]}>
+            <h1 className={styles["home__leadbox__heading"]}>
+              Discover and share <span>worthwhile</span> web development
+              learning resources.
+            </h1>
+            <h2 className={styles["home__leadbox__subheading"]}>
+              Made by the community, for the community ♥️
+            </h2>
+          </div>
         </div>
         <div className={styles["home__categories"]}>
           {categories.map((cate) => (

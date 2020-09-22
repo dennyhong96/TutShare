@@ -2,7 +2,7 @@
 
 .auth {
   @include flex-center;
-  min-height: calc(100vh - #{$height-navbar});
+  min-height: calc(100vh - #{$height-navbar} - 1rem);
 
   &__paper {
     width: 800px;

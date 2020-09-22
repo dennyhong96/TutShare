@@ -3,32 +3,29 @@
 .home {
   &__leadbox {
     margin: 2.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__text {
+      flex: 0 1 47%;
+    }
 
     &__heading {
-      text-align: center;
+      font-weight: 500;
       margin-bottom: 0.5rem;
-      line-height: 1.2;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+
+      span {
+        color: darken($color-secondary, 10);
+      }
     }
 
     &__subheading {
-      text-align: center;
-
-      a {
-        color: $color-secondary;
-        line-height: 1;
-        padding: 2px 3px;
-        border-radius: 1px;
-        transition: all 0.1s ease;
-        display: inline-block;
-
-        &:hover {
-          border-bottom: none;
-          background-color: $color-secondary;
-          color: $color-light;
-
-          transform: skew(-1deg, -1deg);
-        }
-      }
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
     }
   }
 
@@ -182,6 +179,22 @@
   .home {
     &__leadbox {
       margin: 1.5rem 0;
+
+      &__text {
+        flex: 0 1 100%;
+        margin-left: 0;
+        text-align: center;
+      }
+
+      &__heading {
+        font-size: 1.35rem;
+        margin-bottom: 0.5rem;
+      }
+
+      &__subheading {
+        font-size: 1.15rem;
+        line-height: 1.1;
+      }
     }
 
     &__categories {
