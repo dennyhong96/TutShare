@@ -25,6 +25,7 @@
 
   &__left {
     flex: 1;
+    margin-right: 1rem;
 
     &__title {
       text-align: center;
@@ -93,6 +94,37 @@
 
     &__confirm {
       @include btn;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  ._card {
+    width: 45rem;
+  }
+}
+
+@media (max-width: 768px) {
+  ._card {
+    width: 30rem;
+  }
+}
+
+@media (max-width: 576px) {
+  ._wrapper {
+    &__title {
+      margin: 1.5rem auto;
+      font-size: 1.25rem;
+      display: block;
+      width: fit-content;
+    }
+  }
+
+  ._card {
+    width: fit-content;
+
+    &__top {
+      flex-direction: column;
     }
   }
 }
