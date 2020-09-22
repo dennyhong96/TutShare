@@ -5,6 +5,7 @@ import Link from "next/link";
 import Router from "next/router";
 import clsx from "clsx";
 
+import useMobileScreen from "../hooks/useMobileScreen";
 import { logoutUser, loadUser } from "../redux/actions/user";
 import styles from "../styles/components/layout.module.scss";
 
@@ -31,30 +32,18 @@ const LINK_OPTIONS_AUTH = (role) => [
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
+  const { isMobile } = useMobileScreen();
 
   // Try to authenticated on page load
   useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
-
-  const [mobile, setMobile] = useState(
-    process.browser ? !!(window.innerWidth <= 576) : false
-  );
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth <= 576) {
-        setMobile(true);
-      } else {
-        setMobile(false);
+    (async () => {
+      try {
+        await dispatch(loadUser());
+      } catch (error) {
+        console.error(error);
       }
-    }
-    if (window) {
-      window.addEventListener("resize", handleResize);
-    }
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [process.browser]);
+    })();
+  }, [dispatch]);
 
   const [drawerShow, setDrawerShow] = useState(false);
 
@@ -77,7 +66,7 @@ const Layout = ({ children }) => {
       )}
 
       {/* Navbar */}
-      {!(updateResource && mobile) && (
+      {!(updateResource && isMobile) && (
         <nav className={styles["navbar"]}>
           <div className={styles["navbar__inner"]}>
             <Link href="/">
@@ -87,7 +76,7 @@ const Layout = ({ children }) => {
             </Link>
             <Link href="/link/create">
               <a className={styles["navbar__mainAction"]}>
-                Share resource! <i className="fas fa-share"></i>
+                <span>Share resource!</span> <i className="fas fa-share"></i>
               </a>
             </Link>
             {/* Menu button for small screen drawer */}

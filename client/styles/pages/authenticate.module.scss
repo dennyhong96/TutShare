@@ -9,6 +9,7 @@
     @include card;
     position: relative; // For Toast to be positioned correctly
     margin: 1rem auto;
+    padding-bottom: 1.5rem;
   }
 
   &__lower {

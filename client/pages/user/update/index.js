@@ -25,6 +25,18 @@ const getFormData = (user) => ({
 
 const index = ({ preCategories }) => {
   const dispatch = useDispatch();
+
+  // Try load latest user info
+  useEffect(() => {
+    (async () => {
+      try {
+        await dispatch(loadUser());
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [dispatch]);
+
   const user = useSelector(({ user: { user } }) => user);
   const [categorySelection, setCategorySelection] = useState(null);
   const [formData, setFormData] = useState({

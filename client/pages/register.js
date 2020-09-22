@@ -4,11 +4,11 @@ import axios from "../utils/axios";
 import { useSelector, useDispatch } from "react-redux";
 
 import useGuestRoute from "../hooks/useGuestRoute";
-import { setError, setSuccess } from "../redux/actions/user";
 import { API } from "../config";
-import Toast from "../components/Toast";
 import styles from "../styles/pages/authenticate.module.scss";
 import AuthFeatures from "../components/AuthFeautres";
+import ErrorSuccessMessage from "../components/ErrorSuccessMsg";
+import useErrorSuccess from "../hooks/useErrorSuccess";
 
 const INITIAL_STATE = {
   name: "",
@@ -52,21 +52,28 @@ const register = () => {
   useGuestRoute();
   const [formData, setFormData] = useState(INITIAL_STATE);
   const { name, email, password, passwordConfirm } = formData;
-  const dispatch = useDispatch();
-  const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);
-  const successMsg = useSelector(({ user: { successMsg } }) => successMsg);
+
+  const {
+    errorMsg,
+    successMsg,
+    setErrorMsg,
+    setSuccessMsg,
+    clearMsg,
+  } = useErrorSuccess();
 
   const handleChange = (evt) => {
+    clearMsg();
     const { id, value } = evt.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   // Submit to endpoint
   const handleSubmit = async (evt) => {
+    clearMsg();
     evt.preventDefault();
 
     if (password !== passwordConfirm) {
-      return dispatch(setError("Passwords must match.", 3500));
+      return setErrorMsg('"Passwords must match."');
     }
 
     try {
@@ -75,24 +82,17 @@ const register = () => {
         email,
         password,
       });
-      dispatch(setSuccess(res.data.data.msg, 7500));
+      setSuccessMsg(res.data.data.msg);
       setFormData(INITIAL_STATE);
     } catch (error) {
       console.error(error.response);
-      dispatch(
-        setError(
-          error.response.data.errors.map(({ msg }) => msg).join(" "),
-          5000
-        )
-      );
+      setErrorMsg(error.response.data.errors.map(({ msg }) => msg).join(" "));
     }
   };
 
   return (
     <div className={styles["auth"]}>
       <div className={styles["auth__paper"]}>
-        {/* Toast */}
-        <Toast successMsg={successMsg} errorMsg={errorMsg} />
         <div className={styles["auth__lower"]}>
           {/* Form, Left Side  */}
           <form className={styles["auth__form"]} onSubmit={handleSubmit}>
@@ -131,6 +131,7 @@ const register = () => {
           {/* Features, right side */}
           <AuthFeatures />
         </div>
+        <ErrorSuccessMessage errorMsg={errorMsg} successMsg={successMsg} />
       </div>
     </div>
   );

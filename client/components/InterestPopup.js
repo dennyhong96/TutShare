@@ -51,6 +51,8 @@ const InterestPopup = () => {
       }, []);
       const res = await axios.patch(`${API}/v1/users/interests`, {
         interestedIn,
+        email: user.email,
+        name: user.name,
       });
       console.log(res.data);
       setNeverShowPopup("TRUE");

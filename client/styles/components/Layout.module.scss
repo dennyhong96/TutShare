@@ -115,10 +115,14 @@
   padding-top: calc(60px + 1rem);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .navbar {
     &__brand {
       font-size: 1.75rem;
+    }
+
+    &__welcomeText {
+      font-size: 0.85rem;
     }
 
     &__mainAction {
@@ -134,9 +138,24 @@
       @include flex-center;
 
       &__item {
+        padding: 0.25rem 0.5rem;
+
         & span {
           font-size: 0.85rem;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    &__welcomeText {
+    }
+
+    &__mainAction {
+      span {
+        display: none;
       }
     }
   }
@@ -153,6 +172,10 @@
       font-size: 0.75rem;
       font-weight: 500;
       padding: 0.5rem 0.5rem;
+
+      span {
+        display: inline-block;
+      }
     }
 
     &__menuBtn {

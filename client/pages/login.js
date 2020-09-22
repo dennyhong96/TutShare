@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import useGuestRoute from "../hooks/useGuestRoute";
 import { loginUser } from "../redux/actions/user";
-import Toast from "../components/Toast";
 import styles from "../styles/pages/authenticate.module.scss";
 import AuthFeatures from "../components/AuthFeautres";
+import ErrorSuccessMessage from "../components/ErrorSuccessMsg";
+import useErrorSuccess from "../hooks/useErrorSuccess";
 
 const INITIAL_STATE = {
   email: "",
@@ -35,33 +35,36 @@ const login = () => {
   useGuestRoute({ delay: 1500 });
   const [formData, setFormData] = useState(INITIAL_STATE);
   const dispatch = useDispatch();
-  const errorMsg = useSelector(({ user: { errorMsg } }) => errorMsg);
-  const successMsg = useSelector(({ user: { successMsg } }) => successMsg);
+
+  const {
+    errorMsg,
+    successMsg,
+    setErrorMsg,
+    setSuccessMsg,
+    clearMsg,
+  } = useErrorSuccess();
 
   const handleChange = (evt) => {
+    clearMsg();
     const { id, value } = evt.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Clear form data after success
-  useEffect(() => {
-    if (successMsg) {
-      setFormData(INITIAL_STATE);
-    }
-  }, [successMsg]);
-
   // Submit to endpoint
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    dispatch(loginUser(formData));
+    clearMsg();
+    try {
+      await dispatch(loginUser(formData));
+      setSuccessMsg("Login in success!");
+    } catch (error) {
+      setErrorMsg(error.response.data.errors.map((e) => e.msg).join(" "));
+    }
   };
 
   return (
     <div className={styles["auth"]}>
       <div className={styles["auth__paper"]}>
-        {/* Toast */}
-        <Toast successMsg={successMsg} errorMsg={errorMsg} />
-
         <div className={styles["auth__lower"]}>
           {/* Form, Left Side  */}
           <form className={styles["auth__form"]} onSubmit={handleSubmit}>
@@ -100,6 +103,7 @@ const login = () => {
           {/* Features, right side */}
           <AuthFeatures />
         </div>
+        <ErrorSuccessMessage successMsg={successMsg} errorMsg={errorMsg} />
       </div>
     </div>
   );
