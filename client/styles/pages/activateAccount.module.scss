@@ -39,7 +39,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   .token {
     @include flex-center;
     min-height: calc(100vh - #{$height-navbar});

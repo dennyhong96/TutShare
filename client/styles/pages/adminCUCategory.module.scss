@@ -120,7 +120,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   .create {
     &__card {
       width: 95%;

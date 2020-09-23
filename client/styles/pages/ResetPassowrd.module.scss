@@ -34,7 +34,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   .reset-password {
     &__card {
       width: 20rem;

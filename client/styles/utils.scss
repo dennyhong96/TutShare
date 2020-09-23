@@ -5,7 +5,7 @@ $color-secondary: #ff9651;
 $color-muted: #d1cac3;
 $color-dark: #2a2a2a;
 $color-light: lighten(#f1fbfc, 2);
-$color-success: #47c39d;
+$color-success: darken(#47c39d, 10);
 $color-error: #f50057;
 
 // Contants
@@ -36,16 +36,16 @@ $screen-sm: 576px;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
 
-  @media (max-width: 992px) {
+  @media (max-width: $screen-lg) {
     padding-left: 2rem;
     padding-right: 2rem;
   }
-  @media (max-width: 768px) {
+  @media (max-width: $screen-md) {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: $screen-sm) {
     padding-left: 1rem;
     padding-right: 1rem;
   }
@@ -78,6 +78,12 @@ $screen-sm: 576px;
     width: 100%;
     border-radius: 25px;
 
+    border: 1px solid transparent;
+
+    &:focus {
+      border: 1px solid $color-secondary;
+    }
+
     &::placeholder {
       color: darken($color-muted, 10);
     }
@@ -106,7 +112,8 @@ $screen-sm: 576px;
     }
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     transform: translateY(-2px);
     background-color: lighten($color-primary, 2);
     box-shadow: 0 4px 15px rgba(#000, 0.08);

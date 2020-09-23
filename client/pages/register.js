@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "../utils/axios";
-import { useSelector, useDispatch } from "react-redux";
 
+import useMobileScreen from "../hooks/useMobileScreen";
 import useGuestRoute from "../hooks/useGuestRoute";
 import { API } from "../config";
 import styles from "../styles/pages/authenticate.module.scss";
@@ -50,6 +50,7 @@ const FIELDS = ({ name, email, password, passwordConfirm }) => [
 
 const register = () => {
   useGuestRoute();
+  const { isMobile } = useMobileScreen(768);
   const [formData, setFormData] = useState(INITIAL_STATE);
   const { name, email, password, passwordConfirm } = formData;
 
@@ -126,12 +127,19 @@ const register = () => {
                 <a>Reset &rarr;</a>
               </Link>
             </small>
+            {isMobile && (
+              <ErrorSuccessMessage
+                errorMsg={errorMsg}
+                successMsg={successMsg}
+              />
+            )}
           </form>
-
           {/* Features, right side */}
           <AuthFeatures />
         </div>
-        <ErrorSuccessMessage errorMsg={errorMsg} successMsg={successMsg} />
+        {!isMobile && (
+          <ErrorSuccessMessage errorMsg={errorMsg} successMsg={successMsg} />
+        )}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-md) {
   ._wrapper {
     &__title {
       margin: 1rem 0;

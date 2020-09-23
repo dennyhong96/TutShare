@@ -115,7 +115,7 @@
   padding-top: calc(60px + 1rem);
 }
 
-@media (max-width: 992px) {
+@media (max-width: $screen-lg) {
   .navbar {
     &__brand {
       font-size: 1.75rem;
@@ -148,7 +148,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-md) {
   .navbar {
     &__welcomeText {
     }
@@ -161,7 +161,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   .navbar {
     &__brand {
       font-size: 1.7rem;

@@ -169,7 +169,7 @@
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: $screen-lg) {
   ._container {
     &__left {
       flex: 3;
@@ -181,7 +181,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-md) {
   ._container {
     flex-direction: column;
 

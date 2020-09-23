@@ -154,7 +154,7 @@ const category = ({ preLinks, preCategory, preTrendingLinks }) => {
               </div>
 
               <h2 className={styles["_container__right__title"]}>
-                Tranding MongoDB resources 🔥
+                Trending {preCategory.name} resources 🔥
               </h2>
 
               <ul className={styles["_container__right__trending"]}>

@@ -94,7 +94,7 @@ const InterestPopup = () => {
               </label>
             ))}
         </div>
-        <p>
+        <p className={styles["_wrapper__note"]}>
           You will receive email notifications when new resources of your
           interest come in.
         </p>

@@ -93,7 +93,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   ._container {
     &__left {
       padding: 0 1rem;
@@ -101,6 +101,15 @@
 
     &__right {
       padding: 0 1rem;
+
+      &__form-control {
+        @include form-control;
+        margin-bottom: 0.5rem;
+
+        &:last-of-type {
+          margin-bottom: 1.5rem;
+        }
+      }
     }
   }
 }

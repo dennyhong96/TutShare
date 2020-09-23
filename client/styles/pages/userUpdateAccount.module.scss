@@ -98,19 +98,19 @@
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: $screen-lg) {
   ._card {
     width: 45rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-md) {
   ._card {
     width: 30rem;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   ._wrapper {
     &__title {
       margin: 1.5rem auto;

@@ -127,8 +127,15 @@ const User = ({ preLinks, preCategories }) => {
               </ul>
               <div className={styles["_inner__right__loadingBox"]}>
                 {isLoading && <Loader />}
-                {links.length - prevLinksLength.current < LIMIT && (
+                {links.length &&
+                links.length - prevLinksLength.current < LIMIT ? (
                   <p>All resources have been displayed.</p>
+                ) : (
+                  !links.length && (
+                    <p>
+                      You haven't shared any resource yet, start sharing now!
+                    </p>
+                  )
                 )}
               </div>
             </div>

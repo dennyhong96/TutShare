@@ -64,9 +64,12 @@
 
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     &__prompt {
-      line-height: 1.2;
+      line-height: 1.35;
+      text-align: center;
+      margin-bottom: 1rem;
 
       span {
         color: darken($color-secondary, 15);
@@ -76,14 +79,13 @@
 
     &__button {
       @include btn;
-      margin-left: auto;
       font-size: 0.9rem;
       padding: 0.15rem 0.75rem;
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-md) {
   ._wrapper {
     &__title {
       font-size: 1.75rem;
@@ -111,7 +113,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   ._wrapper {
     &__title {
       font-size: 1.25rem;

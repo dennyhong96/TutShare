@@ -9,7 +9,7 @@
     @include card;
     position: relative; // For Toast to be positioned correctly
     margin: 1rem auto;
-    padding-bottom: 1.5rem;
+    padding-bottom: 2rem;
   }
 
   &__lower {
@@ -52,6 +52,10 @@
 
 @media (max-width: $screen-lg) {
   .auth {
+    &__paper {
+      padding-bottom: 2.5rem;
+    }
+
     &__form {
       &__control {
         width: 90%;
@@ -74,8 +78,9 @@
     &__form {
       border-right: none;
       border-bottom: 1px solid lighten($color-muted, 10);
-      padding-bottom: 2rem;
+      padding-bottom: 3rem;
       margin-bottom: 1rem;
+      position: relative;
 
       &__control {
         @include form-control;

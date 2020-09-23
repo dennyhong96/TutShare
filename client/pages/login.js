@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 
+import useMobileScreen from "../hooks/useMobileScreen";
 import useGuestRoute from "../hooks/useGuestRoute";
 import { loginUser } from "../redux/actions/user";
 import styles from "../styles/pages/authenticate.module.scss";
@@ -33,6 +34,7 @@ const FIELDS = ({ email, password }) => [
 
 const login = () => {
   useGuestRoute({ delay: 1500 });
+  const { isMobile } = useMobileScreen(768);
   const [formData, setFormData] = useState(INITIAL_STATE);
   const dispatch = useDispatch();
 
@@ -98,12 +100,20 @@ const login = () => {
                 <a>Reset &rarr;</a>
               </Link>
             </small>
+            {isMobile && (
+              <ErrorSuccessMessage
+                successMsg={successMsg}
+                errorMsg={errorMsg}
+              />
+            )}
           </form>
 
           {/* Features, right side */}
           <AuthFeatures />
         </div>
-        <ErrorSuccessMessage successMsg={successMsg} errorMsg={errorMsg} />
+        {!isMobile && (
+          <ErrorSuccessMessage successMsg={successMsg} errorMsg={errorMsg} />
+        )}
       </div>
     </div>
   );

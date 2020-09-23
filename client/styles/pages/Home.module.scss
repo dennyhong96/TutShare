@@ -93,7 +93,7 @@
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: $screen-lg) {
   .home {
     &__leadbox {
       margin: 2rem 0;
@@ -128,7 +128,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-md) {
   .home {
     &__leadbox {
       margin: 2rem 0;
@@ -175,7 +175,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $screen-sm) {
   .home {
     &__leadbox {
       margin: 1.5rem 0;
