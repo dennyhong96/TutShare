@@ -303,7 +303,7 @@ const create = ({ preCategories }) => {
                 className={styles["_container__right__form-button"]}
                 disabled={!user}
               >
-                {user ? "Share" : "Please log in to share"}
+                {user ? "Share" : "Please login to share"}
               </button>
             </form>
             <ErrorSuccessMsg successMsg={successMsg} errorMsg={errorMsg} />

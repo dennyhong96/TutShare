@@ -76,7 +76,7 @@ cd server && npm i # install nodejs express app dependencies
 
 ## Usage
 
-```python
+```bash
 cd server && npm start # start up server
 # open up another terminal tab
 cd client && npm run build # create nextjs production build
@@ -86,8 +86,6 @@ npm start # serve nextjs app
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
 
 ## License
 
